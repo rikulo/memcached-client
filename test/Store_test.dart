@@ -4,7 +4,7 @@
 
 import 'dart:async';
 import 'dart:utf';
-import 'dart:typeddata';
+import 'dart:typed_data';
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;

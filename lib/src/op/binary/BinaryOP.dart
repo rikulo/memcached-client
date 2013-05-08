@@ -4,15 +4,12 @@
 
 part of memcached_client;
 
-abstract class BinaryOP extends OP implements VbucketAwareOP {
+abstract class BinaryOP extends OP {
   Logger _logger;
   List<int> _cmd; //command in a byte array
   OPState _state; //null is state 0
-  int _vbucketID; //associated operation vbucket index
-  Set<MemcachedNode> _notMyVbucketNodes;
 
-  BinaryOP()
-      :_notMyVbucketNodes = new HashSet() {
+  BinaryOP() {
     _logger = initLogger('memcached_client.op.binary', this);
   }
 
@@ -35,29 +32,6 @@ abstract class BinaryOP extends OP implements VbucketAwareOP {
   List<int> get cmd => _cmd;
 
   //--VbucketAwareOP--//
-  //@Override
-  void set vbucketID(int id) {
-    if (0 != id) {
-      _vbucketID = id;
-      copyList(int16ToBytes(id), 0, _cmd, 6, 2);
-    }
-  }
-
-  //@Override
-  int get vbucketID => _vbucketID;
-
-  //@Override
-  Iterable<MemcachedNode> get notMyVbucketNodes => _notMyVbucketNodes;
-
-  //@Override
-  void addNotMyVbucketNode(MemcachedNode node) {
-    _notMyVbucketNodes.add(node);
-  }
-
-  //@Override
-  void set notMyVbucketNodes(Iterable<MemcachedNode> nodes) {
-    _notMyVbucketNodes.addAll(nodes);
-  }
 
   //response header command
   int _opCode;

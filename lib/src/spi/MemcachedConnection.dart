@@ -26,14 +26,14 @@ class MemcachedConnection {
     _logger = initLogger('memcached_client.spi', this);
   }
 
-  List<MemcachedNode> _createConnections(Iterable<SocketAddress> a) {
-    List<MemcachedNode> connections = new List(a.length);
-    for (SocketAddress sa in a) {
-      MemcachedNode qa = _connFactory.createMemcachedNode(sa);
-      connections.add(qa);
-    }
-    return connections;
-  }
+//  List<MemcachedNode> _createConnections(Iterable<SocketAddress> a) {
+//    List<MemcachedNode> connections = new List(a.length);
+//    for (SocketAddress sa in a) {
+//      MemcachedNode qa = _connFactory.createMemcachedNode(sa);
+//      connections.add(qa);
+//    }
+//    return connections;
+//  }
 
   void addOP(String key, OP op) {
     validateKey(key, _opFactory is BinaryOPFactory);
@@ -75,6 +75,11 @@ class MemcachedConnection {
   void addOPToNode(MemcachedNode node, OP op) {
     _checkState();
     node.addOP(op);
+  }
+
+  //to be overridden by CouchbaseConnection for multi-key operation
+  void addMultiKeyOPToNode(List<String> keys, MemcachedNode node, OP op) {
+    addOPToNode(node, op);
   }
 
   Future<Map<MemcachedNode, dynamic>> broadcastOP(FutureOP newOP(),

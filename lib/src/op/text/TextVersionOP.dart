@@ -28,8 +28,6 @@ class TextVersionOP extends TextOP implements VersionOP {
     throw "should never call here!";
   }
 
-  /** Prepare a store command. [type] is the store type.
-   */
   List<int> _prepareVersionCommand() {
     List<int> cmd = new List();
 

@@ -191,8 +191,9 @@ class MemcachedClientImpl implements MemcachedClient {
     String currentKey = keys[0]; //the key should be add to Stream in sequence
     Map<String, GetResult> tmpMap = new HashMap(); //temporary map for out of sequence results
     for (MemcachedNode node in chunks.keys) {
-      GetOP op = _opFactory.newGetOP(opCode, chunks[node]);
-      _handleOperationAtNode(node, op);
+      final ks = chunks[node];
+      GetOP op = _opFactory.newGetOP(opCode, ks);
+      _memcachedConn.addMultiKeyOPToNode(ks, node, op);
       Stream<GetResult> src = op.stream;
       src.listen(
         (getr) {
@@ -219,10 +220,6 @@ class MemcachedClientImpl implements MemcachedClient {
 
   void _handleOperation(String key, OP op) {
     _memcachedConn.addOP(key, op);
-  }
-
-  void _handleOperationAtNode(MemcachedNode node, OP op) {
-    _memcachedConn.addOPToNode(node, op);
   }
 
   Future<Map<MemcachedNode, dynamic>> handleBroadcastOperation(OP newOP(),

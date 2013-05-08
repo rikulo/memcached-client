@@ -8,12 +8,12 @@ abstract class VbucketAwareOP {
   /**
    * Get Vbucket index of this OP.
    */
-  int get vbucketID;
+  int getVbucketID(String key);
 
   /**
    * Set Vbucket index of this OP.
    */
-  void set vbucketID(int id);
+  void setVbucketID(Map<String, int> ids);
 
   /**
    * Those nodes that has complained NOT_MY_VBUCKET for this [OP].

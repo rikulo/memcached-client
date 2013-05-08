@@ -11,8 +11,8 @@ class AuthDescriptor {
   final List<String> mechs;
   int authAttempts;
   int allowedAuthAttempts = -1; //TODO: configurable allowedAuthAttempts
-  String bucket;
-  String password;
+  final String bucket;
+  final String password;
 
   AuthDescriptor(this.mechs, String bucket, String password)
       : this.bucket = bucket == null ? 'default' : bucket,

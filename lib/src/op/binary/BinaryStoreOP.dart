@@ -5,7 +5,7 @@
 part of memcached_client;
 
 /** A Store Operation of binary protocol */
-class BinaryStoreOP extends BinaryOP implements StoreOP {
+class BinaryStoreOP extends SingleKeyOP implements StoreOP {
   final Completer<bool> _cmpl; //completer to complete the future of this operation
   final int _req_extralen;
 

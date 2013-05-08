@@ -4,14 +4,16 @@
 
 part of memcached_client;
 
+/**
+ * ConnectionFactory for binary protocol.
+ */
 class BinaryConnectionFactory extends ConnectionFactoryBase {
   BinaryConnectionFactory([HashAlgorithm hashAlg])
       : super(hashAlg);
 
   //@Override
   MemcachedNode createMemcachedNode(SocketAddress saddr) =>
-      new BinaryMemcachedNodeImpl(saddr, authDescriptor.bucket,
-                                  authDescriptor.password);
+      new BinaryMemcachedNodeImpl(saddr, authDescriptor);
 
   //@Override
   OPFactory get opFactory => new BinaryOPFactory();

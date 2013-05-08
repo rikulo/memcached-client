@@ -5,7 +5,7 @@
 part of memcached_client;
 
 /** A Mutate Operation of binary protocol */
-class BinaryMutateOP extends BinaryOP implements MutateOP {
+class BinaryMutateOP extends SingleKeyOP implements MutateOP {
   final Completer<int> _cmpl; //completer to complete the future of this operation
 
   Future<int> get future => _cmpl.future;

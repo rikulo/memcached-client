@@ -5,7 +5,7 @@
 part of memcached_client;
 
 /** A delete operation of binary protocol */
-class BinaryDeleteOP extends BinaryOP implements DeleteOP {
+class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
   final Completer _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;

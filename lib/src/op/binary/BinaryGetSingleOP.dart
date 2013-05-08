@@ -5,7 +5,7 @@
 part of memcached_client;
 
 /** A get operation of binary protocol */
-class BinaryGetSingleOP extends BinaryOP implements GetSingleOP {
+class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
   final Completer<GetResult> _cmpl;
 
   final bool _ignoreCas;

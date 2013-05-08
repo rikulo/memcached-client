@@ -52,11 +52,8 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
 //  static final int DEFAULT_MAX_TIMEOUTEXCEPTION_THRESHOLD = 998;
 
   HashAlgorithm _hashAlg;
-  final AuthDescriptor _authDesc;
 
-  ConnectionFactoryBase([HashAlgorithm hashAlg])
-      : _authDesc = new AuthDescriptor(["PLAIN"], null, null) {
-
+  ConnectionFactoryBase([HashAlgorithm hashAlg]) {
     _hashAlg = hashAlg == null ? DEFAULT_HASH : hashAlg;
   }
 
@@ -103,5 +100,5 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
   int get maxReconnectDelay => DEFAULT_MAX_RECONNECT_DELAY;
 
   //@Override
-  AuthDescriptor get authDescriptor => _authDesc;
+  AuthDescriptor get authDescriptor => null;
 }

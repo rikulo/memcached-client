@@ -10,11 +10,11 @@ import 'MemcachedTestUtil.dart' as m;
 
 //get a key
 void testGet1(MemcachedClient client) {
-  expect(client.set('key0', encodeUtf8('val0')), completion(isTrue));
+  expect(client.set('key0', encodeUtf8('"val0"')), completion(isTrue));
 
   Future f1 = client.get('key0');
   f1.then((v) {
-    expect(decodeUtf8(v.data), equals('val0'));
+    expect(decodeUtf8(v.data), equals('"val0"'));
     expect(v.cas, isNull);
   });
   expect(f1, completes);

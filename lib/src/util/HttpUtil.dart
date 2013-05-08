@@ -9,7 +9,7 @@ class HttpResult {
 }
 
 class HttpUtil {
-  static Logger _logger = initStaticLogger('couchbase.util.HttpUtil');
+  static Logger _logger = initStaticLogger('memcached_client.util.HttpUtil');
   static Future<HttpResult> uriDelete(HttpClient hc, Uri base, Uri resource,
       String usr, String pass, [Map<String, String> headers]) {
 
@@ -53,6 +53,7 @@ class HttpUtil {
       if (usr != null) {
         h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
       }
+      _logger.finest("PUT:VALUE $value");
       req.write(value);
       return req.close();
     })
@@ -98,8 +99,8 @@ class HttpUtil {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
-        _logger.finest("GET $resource");
       }
+      _logger.finest("GET $resource");
       return hc.openUrl('GET', resource);
     });
   }

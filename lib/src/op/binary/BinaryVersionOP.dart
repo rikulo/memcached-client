@@ -23,8 +23,6 @@ class BinaryVersionOP extends BinaryOP implements VersionOP {
     return _HANDLE_COMPLETE;
   }
 
-  /** Prepare a store command. [type] is the store type.
-   */
   List<int> _prepareVersionCommand() {
     Uint8List cmd = new Uint8List(24);
     //0, 1 byte: Magic byte of request

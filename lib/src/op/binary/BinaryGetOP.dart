@@ -5,17 +5,16 @@
 part of memcached_client;
 
 /** A get operation of binary protocol */
-class BinaryGetOP extends BinaryOP implements GetOP {
+class BinaryGetOP extends MultiKeyOP implements GetOP {
   final StreamController<GetResult> _streamCtrl;
 
   List<OPStatus> _errors; //accumulated errors, if any
   final bool _ignoreCas;
-  final List<int> _cmdOffsets;
 
   BinaryGetOP(OPType type, List<String> keys)
       : _streamCtrl = new StreamController(),
         _ignoreCas = type == OPType.get,
-        _cmdOffsets = new List(keys.length + 1) {
+        super(keys, new List(keys.length + 1)) {
     _cmd = _prepareGetCommand(keys);
     _errors = new List();
   }
@@ -31,14 +30,6 @@ class BinaryGetOP extends BinaryOP implements GetOP {
     for(int offset in _cmdOffsets)
       copyList(src, 0, _cmd, offset + 12, 4);
     _seq= s;
-  }
-
-  //@Override
-  void set vbucketID(int id) {
-    //vbucketID field for this OP(multiple getkq + noop)
-    List<int> src = int16ToBytes(id);
-    for(int offset in _cmdOffsets)
-      copyList(src, 0, _cmd, offset + 6, 2);
   }
 
   //@Override

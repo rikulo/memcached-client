@@ -11,14 +11,12 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   Logger _logger;
   final OPQueue<int, OP> _writeQ;
   final OPQueue<int, OP> _readQ;
-  final String _bucket;
-  final String _password;
+  final AuthDescriptor _authDescriptor;
   final BinaryOPFactory _factory;
 
   int _authRetry; //times of retry to authentication; null means forever.
-  BinaryOPChannel(SocketAddress saddr, String bucket, String password, {int authRetry})
-      : _bucket = bucket,
-        _password = password,
+  BinaryOPChannel(SocketAddress saddr, AuthDescriptor authDescriptor, {int authRetry})
+      : _authDescriptor = authDescriptor,
         _authRetry = authRetry,
         _writeQ = new OPQueueQueue(),
         _readQ = new OPQueueMap(),
@@ -41,8 +39,12 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   //@Override
   bool _authenticating = false;
   void authenticate() {
-    if (_authenticating)
+    if (_authDescriptor == null) { //no need to do authentication, assume done
+      _authenticated = true;
       return;
+    } else if (_authenticating) {
+      return; //wait authentication to complete
+    }
 
     if (_authRetry == null || _authRetry-- >= 0) {
       SaslAuthOP op = _newAuthOP();
@@ -60,7 +62,9 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
       prependOP(op);
       _processNextOP();
     } else
-      throw new StateError('Fail to login "${_saddr.host}:${_saddr.port}" for bucket "$_bucket". Wrong password?');
+      throw new StateError('Fail to login "${_saddr.host}:${_saddr.port}" '
+                           'for bucket "${_authDescriptor.bucket}". '
+                           'Wrong password?');
   }
 
   OP _readOP; //current OP to be read from socket
@@ -114,8 +118,8 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
 
   //Create an Authentication Operation
   SaslAuthOP _newAuthOP() {
-    List<int> userlist = encodeUtf8(_bucket);
-    List<int> passlist = _password == null ? [] : encodeUtf8(_password);
+    List<int> userlist = encodeUtf8(_authDescriptor.bucket);
+    List<int> passlist = encodeUtf8(_authDescriptor.password);
     List<int> bytes = new Uint8List(2+userlist.length+passlist.length);
     copyList(userlist, 0, bytes, 1, userlist.length);
     copyList(passlist, 0, bytes, 1 + userlist.length + 1, passlist.length);

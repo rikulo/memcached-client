@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dart:uri';
 import 'dart:utf';
 import 'dart:collection';
-import 'dart:typeddata';
+import 'dart:typed_data';
 import 'dart:crypto';
 import 'dart:json' as json;
 import 'package:logging/logging.dart';
@@ -47,11 +47,13 @@ part 'src/op/binary/BinaryOPFactory.dart';
 part 'src/op/binary/BinaryStoreOP.dart';
 part 'src/op/binary/BinaryTouchOP.dart';
 part 'src/op/binary/BinaryVersionOP.dart';
+part 'src/op/binary/MultiKeyOP.dart';
 part 'src/op/binary/ObserveOP.dart';
 part 'src/op/binary/SaslAuthOP.dart';
 part 'src/op/binary/SaslMechsOP.dart';
 part 'src/op/binary/SaslOP.dart';
 part 'src/op/binary/SaslStepOP.dart';
+part 'src/op/binary/SingleKeyOP.dart';
 
 //op/text
 part 'src/op/text/TextDeleteOP.dart';
@@ -80,7 +82,6 @@ part 'src/spi/MemcachedConnection.dart';
 part 'src/spi/MemcachedNode.dart';
 
 //util
-part 'src/util/ByteBuffer.dart';
 part 'src/util/ByteUtil.dart';
 part 'src/util/Enum.dart';
 part 'src/util/HttpUtil.dart';
