@@ -7,9 +7,8 @@ part of memcached_client;
 /**
  * An observe operation of binary protocol
  */
-class ObserveOP extends BinaryOP implements FutureOP<ObserveResult> {
+class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
   final Completer<ObserveResult> _cmpl;
-  final String _key;
   final int _orgCas; //expected cas
   int _avgPersistTime; //msecs
   int _avgReplicateTime; //msecs
@@ -18,8 +17,8 @@ class ObserveOP extends BinaryOP implements FutureOP<ObserveResult> {
 
   ObserveOP(String key, int cas)
       : _cmpl = new Completer(),
-        _key = key,
-        _orgCas = cas {
+        _orgCas = cas,
+        super(key) {
     _cmd = _prepareObserveCommand(key);
   }
 
@@ -50,16 +49,21 @@ class ObserveOP extends BinaryOP implements FutureOP<ObserveResult> {
           && keystatus != ObserveStatus.LOGICALLY_DELETED.ordinal ?
           ObserveStatus.MODIFIED :
           ObserveStatus.valueOf(keystatus);
-      _cmpl.complete(new ObserveResult(_key, status, retCas, _avgPersistTime, _avgReplicateTime));
+      _cmpl.complete(new ObserveResult(key, status, retCas, _avgPersistTime, _avgReplicateTime));
     }
 
     return _HANDLE_COMPLETE;
   }
 
+  //--VbucketAwareOP--//
   //@Override
-  void set vbucketID(int vbucketID) {
-    if (0 != vbucketID)
-      copyList(int16ToBytes(vbucketID), 0, _cmd, 24, 2);
+  void setVbucketID(Map<String, int> ids) {
+    final id = ids.values.first;
+    if (0 != id) {
+      copyList(int16ToBytes(id), 0, _cmd, 24, 2);
+      _logger.finest("vbucketID:$id");
+      _logger.finest("cmd+vbuckitID:$_cmd");
+    }
   }
 
   /**

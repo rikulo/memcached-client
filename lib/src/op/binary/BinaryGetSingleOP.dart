@@ -14,7 +14,8 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
 
   BinaryGetSingleOP(OPType type, String key)
       : _cmpl = new Completer(),
-        _ignoreCas = type == OPType.get {
+        _ignoreCas = type == OPType.get,
+        super(key) {
     _cmd = _prepareGetKCommand(key);
   }
 

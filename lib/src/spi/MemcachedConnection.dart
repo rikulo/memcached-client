@@ -36,8 +36,19 @@ class MemcachedConnection {
 //  }
 
   void addOP(String key, OP op) {
+    //check if this is a valid key
     validateKey(key, _opFactory is BinaryOPFactory);
+    //check if the connection is closing
     _checkState();
+    //locate the node to dispatch the operation
+    MemcachedNode placeIn = locateNode(key, op);
+    //add operation to the node
+    addSingleKeyOPToNode(key, placeIn, op);
+  }
+
+  //To be overridden by CouchbaseConnection
+  //locate the node to dispathe the operation
+  MemcachedNode locateNode(String key, OP op) {
     MemcachedNode placeIn = null;
     MemcachedNode primary = locator.getPrimary(key);
     if (primary.isActive || _failureMode == FailureMode.Retry) {
@@ -62,9 +73,7 @@ class MemcachedConnection {
       }
     }
 
-    if (placeIn != null) {
-      placeIn.addOP(op);
-    }
+    return placeIn;
   }
 
   void prependOPToNode(MemcachedNode node, OP op) {
@@ -77,9 +86,16 @@ class MemcachedConnection {
     node.addOP(op);
   }
 
-  //to be overridden by CouchbaseConnection for multi-key operation
+  //To be overridden by CouchbaseConnection for single-key operation
+  void addSingleKeyOPToNode(String key, MemcachedNode node, OP op) {
+    if (node != null)
+      addOPToNode(node, op);
+  }
+
+  //To be overridden by CouchbaseConnection for multi-key operation
   void addMultiKeyOPToNode(List<String> keys, MemcachedNode node, OP op) {
-    addOPToNode(node, op);
+    if (node != null)
+      addOPToNode(node, op);
   }
 
   Future<Map<MemcachedNode, dynamic>> broadcastOP(FutureOP newOP(),
@@ -96,8 +112,14 @@ class MemcachedConnection {
           .then((rv) => results[node] = rv)
           .catchError((err) => _logger.warning("broadcastOP. node: $node, OP: $op, Error: $err"));
         futures.add(op.future);
-        addOPToNode(node, op);
+        if (op is MultiKeyOP)
+          addMultiKeyOPToNode(
+              (op as MultiKeyOP).keys, node, op);
+        else
+          addSingleKeyOPToNode(op is SingleKeyOP ?
+              (op as SingleKeyOP).key : null, node, op);
       }
+
       return Future.wait(futures)
          .then((_) => results);
     });

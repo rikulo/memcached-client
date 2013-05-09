@@ -5,10 +5,11 @@
 part of memcached_client;
 
 abstract class SingleKeyOP extends BinaryOP implements VbucketAwareOP {
+  final String key;
   int _vbucketID = 0; //associated operation vbucket index
   Set<MemcachedNode> _notMyVbucketNodes;
 
-  SingleKeyOP()
+  SingleKeyOP(this.key)
     :_notMyVbucketNodes = new HashSet();
 
   //--VbucketAwareOP--//

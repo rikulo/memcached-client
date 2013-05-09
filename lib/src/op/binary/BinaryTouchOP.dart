@@ -11,7 +11,8 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
   Future<bool> get future => _cmpl.future;
 
   BinaryTouchOP(String key, int exp)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareTouchCommand(key, exp);
   }
 

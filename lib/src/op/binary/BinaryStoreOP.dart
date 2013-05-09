@@ -14,7 +14,8 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
   BinaryStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
                 int cas)
       : _req_extralen = type == OPType.append || type == OPType.prepend ? 0 : 8,
-        _cmpl = new Completer() {
+        _cmpl = new Completer(),
+        super(key) {
 
     _cmd = _prepareStoreCommand(type, key, flags, exp, doc, cas);
   }

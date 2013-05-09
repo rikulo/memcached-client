@@ -11,7 +11,8 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
   Future<bool> get future => _cmpl.future;
 
   BinaryDeleteOP(String key)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareDeleteCommand(key);
   }
 

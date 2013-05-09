@@ -11,7 +11,8 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
   Future<int> get future => _cmpl.future;
 
   BinaryMutateOP(OPType type, String key, int value)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareMutateCommand(type, key, value);
   }
 

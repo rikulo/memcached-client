@@ -9,24 +9,25 @@ part of memcached_client;
  */
 abstract class MultiKeyOP extends BinaryOP implements VbucketAwareOP {
   final List<int> _cmdOffsets;
-  final List<String> _keys;
+  final List<String> keys;
   Map<String, int> _vbucketMap; //associated operation vbucket index
   Set<MemcachedNode> _notMyVbucketNodes;
 
   /**
    * + [keys] - keys involved in this operation.
-   * + [cmdOffset] - offset for the mulitple binary commands' header.
+   * + [cmdOffsets] - offsets for the mulitple binary commands' header.
    */
-  MultiKeyOP(this._keys, this._cmdOffsets)
-      :_notMyVbucketNodes = new HashSet();
+  MultiKeyOP(this.keys, List<int> cmdOffsets)
+      : _cmdOffsets = cmdOffsets,
+        _notMyVbucketNodes = new HashSet();
 
   //--VbucketAwareOP--//
   //@Override
   void setVbucketID(Map<String, int> ids) {
     _vbucketMap = ids;
-    for (int j = 0, len = _keys.length; j < len; ++j) {
+    for (int j = 0, len = this.keys.length; j < len; ++j) {
       final int offset = _cmdOffsets[j];
-      final String key = _keys[j];
+      final String key = this.keys[j];
       final int id = getVbucketID(key);
       final List<int> src = int16ToBytes(id);
       copyList(src, 0, _cmd, offset + 6, 2);
