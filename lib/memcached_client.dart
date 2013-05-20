@@ -84,6 +84,7 @@ part 'src/spi/MemcachedNode.dart';
 //util
 part 'src/util/ByteUtil.dart';
 part 'src/util/Enum.dart';
+part 'src/util/HashCodeUtil.dart';
 part 'src/util/HttpUtil.dart';
 part 'src/util/LoggingUtil.dart';
 part 'src/util/Observer.dart';

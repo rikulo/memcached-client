@@ -4,6 +4,7 @@ part of memcached_client;
  * Operation response status of binary protocol.
  */
 class OPStatus {
+  //Server statuses
   static const NO_ERROR = const OPStatus(0x0000, "No error");
   static const KEY_NOT_FOUND = const OPStatus(0x0001, "Key not found");
   static const KEY_EXISTS = const OPStatus(0x0002, "Key exists");
@@ -20,6 +21,10 @@ class OPStatus {
   static const INTERAL_ERROR = const OPStatus(0x0084, "Internal error");
   static const BUSY = const OPStatus(0x0085, "Busy");
   static const TEMP_FAIL = const OPStatus(0x0086, "Temporary failure");
+
+  //Client statuses
+  static const CANCELLED = const OPStatus(0x8000, "Cancelled");
+  static const TIMED_OUT = const OPStatus(0x8001, "Timed out");
 
   final int code;
   final String message;

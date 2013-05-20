@@ -12,8 +12,19 @@ class SocketAddress {
 
   String toUri() => '$host:$port';
 
+  @override
   String toString() => toUri();
 
+  @override
   int get hashCode => host.hashCode ^ port;
+
+  @override
+  bool operator ==(other) {
+    if (identical(this, other)) return true;
+    if (other is! SocketAddress) return false;
+
+    return this.host == other.host
+        && this.port == other.port;
+  }
 }
 

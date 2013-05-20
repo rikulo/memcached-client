@@ -152,10 +152,50 @@ class HttpUtil {
   }
 
   /**
+   * Parse list of Uris into list of SocketAddress instances.
+   *
+   * Note that colon-delimited IPv6 is also supported. For example: ::1:11211
+   */
+  static List<SocketAddress> parseSocketAddressesFromUris(List<Uri> uris) {
+    List<SocketAddress> addrs = new List();
+    for (var uri in uris) {
+      final host = uri.domain;
+      final port = uri.port;
+      addrs.add(new SocketAddress(host, port));
+    }
+    return addrs;
+  }
+
+  /**
+   * Parse list of host:port server descriptions into list of SocketAddress
+   * instances.
+   *
+   * Note that colon-delimited IPv6 is also supported. For example: ::1:11211
+   */
+  static List<SocketAddress> parseSocketAddressesFromStrings(List<String> servers) {
+    List<SocketAddress> addrs = new List();
+
+    for (String hoststuff in servers) {
+      if (hoststuff == "") {
+        continue;
+      }
+
+      int finalColon = hoststuff.lastIndexOf(':');
+      if (finalColon < 1) {
+        throw new ArgumentError("Invalid server $hoststuff in list:  servers");
+      }
+      String hostPart = hoststuff.substring(0, finalColon);
+      String portNum = hoststuff.substring(finalColon + 1);
+
+      addrs.add(new SocketAddress(hostPart, int.parse(portNum)));
+    }
+    return addrs;
+  }
+
+  /**
    * Split a string containing whitespace or comma separated host or IP
    * addresses and port numbers of the form "host:port host2:port" or
-   * "host:port, host2:port" into a List of InetSocketAddress instances suitable
-   * for instantiating a MemcachedClient.
+   * "host:port, host2:port" into a List of SocketAddress instances.
    *
    * Note that colon-delimited IPv6 is also supported. For example: ::1:11211
    */
@@ -166,23 +206,7 @@ class HttpUtil {
     if (s.trim().isEmpty) {
       throw new ArgumentError("No hosts in list: [$s]");
     }
-    List<SocketAddress> addrs = new List();
-
-    for (String hoststuff in s.split("(?:\\s|,)+")) {
-      if (hoststuff == "") {
-        continue;
-      }
-
-      int finalColon = hoststuff.lastIndexOf(':');
-      if (finalColon < 1) {
-        throw new ArgumentError("Invalid server $hoststuff in list:  [$s]");
-      }
-      String hostPart = hoststuff.substring(0, finalColon);
-      String portNum = hoststuff.substring(finalColon + 1);
-
-      addrs.add(new SocketAddress(hostPart, int.parse(portNum)));
-    }
-    return addrs;
+    return parseSocketAddressesFromStrings(s.split("(?:\\s|,)+"));
   }
 }
 

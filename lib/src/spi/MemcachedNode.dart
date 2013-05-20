@@ -45,8 +45,5 @@ abstract class MemcachedNode {
    * Returns an OPChannel for socket accessing.
    */
   OPChannel<int, OP> get opChannel;
-
-  //@Override
-  int get hashCode => socketAddress.hashCode;
 }
 

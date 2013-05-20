@@ -92,7 +92,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
    */
   void addOP(OP op) {
     if (_closing) {
-      _logger.finest("The client is being closing; no way to addOP.");
+      _logger.finest("The client to $_saddr is being closing; no way to addOP.");
       return;
     }
 
@@ -110,7 +110,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
    */
   void prependOP(OP op) {
     if (_closing) {
-      _logger.finest("The client is being closing; no way to prependOP.");
+      _logger.finest("The client to $_saddr is being closing; no way to prependOP.");
       return;
     }
 
@@ -127,7 +127,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
    * Close this Operation channel.
    */
   void close() {
-    _logger.finest("close --> _writeQ.isEmpty:${writeQ.isEmpty}, _readMap.isEmpty:${readQ.isEmpty}");
+    _logger.finest("close socket to $_saddr --> _writeQ.isEmpty:${writeQ.isEmpty}, _readMap.isEmpty:${readQ.isEmpty}");
     _closing = true;
     _tryClose();
   }
@@ -136,32 +136,32 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
     if (_closing && writeQ.isEmpty && readQ.isEmpty && _socket != null)
       _socket.close();
     else {
-      _logger.finest("writeQ:$writeQ");
-      _logger.finest("readQ:$readQ");
+      _logger.finest("Socket to $_saddr, writeQ:$writeQ");
+      _logger.finest("Socket to $_saddr, readQ:$readQ");
     }
   }
 
   void _processLoop() {
     new Future.delayed(new Duration(milliseconds:_FREQ))
     .then((_) {
-      _logger.finest("_processLoop...");
+      _logger.finest("_processLoop for socket to $_saddr...");
       if (!isConnected) {
-        _logger.finest("Wait socket to be connected.");
+        _logger.finest("Wait socket to $_saddr to be connected.");
         _processLoop();
       } else if (isAuthenticated == null) {
-        _logger.finest("Wait socket to be authenticated.");
+        _logger.finest("Wait socket to $_saddr to be authenticated.");
         authenticate();
         _processLoop();
       } else if (!isAuthenticated) { //fail to authentication
-        throw new StateError('Fail to authenticate...Stop operation');
+        throw new StateError('Fail to authenticate socket to $_saddr...Stop operation');
       } else if (!_processWriteQ()) {
-        _logger.finest("Still OP in queue, continue the _processLoop.");
+        _logger.finest("Still OP in queue, continue the _processLoop for socket to $_saddr.");
         _processLoop();
       } else {
-        _logger.finest("No more OP in queue, stop the _processLoop.");
+        _logger.finest("No more OP in queue, stop the _processLoop for socket to $_saddr.");
       }
     })
-    .catchError((err) => _logger.warning("_processLoop:\n$err"));
+    .catchError((err) => _logger.warning("Error in _processLoop for socket to $_saddr:\n$err"));
   }
 
   //Process OP in write queue; return true to indicate no OP to process
@@ -180,7 +180,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
       return;
 
     _writeOP = writeQ.pop();
-    _logger.finest("OPState.WRITING: $_writeOP\n");
+    _logger.finest("Socket to $_saddr, OPState.WRITING: $_writeOP\n");
     _writeOP.nextState();
     List<int> cmd = _writeOP.cmd;
     _socket.add(cmd); //see _setupResponseHandler
@@ -194,8 +194,8 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
         _pbuf.addAll(data);
         processResponse();
       },
-      onError: (err) => _logger.warning("Socket response:$err"),
-      onDone: () => _logger.finest("Socket closed!")
+      onError: (err) => _logger.warning("Socket to $_saddr response:$err"),
+      onDone: () => _logger.finest("Socket to $_saddr closed!")
     );
   }
 }

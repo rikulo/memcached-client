@@ -5,12 +5,14 @@
 part of memcached_client;
 
 class BinaryMemcachedNodeImpl extends MemcachedNode {
-  //TODO: would multiple opChannels in a node a better implementation?
-  final BinaryOPChannel _opChannel;
+  @override
+  final BinaryOPChannel opChannel;
+
   BinaryMemcachedNodeImpl(SocketAddress saddr, AuthDescriptor authDescriptor)
-      : _opChannel = new BinaryOPChannel(saddr, authDescriptor),
+      : opChannel = new BinaryOPChannel(saddr, authDescriptor),
         super(saddr);
 
-  OPChannel get opChannel => _opChannel;
+  @override
+  String toString() => "$opChannel -> $socketAddress";
 }
 

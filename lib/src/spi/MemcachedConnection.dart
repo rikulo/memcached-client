@@ -12,6 +12,7 @@ class MemcachedConnection {
   final ConnectionFactory _connFactory;
   final OPFactory _opFactory;
   final FailureMode _failureMode;
+  final List<MemcachedNode> nodesToShutdown;
 
   Logger _logger;
   bool _closing = false;
@@ -21,19 +22,11 @@ class MemcachedConnection {
       : locator = locator,
         _connFactory = connFactory,
         _opFactory = opFactory,
-        _failureMode = failureMode {
+        _failureMode = failureMode,
+        nodesToShutdown = new List() {
 
     _logger = initLogger('memcached_client.spi', this);
   }
-
-//  List<MemcachedNode> _createConnections(Iterable<SocketAddress> a) {
-//    List<MemcachedNode> connections = new List(a.length);
-//    for (SocketAddress sa in a) {
-//      MemcachedNode qa = _connFactory.createMemcachedNode(sa);
-//      connections.add(qa);
-//    }
-//    return connections;
-//  }
 
   void addOP(String key, OP op) {
     //check if this is a valid key
@@ -78,11 +71,13 @@ class MemcachedConnection {
 
   void prependOPToNode(MemcachedNode node, OP op) {
     _checkState();
+    op.handlingNode = node;
     node.prependOP(op);
   }
 
   void addOPToNode(MemcachedNode node, OP op) {
     _checkState();
+    op.handlingNode = node;
     node.addOP(op);
   }
 
@@ -138,4 +133,68 @@ class MemcachedConnection {
   }
 
   FailureMode get failureMode => _failureMode;
+
+//  void _ioLoop() {
+//    new Future.delayed(new Duration(milliseconds:_FREQ))
+//    .then((_) {
+//      _logger.finest("_ioLoop...");
+//      if (!_handleIO()) {
+//        _logger.finest("Still IO to be processed, continue the _ioLoop.");
+//        _ioLoop();
+//      } else {
+//        _logger.finest("No more IO to be processed, stop the _ioLoop.");
+//      }
+//    })
+//    .catchError((err) => _logger.warning("_ioLoop:\n$err"));
+//  }
+//
+//  // Return true if still IO to be processed; otherwise false
+//  bool _handleIO() =>
+//      _closeOddNodes();
+//
+//  // Close odd nodes(those nodes has been down)
+//  bool closeOddNodes() {
+//    // try to shutdown odd nodes
+//    for (MemcachedNode qa : nodesToShutdown) {
+//      if (!addedQueue.contains(qa)) {
+//        nodesToShutdown.remove(qa);
+//        List<OP> notCompletedOperations = qa.destroyInputQueue();
+//        if (qa.getChannel() != null) {
+//          qa.getChannel().close();
+//          qa.setSk(null);
+//          if (qa.getBytesRemainingToWrite() > 0) {
+//            _logger.warning("Shut down with ${qa.getBytesRemainingToWrite} bytes remaining to write",
+//                qa.getBytesRemainingToWrite());
+//          }
+//          _logger.fine("Shut down channel %s", qa.getChannel());
+//        }
+//        redistributeOperations(notCompletedOperations);
+//      }
+//    }
+//
+//    return false;
+//  }
+//
+//  void _redistributeOperations(Iterable<OP> ops) {
+//    for (OP op in ops) {
+//      if (op.isCancelled || op.isTimedOut) {
+//        continue;
+//      }
+//      if (op is KeyedOperation) {
+//        KeyedOperation ko = (KeyedOperation) op;
+//        int added = 0;
+//        for (String k : ko.getKeys()) {
+//          for (Operation newop : opFact.clone(ko)) {
+//            addOperation(k, newop);
+//            added++;
+//          }
+//        }
+//        assert added > 0 : "Didn't add any new operations when redistributing";
+//      } else {
+//        // Cancel things that don't have definite targets.
+//        op.cancel();
+//      }
+//    }
+//  }
+
 }

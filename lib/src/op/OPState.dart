@@ -34,6 +34,10 @@ class OPState extends Enum {
    * Special state indicate that this OP is canceled before processed.
    */
   static const OPState CANCELED = const OPState(200);
+  /**
+   * Special state indicate that this OP is timed out before complete the processes.
+   */
+  static const OPState TIMED_OUT = const OPState(300);
 
   const OPState(int ordinal)
       : super(ordinal);

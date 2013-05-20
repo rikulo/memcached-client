@@ -65,6 +65,8 @@ class MemcachedClientImpl implements MemcachedClient {
 
   NodeLocator get locator => _memcachedConn.locator;
 
+  MemcachedConnection get memcachedConn => _memcachedConn;
+
   /** set command */
   Future<bool> set(String key, List<int> doc, [int cas]) =>
       _store(OPType.set, key, 0, 0, doc, cas);

@@ -6,6 +6,7 @@ abstract class OP {
   void set state(OPState state);
   int get seq;
   void set seq(int s);
+  MemcachedNode handlingNode;
 
   /**
    * Returns whether this OP is canceled by the user.

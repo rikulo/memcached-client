@@ -9,5 +9,7 @@ class Enum {
   final int ordinal;
 
   const Enum(this.ordinal);
+
+  String toString() => "$ordinal";
 }
 

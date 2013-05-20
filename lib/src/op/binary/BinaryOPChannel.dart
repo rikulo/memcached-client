@@ -26,18 +26,20 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
     _logger = initLogger("memcached_client.op.binary", this);
   }
 
-  //@Override
+  @override
   OPQueue<int, OP> get writeQ => _writeQ;
 
-  //@Override
+  @override
   OPQueue<int, OP> get readQ => _readQ;
 
   bool _authenticated; //whether authenticated
-  //@Override
+
+  @override
   bool get isAuthenticated => _authenticated;
 
-  //@Override
+  @override
   bool _authenticating = false;
+
   void authenticate() {
     if (_authDescriptor == null) { //no need to do authentication, assume done
       _authenticated = true;
@@ -71,7 +73,7 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   int _bodylen = _HANDLE_CMD; //control value when do processResponse().
   //Callback listen to onData of the Socket Stream; will call
   //op.handleCommand() and op.handleData() to handle command/data.
-  //@Override
+  @override
   void processResponse() {
     _logger.finest("pbuf:$_pbuf");
     while(true) {

@@ -31,5 +31,8 @@ class AuthDescriptor {
       return false;
     }
   }
+
+  @override
+  String toString() =>"bucket:$bucket";
 }
 
