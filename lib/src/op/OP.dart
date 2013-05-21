@@ -82,6 +82,8 @@ abstract class VersionOP extends OP implements FutureOP<String> {}
 
 abstract class GetAndTouchOP extends OP implements FutureOP<GetResult> {}
 
+abstract class GetAndLockOP extends OP implements FutureOP<GetResult> {}
+
 /** Base operation implementation */
 final _SPACE = encodeUtf8(' ').first;
 final _CRLF = encodeUtf8('\r\n');

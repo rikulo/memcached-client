@@ -12,7 +12,6 @@ class BinaryMemcachedNodeImpl extends MemcachedNode {
       : opChannel = new BinaryOPChannel(saddr, authDescriptor),
         super(saddr);
 
-  @override
   String toString() => "$opChannel -> $socketAddress";
 }
 

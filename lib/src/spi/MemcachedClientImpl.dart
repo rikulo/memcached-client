@@ -149,6 +149,13 @@ class MemcachedClientImpl implements MemcachedClient {
     return op.future;
   }
 
+  /** getAndLock command */
+  Future<GetResult> getAndLock(String key, int locktime) {
+    GetAndLockOP op = _opFactory.newGetAndLockOP(key, locktime);
+    _handleOperation(key, op);
+    return op.future;
+  }
+
   Future<Set<String>> listSaslMechs() {
     return handleBroadcastOperation(() =>
         _opFactory.newSaslMechsOP(), locator.allNodes.iterator).then((map) {

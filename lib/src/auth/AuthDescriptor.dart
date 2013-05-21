@@ -32,7 +32,6 @@ class AuthDescriptor {
     }
   }
 
-  @override
   String toString() =>"bucket:$bucket";
 }
 

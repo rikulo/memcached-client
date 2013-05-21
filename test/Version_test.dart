@@ -10,7 +10,13 @@ import 'MemcachedTestUtil.dart' as m;
 
 //version should always succeed
 void testVersion(MemcachedClient client) {
-  expect(client.versions(), completion(new isInstanceOf<Map<SocketAddress, String>>()));
+  Future<Map<SocketAddress, String>> f = client.versions()
+      .then((map) {
+        print("$map");
+        expect(map.keys.first, equals(new SocketAddress('localhost', 11211)));
+        return map;
+      });
+  expect(f, completion(new isInstanceOf<Map<SocketAddress, String>>()));
 }
 
 void main() {

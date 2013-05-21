@@ -37,6 +37,7 @@ part 'src/op/VbucketAwareOP.dart';
 
 //op/binary
 part 'src/op/binary/BinaryDeleteOP.dart';
+part 'src/op/binary/BinaryGetAndLockOP.dart';
 part 'src/op/binary/BinaryGetAndTouchOP.dart';
 part 'src/op/binary/BinaryGetOP.dart';
 part 'src/op/binary/BinaryGetSingleOP.dart';
@@ -58,6 +59,7 @@ part 'src/op/binary/SingleKeyOP.dart';
 
 //op/text
 part 'src/op/text/TextDeleteOP.dart';
+part 'src/op/text/TextGetAndLockOP.dart';
 part 'src/op/text/TextGetOP.dart';
 part 'src/op/text/TextGetSingleOP.dart';
 part 'src/op/text/TextMemcachedNodeImpl.dart';

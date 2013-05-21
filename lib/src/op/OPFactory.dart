@@ -12,6 +12,10 @@ abstract class OPFactory {
   StoreOP newStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
                      {int cas});
 
+  GetAndLockOP newGetAndLockOP(String key, int locktime);
+
+  GetAndTouchOP newGetAndTouchOP(String key, int exp);
+
   TouchOP newTouchOP(String key, int exp);
 
   VersionOP newVersionOP();

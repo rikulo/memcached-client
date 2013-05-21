@@ -73,7 +73,6 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   int _bodylen = _HANDLE_CMD; //control value when do processResponse().
   //Callback listen to onData of the Socket Stream; will call
   //op.handleCommand() and op.handleData() to handle command/data.
-  @override
   void processResponse() {
     _logger.finest("pbuf:$_pbuf");
     while(true) {

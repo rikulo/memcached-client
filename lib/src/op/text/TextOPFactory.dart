@@ -24,6 +24,9 @@ class _TextOPFactoryImpl implements TextOPFactory {
     throw new UnsupportedError("Get-and-touch does not work with text protocol");
   }
 
+  GetAndLockOP newGetAndLockOP(String key, int exp) =>
+      new TextGetAndLockOP(key, exp);
+
   MutateOP newMutateOP(OPType type, String key, int value) =>
       new TextMutateOP(type, key, value);
 

@@ -9,7 +9,7 @@ part of memcached_client;
  */
 class MemcachedConnection {
   final NodeLocator locator;
-  final ConnectionFactory _connFactory;
+  final ConnectionFactory connFactory;
   final OPFactory _opFactory;
   final FailureMode _failureMode;
   final List<MemcachedNode> nodesToShutdown;
@@ -20,7 +20,7 @@ class MemcachedConnection {
   MemcachedConnection(NodeLocator locator, ConnectionFactory connFactory,
       OPFactory opFactory, FailureMode failureMode)
       : locator = locator,
-        _connFactory = connFactory,
+        this.connFactory = connFactory,
         _opFactory = opFactory,
         _failureMode = failureMode,
         nodesToShutdown = new List() {
