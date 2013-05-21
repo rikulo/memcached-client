@@ -93,18 +93,18 @@ class MemcachedConnection {
       addOPToNode(node, op);
   }
 
-  Future<Map<MemcachedNode, dynamic>> broadcastOP(FutureOP newOP(),
+  Future<Map<SocketAddress, dynamic>> broadcastOP(FutureOP newOP(),
       Iterator<MemcachedNode> nodeIterator) {
     return new Future.sync(() {
       if (_closing )
         throw new StateError("Shutting down the connection");
       List<Future> futures = new List();
-      Map<MemcachedNode, dynamic> results = new HashMap();
+      Map<SocketAddress, dynamic> results = new HashMap();
       while (nodeIterator.moveNext()) {
         MemcachedNode node = nodeIterator.current;
         FutureOP op = newOP();
         op.future
-          .then((rv) => results[node] = rv)
+          .then((rv) => results[node.socketAddress] = rv)
           .catchError((err) => _logger.warning("broadcastOP. node: $node, OP: $op, Error: $err"));
         futures.add(op.future);
         if (op is MultiKeyOP)

@@ -20,6 +20,10 @@ class _TextOPFactoryImpl implements TextOPFactory {
   GetSingleOP newGetSingleOP(OPType type, String key) =>
       new TextGetSingleOP(type, key);
 
+  GetAndTouchOP newGetAndTouchOP(String key, int expiration) {
+    throw new UnsupportedError("Get-and-touch does not work with text protocol");
+  }
+
   MutateOP newMutateOP(OPType type, String key, int value) =>
       new TextMutateOP(type, key, value);
 

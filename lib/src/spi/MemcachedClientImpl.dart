@@ -116,7 +116,7 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   /** versions command */
-  Future<Map<MemcachedNode, String>> versions() =>
+  Future<Map<SocketAddress, String>> versions() =>
     handleBroadcastOperation(() =>
         _opFactory.newVersionOP(), locator.allNodes.iterator);
 
@@ -141,6 +141,13 @@ class MemcachedClientImpl implements MemcachedClient {
   /** gets(with cas data version token) command with multiple keys */
   Stream<GetResult> getsAll(List<String> keys) =>
       _retrieveAll(OPType.gets, keys);
+
+  /** getAndTouch command */
+  Future<GetResult> getAndTouch(String key, int exp) {
+    GetAndTouchOP op = _opFactory.newGetAndTouchOP(key, exp);
+    _handleOperation(key, op);
+    return op.future;
+  }
 
   Future<Set<String>> listSaslMechs() {
     return handleBroadcastOperation(() =>
@@ -224,9 +231,9 @@ class MemcachedClientImpl implements MemcachedClient {
     _memcachedConn.addOP(key, op);
   }
 
-  Future<Map<MemcachedNode, dynamic>> handleBroadcastOperation(OP newOP(),
+  Future<Map<SocketAddress, dynamic>> handleBroadcastOperation(OP newOP(),
       Iterator<MemcachedNode> nodeIterator) =>
-      _memcachedConn.broadcastOP(newOP, nodeIterator);
+        _memcachedConn.broadcastOP(newOP, nodeIterator);
 
   void close() {
     if (_closing) return;

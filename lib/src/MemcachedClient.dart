@@ -51,6 +51,8 @@ abstract class MemcachedClient {
    * true if succeed; throw Error status otherwise.
    *
    * + [key] - the key of the document
+   * + [docuemnt] - the document to be set
+   * + [cas] - the document version
    */
   Future<bool> set(String key, List<int> document, [int cas]);
 
@@ -134,7 +136,17 @@ abstract class MemcachedClient {
    */
   Stream<GetResult> getsAll(List<String> keys);
 
-  /** Touch document expiration time in seconds. 0 means permenent.
+  /**
+   * Get document as a GetResult of the provided key and reset the document
+   * expiration time in seconds. 0 means permenent, If exptime exceeds
+   * 30 days(30*24*60*60), it is deemed as an absolute date in seconds.
+   * This API returns GetResult if succeed; otherwise, throw OPStatus.NOT_FOUND
+   * or other error status.
+   */
+  Future<GetResult> getAndTouch(String key, int exptime);
+
+  /**
+   * Touch document expiration time in seconds. 0 means permenent.
    * If exptime exceeds 30 days(30*24*60*60), it is deemed as an
    * absolute date in seconds. Returns true if succeed; othewise,
    * throw OPStatus.NOT_FOUND or other Error status.
@@ -144,7 +156,7 @@ abstract class MemcachedClient {
   /**
    * Returns the versions of the connected servers. Returns version as a String.
    */
-  Future<Map<MemcachedNode, String>> versions();
+  Future<Map<SocketAddress, String>> versions();
 
   /**
    * Returns the set of supported SASL authentication mechanisms.

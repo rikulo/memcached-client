@@ -37,6 +37,7 @@ part 'src/op/VbucketAwareOP.dart';
 
 //op/binary
 part 'src/op/binary/BinaryDeleteOP.dart';
+part 'src/op/binary/BinaryGetAndTouchOP.dart';
 part 'src/op/binary/BinaryGetOP.dart';
 part 'src/op/binary/BinaryGetSingleOP.dart';
 part 'src/op/binary/BinaryMemcachedNodeImpl.dart';

@@ -64,6 +64,11 @@ class OPType extends Enum {
   static const get = const OPType(0x00, 'get');
 
   /**
+   * Get and touch.
+   */
+  static const gat = const OPType(0x1d, 'gat');
+
+  /**
    * Get with cas "fingerprint"
    */
   static const gets = const OPType(0x00, 'gets');

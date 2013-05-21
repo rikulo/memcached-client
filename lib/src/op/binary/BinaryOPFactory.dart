@@ -19,6 +19,9 @@ class _BinaryOPFactoryImpl implements BinaryOPFactory {
   GetSingleOP newGetSingleOP(OPType type, String key) =>
       new BinaryGetSingleOP(type, key);
 
+  GetAndTouchOP newGetAndTouchOP(String key, int exp) =>
+      new BinaryGetAndTouchOP(key, exp);
+
   MutateOP newMutateOP(OPType type, String key, int value) =>
       new BinaryMutateOP(type, key, value);
 
