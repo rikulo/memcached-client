@@ -48,6 +48,7 @@ part 'src/op/binary/BinaryOPChannel.dart';
 part 'src/op/binary/BinaryOPFactory.dart';
 part 'src/op/binary/BinaryStoreOP.dart';
 part 'src/op/binary/BinaryTouchOP.dart';
+part 'src/op/binary/BinaryUnlockOP.dart';
 part 'src/op/binary/BinaryVersionOP.dart';
 part 'src/op/binary/MultiKeyOP.dart';
 part 'src/op/binary/ObserveOP.dart';
@@ -70,6 +71,7 @@ part 'src/op/text/TextOPFactory.dart';
 part 'src/op/text/TextOPStatus.dart';
 part 'src/op/text/TextStoreOP.dart';
 part 'src/op/text/TextTouchOP.dart';
+//part 'src/op/text/TextUnlockOP.dart';
 part 'src/op/text/TextVersionOP.dart';
 
 //spi

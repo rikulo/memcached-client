@@ -28,4 +28,6 @@ abstract class OPFactory {
   SaslStepOP newSaslStepOP(String mechanism, List<int> challenge);
 
   ObserveOP newObserveOP(String key, int cas);
+
+  UnlockOP newUnlockOP(String key, int cas);
 }

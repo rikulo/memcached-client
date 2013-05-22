@@ -52,4 +52,7 @@ class _BinaryOPFactoryImpl implements BinaryOPFactory {
   //Observe OPs
   ObserveOP newObserveOP(String key, int cas) =>
       new ObserveOP(key, cas);
+
+  UnlockOP newUnlockOP(String key, int cas) =>
+      new BinaryUnlockOP(key, cas);
 }

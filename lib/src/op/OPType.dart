@@ -105,6 +105,11 @@ class OPType extends Enum {
   static const observe = const OPType(0x92, 'observe');
 
   /**
+   * Unlock a locking document.
+   */
+  static const unlock = const OPType(0x95, 'unl');
+
+  /**
    * No operation.
    */
   static const noop = const OPType(0x0a, 'noop');
