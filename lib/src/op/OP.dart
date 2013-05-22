@@ -86,6 +86,8 @@ abstract class GetAndLockOP extends OP implements FutureOP<GetResult> {}
 
 abstract class UnlockOP extends OP implements FutureOP<bool> {}
 
+abstract class NoOP extends OP implements FutureOP<bool> {}
+
 /** Base operation implementation */
 final _SPACE = encodeUtf8(' ').first;
 final _CRLF = encodeUtf8('\r\n');

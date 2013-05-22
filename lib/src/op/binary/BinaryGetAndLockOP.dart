@@ -37,9 +37,6 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
     return _HANDLE_COMPLETE;
   }
 
-  /**
-   * Prepare n getkq commands + one noop command.
-   */
   //Prepare one getk command
   const int _req_extralen = 4;
   List<int> _prepareGetAndLockCommand(String key, int exp) {

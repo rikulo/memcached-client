@@ -59,10 +59,13 @@ class _TextOPFactoryImpl implements TextOPFactory {
     throw new UnsupportedError("Observe does not work with text protocol");
   }
 
-  //Unlock OPs
+  //Unlock OP
   UnlockOP newUnlockOP(String key, int cas) {
     throw new UnsupportedError("Unlock does not work with text protocol");
   } // new TextUnlockOP(key, cas);
     //experiment shows text protocol always return UNLOCK_ERROR
+
+  //No operation OP
+  NoOP newNoOP() => new TextNoOP();
 }
 

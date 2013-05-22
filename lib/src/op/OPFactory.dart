@@ -30,4 +30,6 @@ abstract class OPFactory {
   ObserveOP newObserveOP(String key, int cas);
 
   UnlockOP newUnlockOP(String key, int cas);
+
+  NoOP newNoOP();
 }
