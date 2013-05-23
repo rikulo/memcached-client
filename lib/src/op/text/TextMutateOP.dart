@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Mon, Feb 25, 2013  10:46:09 AM
+// Author: hernichen
+
 part of memcached_client;
 
 /** a Mutate(increment/decrement) Operation */

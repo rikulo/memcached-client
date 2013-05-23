@@ -159,6 +159,14 @@ abstract class MemcachedClient {
   Future<Map<SocketAddress, String>> versions();
 
   /**
+   * Returns the statistics of the connected servers. Returns statistics as a
+   * Map<String, String>.
+   *
+   * + [prefix] - which statistic to get.
+   */
+  Future<Map<SocketAddress, Map<String, String>>> stats([String prefix]);
+
+  /**
    * Returns the set of supported SASL authentication mechanisms.
    */
   Future<Set<String>> listSaslMechs();

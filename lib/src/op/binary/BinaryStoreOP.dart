@@ -33,9 +33,9 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
   }
 
 
-  /** Prepare a store command.
+  /**
+   * Prepare a store command.
    */
-
   List<int> _prepareStoreCommand(OPType type, String key, int flags, int exp,
       List<int> doc, int cas) {
     List<int> keybytes = encodeUtf8(key);

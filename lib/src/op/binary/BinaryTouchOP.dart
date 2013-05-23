@@ -6,7 +6,7 @@ part of memcached_client;
 
 /** A Touch Operation of binary protocol */
 class BinaryTouchOP extends SingleKeyOP implements TouchOP {
-  final Completer _cmpl; //completer to complete the future of this operation
+  final Completer<bool> _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 

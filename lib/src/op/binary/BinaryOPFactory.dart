@@ -38,6 +38,9 @@ class _BinaryOPFactoryImpl implements BinaryOPFactory {
   VersionOP newVersionOP() =>
       new BinaryVersionOP();
 
+  StatsOP newStatsOP(String prefix) =>
+      new BinaryStatsOP(prefix);
+
   //Sasl OPs
   SaslMechsOP newSaslMechsOP() =>
       new SaslMechsOP();

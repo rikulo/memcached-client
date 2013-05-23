@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Wed, May 22, 2013  11:32:01 AM
+// Author: hernichen
+
 part of memcached_client;
 
 class TextNoOP extends TextOP implements NoOP {

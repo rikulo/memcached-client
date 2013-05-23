@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Wed, Apr 10, 2013  10:23:09 AM
+// Author: hernichen
+
 part of memcached_client;
 
 /** A version command of binary protocol */

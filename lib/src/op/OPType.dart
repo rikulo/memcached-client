@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Tue, Feb 19, 2013  03:51:03 PM
+// Author: hernichen
+
 part of memcached_client;
 
 /**
@@ -9,6 +13,12 @@ class OPType extends Enum {
    * Version of the server.
    */
   static const version = const OPType(0x0b, 'version');
+
+  //Stats
+  /**
+   * Statistics of the server.
+   */
+  static const stats = const OPType(0x10, 'stats');
 
   //Store
   /**

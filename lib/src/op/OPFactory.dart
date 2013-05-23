@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Tue, Feb 19, 2013  02:19:03 PM
+// Author: hernichen
+
 part of memcached_client;
 
 abstract class OPFactory {
@@ -19,6 +23,8 @@ abstract class OPFactory {
   TouchOP newTouchOP(String key, int exp);
 
   VersionOP newVersionOP();
+
+  StatsOP newStatsOP();
 
   SaslMechsOP newSaslMechsOP();
 

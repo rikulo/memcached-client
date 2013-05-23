@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Mon, Feb 25, 2013  03:09:01 PM
+// Author: hernichen
+
 part of memcached_client;
 
 class TextVersionOP extends TextOP implements VersionOP {

@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Mon, Apr 08, 2013  12:03:47 PM
+// Author: hernichen
+
 part of memcached_client;
 
 /** Represent a result after execute observe command */

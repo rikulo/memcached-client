@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Tue, Feb 19, 2013  09:12:03 AM
+// Author: hernichen
+
 part of memcached_client;
 
 abstract class OP {
@@ -79,6 +83,8 @@ abstract class StoreOP extends OP implements FutureOP<bool> {}
 abstract class TouchOP extends OP implements FutureOP<bool> {}
 
 abstract class VersionOP extends OP implements FutureOP<String> {}
+
+abstract class StatsOP extends OP implements FutureOP<Map<String, String>> {}
 
 abstract class GetAndTouchOP extends OP implements FutureOP<GetResult> {}
 

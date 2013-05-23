@@ -1,3 +1,7 @@
+//Copyright (C) 2013 Potix Corporation. All Rights Reserved.
+//History: Tue, Feb 19, 2013  11:31:50 AM
+// Author: hernichen
+
 part of memcached_client;
 
 /**

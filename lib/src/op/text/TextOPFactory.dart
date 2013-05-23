@@ -40,6 +40,9 @@ class _TextOPFactoryImpl implements TextOPFactory {
   VersionOP newVersionOP() =>
       new TextVersionOP();
 
+  StatsOP newStatsOP(String prefix) =>
+      new TextStatsOP(prefix);
+
   //Sasl OPs
   SaslMechsOP newSaslMechsOP() {
     throw new UnsupportedError("SaslMechs does not work with text protocol");
