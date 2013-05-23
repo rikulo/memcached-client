@@ -19,16 +19,9 @@ class TextStatsOP extends TextOP implements StatsOP {
   //@Override
   static final int VERSION_PREFIX_LEN = 'VERSION '.length;
   int handleTextCommand(String line) {
-    int result = _handleCommand0(line);
-    if (result == _HANDLE_COMPLETE) {
-      _cmpl.complete(_stats);
-    }
-    return result;
-  }
-
-  int _handleCommand0(String line) {
     _logger.finest("StatsOpCommand: $this, [${line}]");
     if ("END" == line) {
+      _cmpl.complete(_stats);
       return _HANDLE_COMPLETE; //complete
     } else if (line.startsWith("STAT ")) {
       final j = line.indexOf(' ', 5);
@@ -44,12 +37,11 @@ class TextStatsOP extends TextOP implements StatsOP {
       OPStatus status = TextOPStatus.valueOfError(line);
       if (status != null) { //some error occur!
         _cmpl.completeError(status);
-        return _HANDLE_COMPLETE; //complete
       } else {
         //TODO: unknown protocol, try to read thru!
         _cmpl.completeError(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"));
-        return _HANDLE_COMPLETE;
       }
+      return _HANDLE_COMPLETE; //complete
     }
   }
 
@@ -63,7 +55,8 @@ class TextStatsOP extends TextOP implements StatsOP {
 
     cmd..addAll(encodeUtf8(OPType.stats.name));
     if (prefix != null) {
-      cmd..addAll(encodeUtf8(prefix));
+      cmd..add(_SPACE)
+         ..addAll(encodeUtf8(prefix));
     }
     cmd..addAll(_CRLF);
 

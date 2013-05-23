@@ -161,6 +161,8 @@ abstract class MemcachedClient {
   /**
    * Returns the statistics of the connected servers. Returns statistics as a
    * Map<String, String>.
+   * see [here](https://github.com/membase/ep-engine/blob/master/docs/stats.org)
+   * for detail documents regarding statistics.
    *
    * + [prefix] - which statistic to get.
    */
