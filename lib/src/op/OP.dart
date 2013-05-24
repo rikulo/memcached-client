@@ -86,6 +86,8 @@ abstract class VersionOP extends OP implements FutureOP<String> {}
 
 abstract class StatsOP extends OP implements FutureOP<Map<String, String>> {}
 
+abstract class KeyStatsOP extends OP implements FutureOP<Map<String, String>> {}
+
 abstract class GetAndTouchOP extends OP implements FutureOP<GetResult> {}
 
 abstract class GetAndLockOP extends OP implements FutureOP<GetResult> {}

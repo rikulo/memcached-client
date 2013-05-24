@@ -41,6 +41,7 @@ part 'src/op/binary/BinaryGetAndLockOP.dart';
 part 'src/op/binary/BinaryGetAndTouchOP.dart';
 part 'src/op/binary/BinaryGetOP.dart';
 part 'src/op/binary/BinaryGetSingleOP.dart';
+part 'src/op/binary/BinaryKeyStatsOP.dart';
 part 'src/op/binary/BinaryMemcachedNodeImpl.dart';
 part 'src/op/binary/BinaryMutateOP.dart';
 part 'src/op/binary/BinaryNoOP.dart';

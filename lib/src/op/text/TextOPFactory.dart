@@ -43,6 +43,10 @@ class _TextOPFactoryImpl implements TextOPFactory {
   StatsOP newStatsOP(String prefix) =>
       new TextStatsOP(prefix);
 
+  KeyStatsOP newKeyStatsOP() {
+    throw new UnsupportedError("KeyStats does not work with text protocol");
+  }
+
   //Sasl OPs
   SaslMechsOP newSaslMechsOP() {
     throw new UnsupportedError("SaslMechs does not work with text protocol");

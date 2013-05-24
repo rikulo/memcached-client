@@ -125,6 +125,13 @@ class MemcachedClientImpl implements MemcachedClient {
     handleBroadcastOperation(() =>
         _opFactory.newStatsOP(prefix), locator.allNodes.iterator);
 
+  /** keystats command */
+  Future<Map<String, String>> keyStats(String key) {
+    KeyStatsOP op = _opFactory.newKeyStatsOP(key);
+    _handleOperation(key, op);
+    return op.future;
+  }
+
   /** get command */
   Future<GetResult> get(String key) {
     GetSingleOP op = _opFactory.newGetSingleOP(OPType.get, key);

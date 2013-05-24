@@ -24,7 +24,9 @@ abstract class OPFactory {
 
   VersionOP newVersionOP();
 
-  StatsOP newStatsOP();
+  StatsOP newStatsOP(String prefix);
+
+  KeyStatsOP newKeyStatsOP(String key);
 
   SaslMechsOP newSaslMechsOP();
 
