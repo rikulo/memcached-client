@@ -13,7 +13,7 @@ void testStats(MemcachedClient client) {
   Future<Map<SocketAddress, String>> f = client.stats()
       .then((map) {
         print("$map");
-        expect(map.keys.first, equals(new SocketAddress('localhost', 11211)));
+        expect(map.keys.first, equals(new SocketAddress('127.0.0.1', 11211)));
         return map;
       });
   expect(f, completion(new isInstanceOf<Map<SocketAddress, String>>()));
@@ -25,7 +25,7 @@ void testStats2(MemcachedClient client) {
     client.stats("proxy")
       .then((map) {
         print("$map");
-        expect(map.keys.first, equals(new SocketAddress('localhost', 11211)));
+        expect(map.keys.first, equals(new SocketAddress('127.0.0.1', 11211)));
         return map;
       });
   expect(f, completion(new isInstanceOf<Map<SocketAddress, String>>()));

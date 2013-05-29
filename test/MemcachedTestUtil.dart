@@ -10,9 +10,9 @@ import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 
 Future<MemcachedClient> prepareBinaryClient()
-=> MemcachedClient.connect([new SocketAddress('localhost', 11211)],
+=> MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
       new BinaryConnectionFactory());
 
 Future<MemcachedClient> prepareTextClient()
-=> MemcachedClient.connect([new SocketAddress('localhost', 11211)],
+=> MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
       new TextConnectionFactory());

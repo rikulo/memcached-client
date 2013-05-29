@@ -164,9 +164,12 @@ abstract class MemcachedClient {
    * see [here](https://github.com/membase/ep-engine/blob/master/docs/stats.org)
    * for detail documents regarding statistics.
    *
-   * + [prefix] - which statistic to get.
+   * + [arg] - which statistic to get. Search "Statistics" in this
+   * [document](https://github.com/memcached/memcached/blob/master/doc/protocol.txt)
+   * for detail regarding which arguments are allowed
+   *
    */
-  Future<Map<SocketAddress, Map<String, String>>> stats([String prefix]);
+  Future<Map<SocketAddress, Map<String, String>>> stats([String arg]);
 
   /**
    * Returns the set of supported SASL authentication mechanisms.

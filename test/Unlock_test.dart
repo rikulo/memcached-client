@@ -8,11 +8,11 @@ import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 
 Future<MemcachedClientImpl> prepareBinaryClient()
-=> MemcachedClientImpl.connect([new SocketAddress('localhost', 11211)],
+=> MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
       new BinaryConnectionFactory());
 
 Future<MemcachedClientImpl> prepareTextClient()
-=> MemcachedClientImpl.connect([new SocketAddress('localhost', 11211)],
+=> MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
       new TextConnectionFactory());
 
 // locktime not expired, does not do unlock it and set a new value

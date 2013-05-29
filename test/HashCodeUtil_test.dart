@@ -34,8 +34,6 @@ void testListHashCode() {
   list1.add('c');
   List list2 = new List.from(list1);
   expect(listHashCode(list1), equals(listHashCode(list2)));
-  expect(listHashCode(list1), equals(165392551743));
-  expect(listHashCode(list2), equals(165392551743));
   expect(listEquals(list1, list2), isTrue);
   expect(identical(list1, list2), isFalse);
 }
