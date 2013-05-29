@@ -1,5 +1,11 @@
 #Rikulo Memcached Client 
 
+* May 29, 2013
+  * Release version 0.3.0 
+  * Support stats command
+  * Support noop command
+  * Support getAndTouch command
+
 * May 20, 2013
   * Release version 0.2.0 
   * Fine tune hashCode and operator equality
