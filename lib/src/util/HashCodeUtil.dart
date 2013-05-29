@@ -28,7 +28,7 @@ int listHashCode(final List list) {
 
   int h = 1;
   for (var e in list) {
-    h = (31 * h + e.hashCode) & 0xffffffff;
+    h = 0xffffffff & (31 * h + e.hashCode);
   }
   return h;
 }

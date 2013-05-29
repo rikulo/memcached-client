@@ -13,6 +13,7 @@ import 'dart:typed_data';
 import 'dart:crypto';
 import 'dart:json' as json;
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 part 'src/BinaryConnectionFactory.dart';
 part 'src/MemcachedClient.dart';

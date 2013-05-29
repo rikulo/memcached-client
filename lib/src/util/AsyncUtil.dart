@@ -19,7 +19,7 @@ class TimeoutError extends RuntimeError {
  */
 Future timeoutFuture(Future origin, Duration timeout, String description) {
   var cmpl = new Completer();
-  var timer = new Timer(timeout), () {
+  var timer = new Timer(timeout, () {
     cmpl.completeError(new TimeoutError(description));
   });
   origin.then((value) {
@@ -110,7 +110,7 @@ Future listenStream(Stream stream, void onData(data),
     })
     .then((value) {
       if (!cmpl.isCompleted) cmpl.complete(value);
-    }
+    })
     .catchError((err) {
       if (!cmpl.isCompleted) {
         if (cancelOnError) ss.cancel();
