@@ -268,6 +268,8 @@ class MemcachedClientImpl implements MemcachedClient {
     _memcachedConn.close();
   }
 
+  bool get isClosing => _closing;
+
   OPFactory get opFactory => _opFactory;
 }
 
