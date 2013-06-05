@@ -158,8 +158,8 @@ class HttpUtil {
    */
   static List<SocketAddress> parseSocketAddressesFromUris(List<Uri> uris) {
     List<SocketAddress> addrs = new List();
-    for (var uri in uris) {
-      final host = uri.domain;
+    for (Uri uri in uris) {
+      final host = uri.host;
       final port = uri.port;
       addrs.add(new SocketAddress(host, port));
     }

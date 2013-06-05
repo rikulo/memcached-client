@@ -11,7 +11,7 @@ class TextGetOP extends TextOP implements GetOP {
   Stream<GetResult> get stream => _streamCtrl.stream;
 
   TextGetOP(OPType type, List<String> keys)
-      : _streamCtrl = new StreamController() {
+      : _streamCtrl = new StreamController(sync:true) {
     _cmd = _prepareGetCommand(type, keys);
   }
 

@@ -12,7 +12,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
   final bool _ignoreCas;
 
   BinaryGetOP(OPType type, List<String> keys)
-      : _streamCtrl = new StreamController(),
+      : _streamCtrl = new StreamController(sync:true),
         _ignoreCas = type == OPType.get,
         super(keys, new List(keys.length + 1)) {
     _cmd = _prepareGetCommand(keys);

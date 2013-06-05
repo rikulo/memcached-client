@@ -1,5 +1,5 @@
 name: memcached_client
-version: 0.3.0+2
+version: 0.3.0+4
 description: >
   A Memcached client library written in Dart language.
 authors:

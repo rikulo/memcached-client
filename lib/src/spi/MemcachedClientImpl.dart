@@ -221,7 +221,7 @@ class MemcachedClientImpl implements MemcachedClient {
     }
 
     //resync results in key sequence
-    StreamController<GetResult> tgt = new StreamController();
+    StreamController<GetResult> tgt = new StreamController(sync:true);
     int keyi = 0; //key sequence index
     String currentKey = keys[0]; //the key should be add to Stream in sequence
     Map<String, GetResult> tmpMap = new HashMap(); //temporary map for out of sequence results
