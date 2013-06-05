@@ -1,4 +1,3 @@
-import 'dart:uri';
 import 'dart:collection';
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';

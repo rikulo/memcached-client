@@ -38,7 +38,7 @@ class OPStatus {
   const OPStatus(this.code, this.message);
 
   //@override
-  String toString() => "{OPStatus : $code: $message}";
+  String toString() => "{OPStatus: $code: $message}";
 
   static OPStatus valueOf(int code) {
     if (_statusMap == null) {

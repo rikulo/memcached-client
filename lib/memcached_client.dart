@@ -6,14 +6,13 @@ library memcached_client;
 
 import "dart:async";
 import 'dart:io';
-import 'dart:uri';
 import 'dart:utf';
 import 'dart:collection';
 import 'dart:typed_data';
-import 'dart:crypto';
 import 'dart:json' as json;
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:crypto/crypto.dart';
 
 part 'src/BinaryConnectionFactory.dart';
 part 'src/MemcachedClient.dart';
