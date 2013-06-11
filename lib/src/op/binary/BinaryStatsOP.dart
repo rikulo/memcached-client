@@ -48,7 +48,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
     }
   }
 
-  const int _req_extralen = 0;
+  static const int _req_extralen = 0;
   /**
    * Prepare a store command.
    */

@@ -44,7 +44,7 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
    * Prepare n getkq commands + one noop command.
    */
   //Prepare one getk command
-  const int _req_extralen = 0;
+  static const int _req_extralen = 0;
   List<int> _prepareGetKCommand(String key) {
     List<int> keybytes = encodeUtf8(key);
     int keylen = keybytes.length;

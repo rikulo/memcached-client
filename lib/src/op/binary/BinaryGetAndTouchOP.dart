@@ -38,7 +38,7 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
   }
 
   //Prepare one getk command
-  const int _req_extralen = 4;
+  static const int _req_extralen = 4;
   List<int> _prepareGetAndTouchCommand(String key, int exp) {
     List<int> keybytes = encodeUtf8(key);
     int keylen = keybytes.length;

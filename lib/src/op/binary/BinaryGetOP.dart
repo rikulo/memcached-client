@@ -94,7 +94,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
   }
 
   //Prepare one getkq command
-  const int _req_extralen = 0;
+  static const int _req_extralen = 0;
   List<int> _prepareGetKQCommand(String key) {
     List<int> keybytes = encodeUtf8(key);
     int keylen = keybytes.length;
