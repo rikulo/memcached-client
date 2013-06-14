@@ -11,89 +11,20 @@ class HttpResult {
 class HttpUtil {
   static Logger _logger = initStaticLogger('memcached_client.util.HttpUtil');
   static Future<HttpResult> uriDelete(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, [Map<String, String> headers]) {
+      String usr, String pass, [Map<String, String> headers]) =>
+      _uriFunc(() => prepareHttpDelete(hc, base, resource), usr, pass, headers, null);
 
-    Completer<HttpResult> cmpl = new Completer();
-    prepareHttpDelete(hc, base, resource)
-    .then((req) {
-      HttpHeaders h = req.headers;
-      if (headers != null) {
-        for (String key in headers.keys)
-          h.set(key, headers[key]);
-      }
-      if (usr != null) {
-        h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
-      }
-      return req.close();
-    })
-    .then((res) {
-      int status = res.statusCode;
-      HttpHeaders headers = res.headers;
-      List<int> contents = new List();
-      res.listen((bytes) => contents.addAll(bytes), //read response
-        onDone : () => cmpl.complete(new HttpResult(status, headers, contents)), //done read response
-        onError: (err) => cmpl.completeError(err) //fail to read response
-      );
-    })
-    .catchError((err) => cmpl.completeError(err));
-    return cmpl.future;
-  }
+  static Future<HttpResult> uriGet(HttpClient hc, Uri base, Uri resource,
+      String usr, String pass, [Map<String, String> headers]) =>
+      _uriFunc(() => prepareHttpGet(hc, base, resource), usr, pass, headers, null);
 
-  static Future<String> uriPut(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, String value, [Map<String, String> headers]) {
+  static Future<HttpResult> uriPut(HttpClient hc, Uri base, Uri resource,
+      String usr, String pass, String value, [Map<String, String> headers]) =>
+      _uriFunc(() => prepareHttpPut(hc, base, resource), usr, pass, headers, value);
 
-    Completer<String> cmpl = new Completer();
-    prepareHttpPut(hc, base, resource)
-    .then((req) {
-      HttpHeaders h = req.headers;
-      if (headers != null) {
-        for (String key in headers.keys)
-          h.set(key, headers[key]);
-      }
-      if (usr != null) {
-        h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
-      }
-      _logger.finest("PUT:VALUE $value");
-      req.write(value);
-      return req.close();
-    })
-    .then((res) {
-      StringBuffer sb = new StringBuffer();
-      res.listen((bytes) => sb.write(decodeUtf8(bytes)), //read response
-        onDone : () => cmpl.complete(sb.toString()), //done read response
-        onError: (err) => cmpl.completeError(err) //fail to read response
-      );
-    })
-    .catchError((err) => cmpl.completeError(err));
-    return cmpl.future;
-  }
-
-  static Future<String> uriGet(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, [Map<String, String> headers]) {
-
-    Completer<String> cmpl = new Completer();
-    prepareHttpGet(hc, base, resource)
-    .then((req) {
-      HttpHeaders h = req.headers;
-      if (headers != null) {
-        for (String key in headers.keys)
-          h.set(key, headers[key]);
-      }
-      if (usr != null) {
-        h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
-      }
-      return req.close();
-    })
-    .then((res) {
-      StringBuffer sb = new StringBuffer();
-      res.listen((bytes) => sb.write(decodeUtf8(bytes)), //read response
-        onDone : () => cmpl.complete(sb.toString()), //done read response
-        onError: (err) => cmpl.completeError(err) //fail to read response
-      );
-    })
-    .catchError((err) => cmpl.completeError(err));
-    return cmpl.future;
-  }
+  static Future<HttpResult> uriPost(HttpClient hc, Uri base, Uri resource,
+      String usr, String pass, String value, [Map<String, String> headers]) =>
+      _uriFunc(() => prepareHttpPost(hc, base, resource), usr, pass, headers, value);
 
   static Future<HttpClientRequest> prepareHttpGet(HttpClient hc, Uri base, Uri resource) {
     return new Future.sync(() {
@@ -208,5 +139,36 @@ class HttpUtil {
     }
     return parseSocketAddressesFromStrings(s.split("(?:\\s|,)+"));
   }
-}
 
+  static Future<HttpResult> _uriFunc(Future<HttpClientRequest> prepareFunc(),
+      String usr, String pass, Map<String, String> headers, String value) {
+    Completer<HttpResult> cmpl = new Completer();
+    prepareFunc()
+    .then((req) {
+      HttpHeaders h = req.headers;
+      if (headers != null) {
+        for (String key in headers.keys)
+          h.set(key, headers[key]);
+      }
+      if (usr != null) {
+        h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
+      }
+      if (value != null) {
+        _logger.finest("VALUE: $value");
+        req.write(value);
+      }
+      return req.close();
+    })
+    .then((res) {
+      int status = res.statusCode;
+      HttpHeaders headers = res.headers;
+      List<int> contents = new List();
+      res.listen((bytes) => contents.addAll(bytes), //read response
+        onDone : () => cmpl.complete(new HttpResult(status, headers, contents)), //done read response
+        onError: (err) => cmpl.completeError(err) //fail to read response
+      );
+    })
+    .catchError((err) => cmpl.completeError(err));
+    return cmpl.future;
+  }
+}
