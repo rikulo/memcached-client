@@ -1,5 +1,9 @@
 #Rikulo Memcached Client 
 
+* June 17, 2013
+  * Release version 0.3.0+7
+  * Minor fine tune
+  
 * June 11, 2013
   * Release version 0.3.0+6
   * Make compatible with Dart SDK version 0.5.16.0_r23799
