@@ -95,4 +95,9 @@ class TextOPChannel extends _OPChannelImpl<int> {
       }
     }
   }
+
+  //callback when socket closed
+  void _socketClosed() {
+    //TODO: do nothing in the moment
+  }
 }

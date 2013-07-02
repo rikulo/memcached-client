@@ -99,7 +99,9 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
     op.seq = _seq++;
     op.nextState();
     writeQ.add(op);
-    readQ.add(op, op.seq);
+    //20130701, henrichen: Tricky, TapOP is special, seq will not match!
+    if (op is! TapOP)
+      readQ.add(op, op.seq);
     if (writeQ.length == 1) { // 0 -> 1, new a Future for OP processing
       _processLoop();
     }
@@ -155,7 +157,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
       } else if (!isAuthenticated) { //fail to authentication
         throw new StateError('Fail to authenticate socket to $_saddr...Stop operation');
       } else if (!_processWriteQ()) {
-        _logger.finest("Still OP in queue, continue the _processLoop for socket to $_saddr.");
+        _logger.finest("Still OP in queue, continue the _processLoop for socket to $_saddr. writeQ:${writeQ}");
         _processLoop();
       } else {
         _logger.finest("No more OP in queue, stop the _processLoop for socket to $_saddr.");
@@ -184,20 +186,33 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
     _writeOP.nextState();
     List<int> cmd = _writeOP.cmd;
     _socket.add(cmd); //see _setupResponseHandler
+
+    //20130701, henrichen: Tricky! TapAckOP will not have any response from socket
+    if (_writeOP == TapAckOP)
+      _writeOP.state = OPState.COMPLETE; //so next writeOP can be sent to TapServer
   }
 
   void _setupResponseHandler() {
     _socket.listen(
       (List<int> data) {
-        if (data == null || data.length <= 0) //no data
+        if (data == null || data.length <= 0) {//no data
+          _logger.finest("Socket to $_saddr response null!");
           return;
+        }
+
         _pbuf.addAll(data);
         processResponse();
       },
       onError: (err) => _logger.warning("Socket to $_saddr response:$err"),
-      onDone: () => _logger.finest("Socket to $_saddr closed!")
+      onDone: () {
+        _logger.finest("Socket to $_saddr closed!");
+        _socketClosed();
+      }
     );
   }
+
+  //callback when socket was closed
+  void _socketClosed();
 }
 
 abstract class OPQueue<K, V> {

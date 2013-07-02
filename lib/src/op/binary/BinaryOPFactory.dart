@@ -64,5 +64,22 @@ class _BinaryOPFactoryImpl implements BinaryOPFactory {
       new BinaryUnlockOP(key, cas);
 
   //No OP
-  NoOP newNoOP() => new BinaryNoOP();
+  NoOP newNoOP() =>
+      new BinaryNoOP();
+
+  //TapBackfill
+  TapOP newTapBackfill(String id, int date) =>
+      new TapBackfillOP(id, date);
+
+  //Generic Tap request
+  TapOP newTapRequest(String id, RequestMessage message) =>
+      new TapRequestOP(id, message);
+
+  //TapAck
+  TapOP newTapAck(TapOpcode opcode, int opaque) =>
+      new TapAckOP(opcode, opaque);
+
+  //TapDump
+  TapOP newTapDump(String id) =>
+      new TapDumpOP(id);
 }

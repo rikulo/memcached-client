@@ -34,15 +34,14 @@ abstract class BinaryOP extends OP {
   //--VbucketAwareOP--//
 
   //response header command
-  int _opCode;
-  int _keylen;
-  int _extralen;
-  int _dataType;
-  int _status;
-  int _vbucket;
-  int _bodylen = _HANDLE_CMD; //== total body length
-  int _opaque;
-  int _cas;
+  int _opCode; //1byte
+  int _keylen; //2bytes
+  int _extralen; //1byte
+  int _dataType; //1byte
+  int _status; //2bytes
+  int _bodylen = _HANDLE_CMD; //== total body length //4bytes
+  int _opaque; //4bytes
+  int _cas; //8bytes
 
   int handleCommand(List<int> aLine) {
     _logger.finest('response header: $aLine');

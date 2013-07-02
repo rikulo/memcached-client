@@ -21,6 +21,11 @@ abstract class MemcachedNode {
       opChannel.isConnected && opChannel.isAuthenticated == true;
 
   /**
+   * True if this node is connected(but not necessary authenticated).
+   */
+  bool get isConnected => opChannel.isConnected;
+
+  /**
    * Prepend an OP at the beginning of the operation queue.
    */
   void prependOP(OP op) {
@@ -45,5 +50,17 @@ abstract class MemcachedNode {
    * Returns an OPChannel for socket accessing.
    */
   OPChannel<int, OP> get opChannel;
+
+  /**
+   * Called back when this node is connected.
+   */
+  void connected() {
+    //TODO: connected shall reset reconnecting
+  }
+
+  /**
+   * TODO: Returns the reconnection times before this node was connected.
+   */
+  int get reconnectCount => 0;
 }
 

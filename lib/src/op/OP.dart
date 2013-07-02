@@ -18,6 +18,11 @@ abstract class OP {
   bool get isCancelled => state == OPState.CANCELED;
 
   /**
+   * TODO:True if an error occured while processing this operation.
+   */
+  bool get hasErrored => false;
+
+  /**
    * Cancel this OP if not processed yet(still in write queue).
    */
   void cancel() {

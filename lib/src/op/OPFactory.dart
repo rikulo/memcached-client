@@ -40,4 +40,12 @@ abstract class OPFactory {
   UnlockOP newUnlockOP(String key, int cas);
 
   NoOP newNoOP();
+
+  TapOP newTapBackfill(String id, int date);
+
+  TapOP newTapRequest(String id, RequestMessage message);
+
+  TapOP newTapAck(TapOpcode opcode, int opaque);
+
+  TapOP newTapDump(String id);
 }

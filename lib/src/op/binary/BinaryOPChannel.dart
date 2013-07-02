@@ -83,10 +83,20 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
         } else {
           List<int> aLine = _pbuf.sublist(0, 24);
           int opaque = _getOpaque(aLine);
-//        //(multiple getkq + noop) could return same seq number
-          if (_readOP == null || opaque != _readOP.seq) {
-            _readOP = readQ.pop(opaque);
-            _readOP.nextState();
+          //20130628, henrichen: Tricky! TapOP is special,seq does not necessary match!
+          if (_readOP is TapRequestOP && _readOP.state == OPState.READING) {
+            _logger.finest("Streaming _readOP:${_readOP}");
+          } else if (_writeOP is! TapOP) {
+            //(multiple getkq + noop) could return same seq number
+            if (_readOP == null || opaque != _readOP.seq) {
+              _readOP = readQ.pop(opaque);
+              _readOP.nextState();
+            }
+          } else {
+            _readOP = _writeOP;
+            _writeOP = null; //so TapAckOP after TapRequestOP can be sent to Tap server
+            _readOP.nextState(); //so we kept the TapRequestOP.state at "READING"
+            _logger.finest("_readOP:${_readOP}, _readOP.state:${_readOP.state}");
           }
           _bodylen = _readOP.handleCommand(aLine);
           _pbuf.removeRange(0, 24);
@@ -132,4 +142,10 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
 
   //Retreive opaque value from memcached's binary response header
   int _getOpaque(List<int> aLine) => bytesToInt32(aLine, 12);
+
+  //callback when socket closed
+  void _socketClosed() {
+    if (_readOP is TapRequestOP)
+      (_readOP as TapRequestOP).socketClosed();
+  }
 }

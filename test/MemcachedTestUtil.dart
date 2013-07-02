@@ -16,3 +16,6 @@ Future<MemcachedClient> prepareBinaryClient()
 Future<MemcachedClient> prepareTextClient()
 => MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
       new TextConnectionFactory());
+
+Future<TapClient> prepareTapClient()
+=> new Future.value(new TapClient([new SocketAddress('10.1.3.128', 11210)]));

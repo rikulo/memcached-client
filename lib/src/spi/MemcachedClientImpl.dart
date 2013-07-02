@@ -258,8 +258,21 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   Future<Map<SocketAddress, dynamic>> handleBroadcastOperation(OP newOP(),
-      Iterator<MemcachedNode> nodeIterator) =>
-        _memcachedConn.broadcastOP(newOP, nodeIterator);
+      Iterator<MemcachedNode> nodeIterator) {
+    return new Future.sync(() {
+      Map<SocketAddress, dynamic> results = new HashMap();
+      List<Future> futures = new List();
+      _memcachedConn.broadcastOP(newOP, nodeIterator)
+      .forEach((saddr, op) {
+        op.future
+        .then((rv) => results[saddr] = rv)
+        .catchError((err) => _logger.warning("broadcastOP. saddr: $saddr, OP: $op, Error: $err"));
+
+        futures.add(op.future);
+      });
+      return Future.wait(futures).then((_) => results);
+    });
+  }
 
   void close() {
     if (_closing) return;

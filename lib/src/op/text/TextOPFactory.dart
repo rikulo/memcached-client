@@ -74,5 +74,24 @@ class _TextOPFactoryImpl implements TextOPFactory {
 
   //No operation OP
   NoOP newNoOP() => new TextNoOP();
-}
 
+  //TapBackfill OP
+  TapOP newTapBackfill(String id, int date) {
+    throw new UnsupportedError("Tap is not supported for ASCII protocol");
+  }
+
+  //TapCustom OP
+  TapOP newTapRequest(String id, RequestMessage message) {
+    throw new UnsupportedError("Tap is not supported for ASCII protocol");
+  }
+
+  //TapAck OP
+  TapOP newTapAck(TapOpcode opcode, int opaque) {
+    throw new UnsupportedError("Tap is not supported for ASCII protocol");
+  }
+
+  //TapDump OP
+  TapOP newTapDump(String id) {
+    throw new UnsupportedError("Tap is not supported for ASCII protocol");
+  }
+}

@@ -13,6 +13,7 @@ class MemcachedConnection {
   final OPFactory _opFactory;
   final FailureMode _failureMode;
   final List<MemcachedNode> nodesToShutdown;
+  final Set<ConnectionObserver> connObservers;
 
   Logger _logger;
   bool _closing = false;
@@ -23,7 +24,8 @@ class MemcachedConnection {
         this.connFactory = connFactory,
         _opFactory = opFactory,
         _failureMode = failureMode,
-        nodesToShutdown = new List() {
+        nodesToShutdown = new List(),
+        connObservers = new HashSet() {
 
     _logger = initLogger('memcached_client.spi', this);
   }
@@ -93,37 +95,62 @@ class MemcachedConnection {
       addOPToNode(node, op);
   }
 
-  Future<Map<SocketAddress, dynamic>> broadcastOP(FutureOP newOP(),
-      Iterator<MemcachedNode> nodeIterator) {
-    return new Future.sync(() {
-      if (_closing )
-        throw new StateError("Shutting down the connection");
-      List<Future> futures = new List();
-      Map<SocketAddress, dynamic> results = new HashMap();
-      while (nodeIterator.moveNext()) {
-        MemcachedNode node = nodeIterator.current;
-        FutureOP op = newOP();
-        op.future
-          .then((rv) => results[node.socketAddress] = rv)
-          .catchError((err) => _logger.warning("broadcastOP. node: $node, OP: $op, Error: $err"));
-        futures.add(op.future);
-        if (op is MultiKeyOP)
-          addMultiKeyOPToNode(
-              (op as MultiKeyOP).keys, node, op);
-        else
-          addSingleKeyOPToNode(op is SingleKeyOP ?
-              (op as SingleKeyOP).key : null, node, op);
-      }
-
-      return Future.wait(futures)
-         .then((_) => results);
-    });
+  Map<SocketAddress, OP> broadcastOP(FutureOP newOP(),
+    Iterator<MemcachedNode> nodeIterator) {
+    if (_closing )
+      throw new StateError("Shutting down the connection");
+    Map<SocketAddress, OP> results = new HashMap();
+    while (nodeIterator.moveNext()) {
+      MemcachedNode node = nodeIterator.current;
+      final OP op = newOP();
+      results[node.socketAddress] = op;
+      if (op is MultiKeyOP)
+        addMultiKeyOPToNode((op as MultiKeyOP).keys, node, op);
+      else if (op is SingleKeyOP)
+        addSingleKeyOPToNode((op as SingleKeyOP).key, node, op);
+      else
+        addOPToNode(node, op);
+    }
+    return results;
   }
 
   void close() {
     _closing = true;
     for (MemcachedNode node in locator.allNodes) {
       node.close();
+    }
+  }
+
+  /**
+   * Add a connection observer; return true if the observer was NOT existed.
+   */
+  bool addObserver(ConnectionObserver obs) {
+    final bool existed = connObservers.contains(obs);
+    connObservers.add(obs);
+    return !existed;
+  }
+
+  /**
+   * Remove a connection observer; return true if the observer was existed.
+   */
+  bool removeObserver(ConnectionObserver obs) {
+    return connObservers.remove(obs);
+  }
+
+  void _connected(MemcachedNode node) {
+    assert (node.isConnected);
+    int rt = node.reconnectCount;
+    node.connected();
+    for (ConnectionObserver observer in connObservers) {
+      observer.connectionEstablished(node.socketAddress, rt);
+    }
+  }
+
+  void lostConnection(MemcachedNode node) {
+//TODO: when we want to reconnect automatically; might have to put them into a queue.
+//    queueReconnect(node);
+    for (ConnectionObserver observer in connObservers) {
+      observer.connectionLost(node.socketAddress);
     }
   }
 
