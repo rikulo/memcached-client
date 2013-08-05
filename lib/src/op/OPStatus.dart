@@ -37,8 +37,18 @@ class OPStatus {
 
   const OPStatus(this.code, this.message);
 
+  OPStatus.wrap(OPStatus status, var cause)
+      : this.code = status.code,
+        this.message = "${status.message}($cause)";
+
   //@override
   String toString() => "{OPStatus: $code: $message}";
+
+  @override
+  int get hashCode => code;
+
+  @override
+  bool operator ==(var other) => other is OPStatus && other.code == this.code;
 
   static OPStatus valueOf(int code) {
     if (_statusMap == null) {

@@ -25,7 +25,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
 
     if (_keylen > 0) { //not the last packet
       if (_status != 0) {
-        _cmpl.completeError(OPStatus.valueOf(_status));
+        _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       } else {
         int extralen = 0;
         int flags = bytesToInt32(line, 0);
@@ -40,7 +40,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
       return _HANDLE_CMD; //handle next line of command
     } else { //last packet!
       if (_status != 0) {
-        _cmpl.completeError(OPStatus.valueOf(_status));
+        _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       } else {
         _cmpl.complete(_stats);
       }

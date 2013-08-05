@@ -43,12 +43,12 @@ class TextGetOP extends TextOP implements GetOP {
     } else {
       OPStatus status = TextOPStatus.valueOfError(line);
       if (status != null) { //some error occur!
-        _streamCtrl.addError(status);
+        _streamCtrl.addError(new OPStatus.wrap(status, this));
         return _HANDLE_COMPLETE; //complete
       }
 
       //TODO: unknown protocol, try to read thru!
-      _streamCtrl.addError(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"));
+      _streamCtrl.addError(new OPStatus.wrap(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"), this));
       return _HANDLE_COMPLETE;
     }
   }

@@ -95,8 +95,8 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   /** delete command */
-  Future<bool> delete(String key) {
-    DeleteOP op = _opFactory.newDeleteOP(key);
+  Future<bool> delete(String key, [int cas]) {
+    DeleteOP op = _opFactory.newDeleteOP(key, cas:cas);
     _handleOperation(key, op);
     return op.future;
   }

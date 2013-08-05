@@ -1,5 +1,10 @@
 #Rikulo Memcached Client
 
+* Aug 05, 2013
+  * Release version 0.4.0+1
+  * Support cas delete
+  * Add OP information in OPStatus
+
 * July 02, 2013
   * Release version 0.4.0
   * Support Tap protocol

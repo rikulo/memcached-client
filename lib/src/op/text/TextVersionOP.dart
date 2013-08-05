@@ -20,7 +20,7 @@ class TextVersionOP extends TextOP implements VersionOP {
     _logger.finest("VersionOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
-      _cmpl.completeError(status);
+      _cmpl.completeError(new OPStatus.wrap(status, this));
     else {
       _cmpl.complete(line.substring(VERSION_PREFIX_LEN));
     }

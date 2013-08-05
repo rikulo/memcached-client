@@ -20,13 +20,13 @@ class TextMutateOP extends TextOP implements MutateOP {
     _logger.finest("MutateOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
-      _cmpl.completeError(status);
+      _cmpl.completeError(new OPStatus.wrap(status, this));
     else {
       OPStatus status = TextOPStatus.valueOf(line);
       if (status == null) //assume return the result number
         _cmpl.complete(int.parse(line));
       else
-        _cmpl.completeError(status);
+        _cmpl.completeError(new OPStatus.wrap(status, this));
     }
     return _HANDLE_COMPLETE;
   }

@@ -20,7 +20,7 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
   int handleData(List<int> line) {
     _logger.finest("BinaryGetAndTouchOPData: $this, $line.");
     if (_status != 0)
-      _cmpl.completeError(OPStatus.valueOf(_status));
+      _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       int extralen = 4;
       int flags = bytesToInt32(line, 0);

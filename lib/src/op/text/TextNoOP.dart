@@ -20,7 +20,7 @@ class TextNoOP extends TextOP implements NoOP {
     _logger.finest("NoOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
-      _cmpl.completeError(status);
+      _cmpl.completeError(new OPStatus.wrap(status, this));
     else {
       _cmpl.complete(true);
     }

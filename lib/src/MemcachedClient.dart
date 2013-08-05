@@ -92,7 +92,7 @@ abstract class MemcachedClient {
    * Delete the specified key; return true if succeed. Otherwise,
    * throws OPStatus.NOT_FOUND or other errors.
    */
-  Future<bool> delete(String key);
+  Future<bool> delete(String key, [int cas]);
 
   /**
    * Increment the docuemnt(must be an integer) by the provided [by] value.

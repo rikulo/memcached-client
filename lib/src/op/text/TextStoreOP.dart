@@ -23,15 +23,17 @@ class TextStoreOP extends TextOP implements StoreOP {
     _logger.finest("StoreOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
-      _cmpl.completeError(status);
+      _cmpl.completeError(new OPStatus.wrap(status, this));
     else {
       OPStatus status = TextOPStatus.valueOf(line);
       if (status == null)
         _cmpl.complete(true);
-      else
-        _cmpl.completeError(status != OPStatus.ITEM_NOT_STORED ? status :
-            _type == OPType.add ? OPStatus.KEY_EXISTS :
-            _type == OPType.replace ? OPStatus.KEY_NOT_FOUND : status);
+      else {
+        final OPStatus s0 = status != OPStatus.ITEM_NOT_STORED ? status :
+          _type == OPType.add ? OPStatus.KEY_EXISTS :
+          _type == OPType.replace ? OPStatus.KEY_NOT_FOUND : status;
+        _cmpl.completeError(new OPStatus.wrap(s0, this));
+      }
     }
     return _HANDLE_COMPLETE;
   }

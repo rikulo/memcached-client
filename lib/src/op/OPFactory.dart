@@ -5,7 +5,7 @@
 part of memcached_client;
 
 abstract class OPFactory {
-  DeleteOP newDeleteOP(String key);
+  DeleteOP newDeleteOP(String key, {int cas});
 
   GetOP newGetOP(OPType type, List<String> keys);
 

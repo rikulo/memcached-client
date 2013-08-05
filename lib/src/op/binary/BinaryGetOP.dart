@@ -38,7 +38,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
 
     if (_opCode == OPType.getkq.ordinal) {
       if (_status != 0) {
-        _errors.add(OPStatus.valueOf(_status));
+        _errors.add(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       } else {
         int extralen = 4;
         int flags = bytesToInt32(line, 0);
@@ -54,7 +54,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
       return _HANDLE_CMD; //handle next line of command
     } else { //noop, last packet!
       if (_status != 0) {
-        _errors.add(OPStatus.valueOf(_status));
+        _errors.add(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       }
 
       if (!_errors.isEmpty) {

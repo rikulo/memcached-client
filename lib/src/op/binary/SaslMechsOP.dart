@@ -18,7 +18,7 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
   int handleData(List<int> line) {
     print("SaslMechsOPData: $this, ${decodeUtf8(line)}\n");
     if (_status != 0)
-      _cmpl.completeError(OPStatus.valueOf(_status));
+      _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       String val = decodeUtf8(line);
       _cmpl.complete(val.split(' '));

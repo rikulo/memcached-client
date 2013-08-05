@@ -36,7 +36,7 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
   int handleData(List<int> line) {
     _logger.finest("ObserveOPData: $this, $line.");
     if (_status != 0)
-      _cmpl.completeError(OPStatus.valueOf(_status));
+      _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       int keylen = bytesToInt16(line, 2);
       int keystatus = bytesToInt8(line, keylen+4);

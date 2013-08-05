@@ -11,7 +11,7 @@ abstract class BinaryOPFactory extends OPFactory {
 }
 
 class _BinaryOPFactoryImpl implements BinaryOPFactory {
-  DeleteOP newDeleteOP(String key) => new BinaryDeleteOP(key);
+  DeleteOP newDeleteOP(String key, {int cas}) => new BinaryDeleteOP(key, cas);
 
   GetOP newGetOP(OPType type, List<String> keys) =>
       new BinaryGetOP(type, keys);

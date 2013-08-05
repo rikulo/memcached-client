@@ -11,8 +11,10 @@ abstract class TextOPFactory implements OPFactory {
 }
 
 class _TextOPFactoryImpl implements TextOPFactory {
-  DeleteOP newDeleteOP(String key) =>
-      new TextDeleteOP(key);
+  DeleteOP newDeleteOP(String key, {int cas}) =>
+      cas == null || cas == 0 ? new TextDeleteOP(key) :
+          throw new UnsupportedError("Delete with CAS is not supported "
+            "for text protocol");
 
   GetOP newGetOP(OPType type, List<String> keys) =>
       new TextGetOP(type, keys);

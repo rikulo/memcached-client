@@ -10,17 +10,17 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
 
   Future<bool> get future => _cmpl.future;
 
-  BinaryDeleteOP(String key)
+  BinaryDeleteOP(String key, int cas)
       : _cmpl = new Completer(),
         super(key) {
-    _cmd = _prepareDeleteCommand(key);
+    _cmd = _prepareDeleteCommand(key, cas);
   }
 
   //@Override
   int handleData(List<int> line) {
     _logger.finest("BinaryDeleteOpData: $this, $line");
     if (_status != 0)
-      _cmpl.completeError(OPStatus.valueOf(_status));
+      _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       _cmpl.complete(true);
     }
@@ -32,7 +32,7 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
   /** Prepare a delete command.
    */
   static const int _req_extralen = 0;
-  List<int> _prepareDeleteCommand(String key) {
+  List<int> _prepareDeleteCommand(String key, int cas) {
     List<int> keybytes = encodeUtf8(key);
     int keylen = keybytes.length;
     int valuelen = 0;
@@ -51,6 +51,8 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     copyList(int32ToBytes(bodylen), 0, cmd, 8, 4);
     //12, 4 bytes: Opaque
     //16, 8 bytes: CAS
+    if (cas != null && 0 != cas)
+      copyList(int64ToBytes(cas), 0, cmd, 16, 8);
     //24, _req_extralen: extra
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);

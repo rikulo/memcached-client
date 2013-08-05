@@ -24,7 +24,7 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
   int handleData(List<int> line) {
     _logger.finest("BinaryStoreOPData: $this, $line.");
     if (_status != 0)
-      _cmpl.completeError(OPStatus.valueOf(_status));
+      _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       _cmpl.complete(true);
     }

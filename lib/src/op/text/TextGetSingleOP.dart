@@ -25,7 +25,7 @@ class TextGetSingleOP extends TextOP implements GetSingleOP {
     _logger.finest("GetSingleOpCommand: $this, [${line}]");
     if ("END" == line) {
       if (!_hasValue)
-        _cmpl.completeError(OPStatus.KEY_NOT_FOUND);
+        _cmpl.completeError(new OPStatus.wrap(OPStatus.KEY_NOT_FOUND, this));
       return _HANDLE_COMPLETE; //complete
     } else if (line.startsWith("VALUE ")) {
       List<String> items = line.split(' ');
@@ -38,12 +38,12 @@ class TextGetSingleOP extends TextOP implements GetSingleOP {
     } else {
       OPStatus status = TextOPStatus.valueOfError(line);
       if (status != null) { //some error occur!
-        _cmpl.completeError(status);
+        _cmpl.completeError(new OPStatus.wrap(status, this));
         return _HANDLE_COMPLETE; //complete
       }
 
       //TODO: unknown protocol, try to read thru!
-      _cmpl.completeError(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"));
+      _cmpl.completeError(new OPStatus.wrap(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"), this));
       return _HANDLE_COMPLETE;
     }
   }

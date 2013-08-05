@@ -20,13 +20,13 @@ class TextUnlockOP extends TextOP implements UnlockOP {
     _logger.finest("UnlockOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
-      _cmpl.completeError(status);
+      _cmpl.completeError(new OPStatus.wrap(status, this));
     else {
       OPStatus status = TextOPStatus.valueOf(line);
       if (status == null)
         _cmpl.complete(true);
       else
-        _cmpl.completeError(status);
+        _cmpl.completeError(new OPStatus.wrap(status, this));
     }
     return _HANDLE_COMPLETE;
   }
