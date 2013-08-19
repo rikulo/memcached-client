@@ -56,57 +56,104 @@ abstract class MemcachedClient {
    *
    * + [key] - the key of the document
    * + [docuemnt] - the document to be set
-   * + [cas] - the document version
+   * + [cas] - optional: the document version
+   * + [exptime] - optional: document expiration time in seconds. 0 means
+   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
+   *               deemed as an absolute date in seconds since epoch time.
    */
-  Future<bool> set(String key, List<int> document, [int cas]);
+  Future<bool> set(String key, List<int> document, {int cas, int exptime});
 
   /**
    * Add specified document if the provided key is not existed yet. Returns
    * true if succeed; otherwise, throw OPStatus.NOT_STORED or
    * other Error status.
+   *
+   * + [key] - the key of the document
+   * + [docuemnt] - the document to be set
+   * + [exptime] - optional: document expiration time in seconds. 0 means
+   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
+   *               deemed as an absolute date in seconds since epoch time.
    */
-  Future<bool> add(String key, List<int> document);
+  Future<bool> add(String key, List<int> document, {int exptime});
 
   /**
    * Replace the existing document of the provided key with the specified byte
    * array. Returns true if succeed; otherwise, throw
    * OPStatus.NOT_STORED or other Error status.
+   *
+   * + [key] - the key of the document
+   * + [docuemnt] - the document to be set
+   * + [cas] - optional: the document version
+   * + [exptime] - optional: document expiration time in seconds. 0 means
+   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
+   *               deemed as an absolute date in seconds since epoch time.
    */
-  Future<bool> replace(String key, List<int> document, [int cas]);
+  Future<bool> replace(String key, List<int> document, {int cas, int exptime});
 
   /**
    * Prepend byte array in front of the existing document of the provided key.
    * Returns true if succeed; otherwise, throw OPStatus.NOT_STORED or
    * other Error status.
+   *
+   * + [key] - the key of the document
+   * + [prepend] - the byte array prepend in front of the existing document
+   * + [cas] - optional: the document version
    */
-  Future<bool> prepend(String key, List<int> prepend, [int cas]);
+  Future<bool> prepend(String key, List<int> prepend, {int cas});
 
   /**
    * append byte array at the rear of the existing document of the provided key.
    * Returns true if succeed; otherwise, throw OPStatus.NOT_STORED or
    * other Error status.
+   *
+   *
+   * + [key] - the key of the document
+   * + [append] - the byte array append at the rear of the existing document
+   * + [cas] - optional: the document version
    */
-  Future<bool> append(String key, List<int> document, [int cas]);
+  Future<bool> append(String key, List<int> append, {int cas});
 
   /**
    * Delete the specified key; return true if succeed. Otherwise,
    * throws OPStatus.NOT_FOUND or other errors.
+   *
+   * + [key] - the key of the document
+   * + [cas] - optional: the document version
    */
-  Future<bool> delete(String key, [int cas]);
+  Future<bool> delete(String key, {int cas});
 
   /**
    * Increment the docuemnt(must be an integer) by the provided [by] value.
    * Returns the result integer; otherwise, throw OPStatus.NOT_FOUND or other
-   * error status.
+   * error status. Note increment might cause counter to wrap over(64bit unsigned).
+   *
+   * + [key] - the key of the document
+   * + [by] - the number to be increased onto the number document
+   * + [def] - the default number to return if the doucment did not exist
+   * + [exptime] - optional: document expiration time in seconds. 0 means
+   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
+   *               deemed as an absolute date in seconds since epoch time. -1
+   *               indicate to throw OPStatus.NOT_FOUND if document did not
+   *               exist.
    */
-  Future<int> increment(String key, int by);
+  Future<int> increment(String key, int by, {int def, int exptime});
 
   /**
    * Decrement the document(must be an integer) by the provided [by] value.
    * Returns the result integer; otherwise, throw OPStatus.NOT_FOUND or other
-   * error status.
+   * error status. Note decrement will NEVER result in "negative value" or "wrap
+   * the counter), it will stay at 0 instead.
+   *
+   * + [key] - the key of the document
+   * + [by] - the number to be decreased from the number document
+   * + [def] - the default number to return if the doucment did not exist
+   * + [exptime] - optional: document expiration time in seconds. 0 means
+   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
+   *               deemed as an absolute date in seconds since epoch time. -1
+   *               indicate to throw OPStatus.NOT_FOUND if document did not
+   *               exist.
    */
-  Future<int> decrement(String key, int by);
+  Future<int> decrement(String key, int by, {int def, int exptime});
 
   /**
    * Get document as a GetResult of the provided key. If you need cas token
@@ -173,7 +220,7 @@ abstract class MemcachedClient {
    * for detail regarding which arguments are allowed
    *
    */
-  Future<Map<SocketAddress, Map<String, String>>> stats([String arg]);
+  Future<Map<SocketAddress, Map<String, String>>> stats({String prefix});
 
   /**
    * Returns the set of supported SASL authentication mechanisms.
@@ -193,6 +240,6 @@ abstract class MemcachedClient {
    * + [factory] - optional connection factory; default: [BinaryConnectionFactory].
    */
   static Future<MemcachedClient> connect(
-      List<SocketAddress> saddrs, [ConnectionFactory factory]) =>
-      MemcachedClientImpl.connect(saddrs, factory);
+      List<SocketAddress> saddrs, {ConnectionFactory factory}) =>
+      MemcachedClientImpl.connect(saddrs, factory:factory);
 }

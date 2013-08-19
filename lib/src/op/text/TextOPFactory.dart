@@ -11,7 +11,7 @@ abstract class TextOPFactory implements OPFactory {
 }
 
 class _TextOPFactoryImpl implements TextOPFactory {
-  DeleteOP newDeleteOP(String key, {int cas}) =>
+  DeleteOP newDeleteOP(String key, int cas) =>
       cas == null || cas == 0 ? new TextDeleteOP(key) :
           throw new UnsupportedError("Delete with CAS is not supported "
             "for text protocol");
@@ -29,11 +29,11 @@ class _TextOPFactoryImpl implements TextOPFactory {
   GetAndLockOP newGetAndLockOP(String key, int exp) =>
       new TextGetAndLockOP(key, exp);
 
-  MutateOP newMutateOP(OPType type, String key, int value) =>
-      new TextMutateOP(type, key, value);
+  MutateOP newMutateOP(OPType type, String key, int by, int def, int exp) =>
+      new TextMutateOP(type, key, by, def, exp);
 
   StoreOP newStoreOP(OPType type, String key, int flags, int exp,
-                     List<int> doc, {int cas}) =>
+                     List<int> doc, int cas) =>
       new TextStoreOP(cas != null ? OPType.cas : type, key, flags, exp, doc, cas);
 
   TouchOP newTouchOP(String key, int exp) =>

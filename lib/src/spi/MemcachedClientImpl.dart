@@ -16,7 +16,7 @@ class MemcachedClientImpl implements MemcachedClient {
   bool _closing = false;
 
   static Future<MemcachedClient> connect(
-      List<SocketAddress> saddrs, [ConnectionFactory factory]) {
+      List<SocketAddress> saddrs, {ConnectionFactory factory}) {
     return new Future.sync(() {
       if (saddrs == null || saddrs.isEmpty)
         throw new ArgumentError("Need at least one server to connect to: $saddrs");
@@ -68,24 +68,24 @@ class MemcachedClientImpl implements MemcachedClient {
   MemcachedConnection get memcachedConn => _memcachedConn;
 
   /** set command */
-  Future<bool> set(String key, List<int> doc, [int cas]) =>
-      _store(OPType.set, key, 0, 0, doc, cas);
+  Future<bool> set(String key, List<int> doc, {int cas, int exptime}) =>
+      _store(OPType.set, key, 0, exptime, doc, cas);
 
   /** add command */
-  Future<bool> add(String key, List<int> doc) =>
-      _store(OPType.add, key, 0, 0, doc);
+  Future<bool> add(String key, List<int> doc, {int exptime}) =>
+      _store(OPType.add, key, 0, exptime, doc);
 
   /** replace command */
-  Future<bool> replace(String key, List<int> doc, [int cas]) =>
-      _store(OPType.replace, key, 0, 0, doc, cas);
+  Future<bool> replace(String key, List<int> doc, {int cas, int exptime}) =>
+      _store(OPType.replace, key, 0, exptime, doc, cas);
 
   /** prepend command */
-  Future<bool> prepend(String key, List<int> doc, [int cas]) =>
-      _store(OPType.prepend, key, 0, 0, doc, cas);
+  Future<bool> prepend(String key, List<int> doc, {int cas, int exptime}) =>
+      _store(OPType.prepend, key, 0, exptime, doc, cas);
 
   /** append command */
-  Future<bool> append(String key, List<int> doc, [int cas]) =>
-      _store(OPType.append, key, 0, 0, doc, cas);
+  Future<bool> append(String key, List<int> doc, {int cas, int exptime}) =>
+      _store(OPType.append, key, 0, exptime, doc, cas);
 
   /** touch command */
   Future<bool> touch(String key, int exp, [bool noreply]) {
@@ -95,22 +95,22 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   /** delete command */
-  Future<bool> delete(String key, [int cas]) {
-    DeleteOP op = _opFactory.newDeleteOP(key, cas:cas);
+  Future<bool> delete(String key, {int cas}) {
+    DeleteOP op = _opFactory.newDeleteOP(key, cas);
     _handleOperation(key, op);
     return op.future;
   }
 
   /** increment command */
-  Future<int> increment(String key, int value) {
-    MutateOP op = _opFactory.newMutateOP(OPType.incr, key, value);
+  Future<int> increment(String key, int by, {int def, int exptime}) {
+    MutateOP op = _opFactory.newMutateOP(OPType.incr, key, by, def, exptime);
     _handleOperation(key, op);
     return op.future;
   }
 
   /** decrement command */
-  Future<int> decrement(String key, int value) {
-    MutateOP op = _opFactory.newMutateOP(OPType.decr, key, value);
+  Future<int> decrement(String key, int by, {int def, int exptime}) {
+    MutateOP op = _opFactory.newMutateOP(OPType.decr, key, by, def, exptime);
     _handleOperation(key, op);
     return op.future;
   }
@@ -121,7 +121,7 @@ class MemcachedClientImpl implements MemcachedClient {
         _opFactory.newVersionOP(), locator.allNodes.iterator);
 
   /** stats command */
-  Future<Map<SocketAddress, Map<String, String>>> stats([String prefix]) =>
+  Future<Map<SocketAddress, Map<String, String>>> stats({String prefix}) =>
     handleBroadcastOperation(() =>
         _opFactory.newStatsOP(prefix), locator.allNodes.iterator);
 
@@ -169,7 +169,7 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   /** unlock command */
-  Future<bool> unlock(String key, int cas) {
+  Future<bool> unlock(String key, {int cas}) {
     UnlockOP op = _opFactory.newUnlockOP(key, cas);
     _handleOperation(key, op);
     return op.future;
@@ -185,8 +185,9 @@ class MemcachedClientImpl implements MemcachedClient {
     });
   }
 
-  Future<bool> _store(OPType type, String key, int flags, int exp, List<int> doc, [int cas, bool noreply]) {
-    StoreOP op = _opFactory.newStoreOP(type, key, flags, exp, doc, cas:cas);
+  Future<bool> _store(OPType type, String key, int flags, int exp,
+      List<int> doc, [int cas, bool noreply]) {
+    StoreOP op = _opFactory.newStoreOP(type, key, flags, exp, doc, cas);
     _handleOperation(key, op);
     return op.future;
   }

@@ -9,11 +9,11 @@ import 'package:memcached_client/memcached_client.dart';
 
 Future<MemcachedClientImpl> prepareBinaryClient()
 => MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
-      new BinaryConnectionFactory());
+      factory: new BinaryConnectionFactory());
 
 Future<MemcachedClientImpl> prepareTextClient()
 => MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
-      new TextConnectionFactory());
+      factory: new TextConnectionFactory());
 
 // locktime not expired, does not do unlock it and set a new value
 //  and get shall throw error with KEY_EXIST.
@@ -44,7 +44,7 @@ void testUnlock2(String key, MemcachedClientImpl client) {
   Future f1 = client.getAndLock(key, 3) //lock 3 seconds
     .then((val) {
       expect(val.data, equals(encodeUtf8('val100')));
-      return client.unlock(key, val.cas);
+      return client.unlock(key, cas: val.cas);
     }).then((_) {
       expect(client.set(key, encodeUtf8('newVal100')), completion(isTrue));
       return client.get(key);

@@ -54,7 +54,7 @@ class TextStoreOP extends TextOP implements StoreOP {
        ..add(_SPACE)
        ..addAll(encodeUtf8('$flags'))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('$exp'))
+       ..addAll(encodeUtf8('${exp == null ? 0 : exp}'))
        ..add(_SPACE)
        ..addAll(encodeUtf8('${doc.length}'));
 

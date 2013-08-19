@@ -5,16 +5,16 @@
 part of memcached_client;
 
 abstract class OPFactory {
-  DeleteOP newDeleteOP(String key, {int cas});
+  DeleteOP newDeleteOP(String key, int cas);
 
   GetOP newGetOP(OPType type, List<String> keys);
 
   GetSingleOP newGetSingleOP(OPType type, String key);
 
-  MutateOP newMutateOP(OPType type, String key, int value);
+  MutateOP newMutateOP(OPType type, String key, int by, int def, int exp);
 
   StoreOP newStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
-                     {int cas});
+                     int cas);
 
   GetAndLockOP newGetAndLockOP(String key, int locktime);
 

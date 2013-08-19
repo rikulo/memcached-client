@@ -3,7 +3,6 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
@@ -22,7 +21,7 @@ void testStats(MemcachedClient client) {
 //Check stats with prefix
 void testStats2(MemcachedClient client) {
   Future<Map<SocketAddress, String>> f =
-    client.stats("proxy")
+    client.stats(prefix:"proxy")
       .then((map) {
         print("$map");
         expect(map.keys.first, equals(new SocketAddress('127.0.0.1', 11211)));

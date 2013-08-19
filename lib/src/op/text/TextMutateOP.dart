@@ -10,9 +10,9 @@ class TextMutateOP extends TextOP implements MutateOP {
 
   Future<int> get future => _cmpl.future;
 
-  TextMutateOP(OPType type, String key, int value)
+  TextMutateOP(OPType type, String key, int by, int def, int exp)
       : _cmpl = new Completer() {
-    _cmd = _prepareMutateCommand(type, key, value);
+    _cmd = _prepareMutateCommand(type, key, by);
   }
 
   //@Override
@@ -38,14 +38,14 @@ class TextMutateOP extends TextOP implements MutateOP {
 
   /** Prepare a store command. [type] is the store type.
    */
-  List<int> _prepareMutateCommand(OPType type, String key, int value) {
+  List<int> _prepareMutateCommand(OPType type, String key, int by) {
     List<int> cmd = new List();
 
     cmd..addAll(encodeUtf8(type.name))
        ..add(_SPACE)
        ..addAll(encodeUtf8(key))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('$value'))
+       ..addAll(encodeUtf8('$by'))
        ..addAll(_CRLF);
 
     _logger.finest("_prepareMutateCommand:[${decodeUtf8(cmd)}]\n");

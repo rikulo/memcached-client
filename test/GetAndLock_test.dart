@@ -9,11 +9,11 @@ import 'package:memcached_client/memcached_client.dart';
 
 Future<MemcachedClientImpl> prepareBinaryClient()
 => MemcachedClientImpl.connect([new SocketAddress('localhost', 11211)],
-      new BinaryConnectionFactory());
+      factory:new BinaryConnectionFactory());
 
 Future<MemcachedClientImpl> prepareTextClient()
 => MemcachedClientImpl.connect([new SocketAddress('localhost', 11211)],
-      new TextConnectionFactory());
+      factory:new TextConnectionFactory());
 
 void testGetAndLock(String key, MemcachedClientImpl client) {
   expect(client.set(key, encodeUtf8('val100')), completion(isTrue));

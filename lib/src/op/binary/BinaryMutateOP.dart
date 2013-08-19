@@ -10,10 +10,10 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
 
   Future<int> get future => _cmpl.future;
 
-  BinaryMutateOP(OPType type, String key, int value)
+  BinaryMutateOP(OPType type, String key, int by, int def, int exp)
       : _cmpl = new Completer(),
         super(key) {
-    _cmd = _prepareMutateCommand(type, key, value);
+    _cmd = _prepareMutateCommand(type, key, by, def, exp);
   }
 
   //@Override
@@ -32,7 +32,7 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
   /** Prepare a store command.
    */
   static const _req_extralen = 20;
-  List<int> _prepareMutateCommand(OPType type, String key, int amount) {
+  List<int> _prepareMutateCommand(OPType type, String key, int by, int def, int exp) {
     List<int> keybytes = encodeUtf8(key);
     int keylen = keybytes.length;
     int valuelen = 0;
@@ -54,10 +54,13 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     //16, 8 bytes: CAS
     //24, _req_extralen: extra
     //amount to add / subtract
-    copyList(int64ToBytes(amount), 0, cmd, 24, 8);
-    //initial value always set to 0; we don't use it
+    copyList(int64ToBytes(by), 0, cmd, 24, 8);
+    //initial value if document did not exist
+    if (def != null && 0 != def)
+      copyList(int64ToBytes(def), 0, cmd, 24+8, 8);
     //set experiation to 0xffffffff so inexists will signal NOT_FOUND error
-    copyList([0xff, 0xff, 0xff, 0xff], 0, cmd, 24+16, 4);
+    if (exp != null && 0 != exp)
+      copyList(int32ToBytes(exp), 0, cmd, 24+16, 4);
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen

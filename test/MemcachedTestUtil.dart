@@ -11,11 +11,11 @@ import 'package:memcached_client/memcached_client.dart';
 
 Future<MemcachedClient> prepareBinaryClient()
 => MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
-      new BinaryConnectionFactory());
+      factory: new BinaryConnectionFactory());
 
 Future<MemcachedClient> prepareTextClient()
 => MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
-      new TextConnectionFactory());
+      factory: new TextConnectionFactory());
 
 Future<TapClient> prepareTapClient()
 => new Future.value(new TapClient([new SocketAddress('10.1.3.128', 11210)]));

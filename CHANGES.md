@@ -1,5 +1,11 @@
 #Rikulo Memcached Client
 
+* Aug 19, 2013
+  * Release version 0.5.0
+  * fine tune API signature
+  * allow setting expiration time for the document in
+    add/set/replace/increment/decrement operations
+
 * Aug 05, 2013
   * Release version 0.4.0+1
   * Support cas delete

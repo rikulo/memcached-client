@@ -11,7 +11,7 @@ abstract class BinaryOPFactory extends OPFactory {
 }
 
 class _BinaryOPFactoryImpl implements BinaryOPFactory {
-  DeleteOP newDeleteOP(String key, {int cas}) => new BinaryDeleteOP(key, cas);
+  DeleteOP newDeleteOP(String key, int cas) => new BinaryDeleteOP(key, cas);
 
   GetOP newGetOP(OPType type, List<String> keys) =>
       new BinaryGetOP(type, keys);
@@ -25,11 +25,11 @@ class _BinaryOPFactoryImpl implements BinaryOPFactory {
   GetAndLockOP newGetAndLockOP(String key, int locktime) =>
       new BinaryGetAndLockOP(key, locktime);
 
-  MutateOP newMutateOP(OPType type, String key, int value) =>
-      new BinaryMutateOP(type, key, value);
+  MutateOP newMutateOP(OPType type, String key, int by, int def, int exp) =>
+      new BinaryMutateOP(type, key, by, def, exp);
 
   StoreOP newStoreOP(OPType type, String key, int flags, int exp,
-                     List<int> doc, {int cas}) =>
+                     List<int> doc, int cas) =>
       new BinaryStoreOP(type, key, flags, exp, doc, cas);
 
   TouchOP newTouchOP(String key, int exp) =>
