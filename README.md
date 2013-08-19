@@ -1,14 +1,15 @@
-#Rikulo Memcached Client
+#Memcached Client
 
-[Rikulo Memcached Client](http://rikulo.org) is a client implementation in Dart 
+[Memcached Client](http://rikulo.org) is a client implementation in Dart 
 language of the famous distributed memory object caching system, [Memcached]
 (http://memcached.org/).
 
 * [Home](http://rikulo.org)
 * [Discussion](http://stackoverflow.com/questions/tagged/rikulo)
+* [Git Repository](https://github.com/rikulo/memcached-client)
 * [Issues](https://github.com/rikulo/memcached-client/issues)
 
-Rikulo Memcached Client is distributed under the Apache 2.0 License.
+Memcached Client is distributed under the Apache 2.0 License.
 
 ##Install from Dart Pub Repository
 
@@ -35,7 +36,7 @@ For more information, please refer to [Pub: Dependencies]
 
 ##Usage
 
-Using Rikulo Memcached Client is straightforward. Connect to the server and
+Using Memcached Client is straightforward. Connect to the server and
 use the client's APIs to access the database.
 
     import "dart:utf";
@@ -87,13 +88,13 @@ You are welcome to submit [bugs and feature requests]
 (https://github.com/rikulo/memcached-client/issues). Or even better if you can 
 fix or implement them!
 
-###Fork Rikulo Memcached Client
+###Fork Memcached Client
 
 If you'd like to contribute back to the core, you can [fork this repository]
 (https://help.github.com/articles/fork-a-repo) and send us a pull request, 
 when it is ready.
 
-Please be aware that one of Rikulo Memcached Client's design goals is to 
+Please be aware that one of Memcached Client's design goals is to 
 keep the sphere of API as neat and consistency as possible. Strong enhancement 
 always demands greater consensus.
 
