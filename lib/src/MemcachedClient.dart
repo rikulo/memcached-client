@@ -55,11 +55,11 @@ abstract class MemcachedClient {
    * true if succeed; throw Error status otherwise.
    *
    * + [key] - the key of the document
-   * + [docuemnt] - the document to be set
+   * + [document] - the document to be set
    * + [cas] - optional: the document version
-   * + [exptime] - optional: document expiration time in seconds. 0 means
-   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
-   *               deemed as an absolute date in seconds since epoch time.
+   * + [exptime] - optional: document expiration time in seconds; defalut to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since epoch time.
    */
   Future<bool> set(String key, List<int> document, {int cas, int exptime});
 
@@ -69,10 +69,10 @@ abstract class MemcachedClient {
    * other Error status.
    *
    * + [key] - the key of the document
-   * + [docuemnt] - the document to be set
-   * + [exptime] - optional: document expiration time in seconds. 0 means
-   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
-   *               deemed as an absolute date in seconds since epoch time.
+   * + [document] - the document to be set
+   * + [exptime] - optional: document expiration time in seconds; defalut to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since epoch time.
    */
   Future<bool> add(String key, List<int> document, {int exptime});
 
@@ -82,11 +82,11 @@ abstract class MemcachedClient {
    * OPStatus.NOT_STORED or other Error status.
    *
    * + [key] - the key of the document
-   * + [docuemnt] - the document to be set
+   * + [document] - the document to be set
    * + [cas] - optional: the document version
-   * + [exptime] - optional: document expiration time in seconds. 0 means
-   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
-   *               deemed as an absolute date in seconds since epoch time.
+   * + [exptime] - optional: document expiration time in seconds; defalut to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since epoch time.
    */
   Future<bool> replace(String key, List<int> document, {int cas, int exptime});
 
@@ -129,12 +129,12 @@ abstract class MemcachedClient {
    *
    * + [key] - the key of the document
    * + [by] - the number to be increased onto the number document
-   * + [def] - the default number to return if the doucment did not exist
-   * + [exptime] - optional: document expiration time in seconds. 0 means
-   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
-   *               deemed as an absolute date in seconds since epoch time. -1
-   *               indicate to throw OPStatus.NOT_FOUND if document did not
-   *               exist.
+   * + [def] - optional: the default number to return if the doucment did not
+   *   exist; default to 0. If [exptime] is set to -1, this value is ignored.
+   * + [exptime] - optional: document expiration time in seconds; default to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since unix epoch time. -1
+   *   indicate to throw OPStatus.NOT_FOUND if document did not exist.
    */
   Future<int> increment(String key, int by, {int def, int exptime});
 
@@ -146,12 +146,12 @@ abstract class MemcachedClient {
    *
    * + [key] - the key of the document
    * + [by] - the number to be decreased from the number document
-   * + [def] - the default number to return if the doucment did not exist
-   * + [exptime] - optional: document expiration time in seconds. 0 means
-   *               permenent, If [exptime] exceeds 30 days(30*24*60*60), it is
-   *               deemed as an absolute date in seconds since epoch time. -1
-   *               indicate to throw OPStatus.NOT_FOUND if document did not
-   *               exist.
+   * + [def] - optional: the default number to return if the doucment did not
+   *   exist; default to 0. If [exptime] is set to -1, this value is ignored.
+   * + [exptime] - optional: document expiration time in seconds; default to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since unix epoch time. -1
+   *   indicate to throw OPStatus.NOT_FOUND if document did not exist.
    */
   Future<int> decrement(String key, int by, {int def, int exptime});
 
@@ -190,17 +190,25 @@ abstract class MemcachedClient {
   /**
    * Get document as a GetResult of the provided key and reset the document
    * expiration time in seconds. 0 means permenent, If exptime exceeds
-   * 30 days(30*24*60*60), it is deemed as an absolute date in seconds.
+   * 30 days(30x24x60x60), it is deemed as an absolute date in seconds.
    * This API returns GetResult if succeed; otherwise, throw OPStatus.NOT_FOUND
    * or other error status.
+   *
+   * + [exptime] - optional: document expiration time in seconds; defalut to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since epoch time.
    */
   Future<GetResult> getAndTouch(String key, int exptime);
 
   /**
    * Touch document expiration time in seconds. 0 means permenent.
-   * If exptime exceeds 30 days(30*24*60*60), it is deemed as an
+   * If exptime exceeds 30 days(30x24x60x60), it is deemed as an
    * absolute date in seconds. Returns true if succeed; othewise,
    * throw OPStatus.NOT_FOUND or other Error status.
+   *
+   * + [exptime] - optional: document expiration time in seconds; defalut to 0
+   *   which means permenent. If [exptime] exceeds 30 days(30x24x60x60), it is
+   *   deemed as an absolute date in seconds since epoch time.
    */
   Future<bool> touch(String key, int exptime);
 
@@ -213,11 +221,11 @@ abstract class MemcachedClient {
    * Returns the statistics of the connected servers. Returns statistics as a
    * Map<String, String>.
    * see [here](https://github.com/membase/ep-engine/blob/master/docs/stats.org)
-   * for detail documents regarding statistics.
+   * for details regarding statistics.
    *
-   * + [arg] - which statistic to get. Search "Statistics" in this
+   * + [prefix] - which statistic to get. Search "Statistics" in this
    * [document](https://github.com/memcached/memcached/blob/master/doc/protocol.txt)
-   * for detail regarding which arguments are allowed
+   * for detail regarding which prefix are allowed
    *
    */
   Future<Map<SocketAddress, Map<String, String>>> stats({String prefix});
