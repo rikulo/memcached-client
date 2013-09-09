@@ -17,7 +17,7 @@ abstract class SaslOP extends BinaryOP implements FutureOP<bool> {
   static const int _req_extralen = 0;
 
   List<int> _prepareSaslCommand(OPType type, String key, List<int> val) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = val.length;
     int bodylen = _req_extralen + keylen + valuelen;

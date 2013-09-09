@@ -6,11 +6,10 @@ library memcached_client;
 
 import "dart:async";
 import 'dart:io';
-import 'dart:utf';
 import 'dart:collection';
 import 'dart:typed_data';
-import 'dart:json' as json;
 import "dart:math" show Random;
+import "dart:convert" show UTF8;
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:crypto/crypto.dart';

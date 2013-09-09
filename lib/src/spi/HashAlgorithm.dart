@@ -18,7 +18,7 @@ final HashAlgorithm NATIVE_HASH =
 
 //(crc32(shift) >> 16) & 0x7fff;
 final HashAlgorithm CRC_HASH =
-    (String key) => (_crc32(encodeUtf8(key)) >> 16) & 0x7fff;
+    (String key) => (_crc32(UTF8.encode(key)) >> 16) & 0x7fff;
 
 final HashAlgorithm FNV1_64_HASH =
     (String key) {
@@ -76,7 +76,7 @@ final HashAlgorithm KETAMA_HASH =
 
 List<int> computeMd5(String key) {
   MD5 md5 = new MD5();
-  md5.add(encodeUtf8(key));
+  md5.add(UTF8.encode(key));
   return md5.close();
 }
 

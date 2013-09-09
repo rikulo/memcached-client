@@ -35,10 +35,10 @@ class TextVersionOP extends TextOP implements VersionOP {
   List<int> _prepareVersionCommand() {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(OPType.version.name))
+    cmd..addAll(UTF8.encode(OPType.version.name))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareVersionCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareVersionCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

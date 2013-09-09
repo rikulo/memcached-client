@@ -157,7 +157,7 @@ class ResponseMessage extends BaseMessage {
   }
 
   List<int> get bytes {
-    int bufSize = HEADER_LENGTH;
+    int bufSize = BaseMessage.HEADER_LENGTH;
     if (opcode == TapOpcode.MUTATION) {
       bufSize += 16;
     }

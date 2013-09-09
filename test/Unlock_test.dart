@@ -3,7 +3,7 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
+import 'dart:convert' show UTF8;
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 
@@ -18,20 +18,20 @@ Future<MemcachedClientImpl> prepareTextClient()
 // locktime not expired, does not do unlock it and set a new value
 //  and get shall throw error with KEY_EXIST.
 void testUnlock(String key, MemcachedClientImpl client) {
-  expect(client.set(key, encodeUtf8('val100')), completion(isTrue));
+  expect(client.set(key, UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.getAndLock(key, 3) //lock 3 seconds
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       //return client.unlock(key, val.cas);
     }).then((_) {
-      return client.set(key, encodeUtf8('newVal100'));
+      return client.set(key, UTF8.encode('newVal100'));
     });
 
   expect(f1, throwsA(equals(OPStatus.KEY_EXISTS)));
 
   Future f2 = client.get(key)
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
     });
 
   expect(f2, completes);
@@ -40,16 +40,16 @@ void testUnlock(String key, MemcachedClientImpl client) {
 // locktime not expired, unlock it and set a new value
 //  and get shall return the new value back
 void testUnlock2(String key, MemcachedClientImpl client) {
-  expect(client.set(key, encodeUtf8('val100')), completion(isTrue));
+  expect(client.set(key, UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.getAndLock(key, 3) //lock 3 seconds
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       return client.unlock(key, cas: val.cas);
     }).then((_) {
-      expect(client.set(key, encodeUtf8('newVal100')), completion(isTrue));
+      expect(client.set(key, UTF8.encode('newVal100')), completion(isTrue));
       return client.get(key);
     }).then((val) {
-      expect(val.data, equals(encodeUtf8('newVal100')));
+      expect(val.data, equals(UTF8.encode('newVal100')));
     });
 
   expect(f1, completes);

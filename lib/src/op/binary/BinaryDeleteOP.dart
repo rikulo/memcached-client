@@ -33,7 +33,7 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
    */
   static const int _req_extralen = 0;
   List<int> _prepareDeleteCommand(String key, int cas) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

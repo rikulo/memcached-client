@@ -21,7 +21,7 @@ class BinaryVersionOP extends BinaryOP implements VersionOP {
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
-      _cmpl.complete(decodeUtf8(line));
+      _cmpl.complete(UTF8.decode(line));
     }
 
     return _HANDLE_COMPLETE;

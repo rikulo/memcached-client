@@ -33,7 +33,7 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
    * Prepare a store command.
    */
   List<int> _prepareTapAckCommand(TapOpcode opcode, int opaque) {
-    List<int> keybytes = encodeUtf8(_uuid());
+    List<int> keybytes = UTF8.encode(_uuid());
     int keylen = keybytes.length;
     int bodylen = _req_extralen + keylen;
 

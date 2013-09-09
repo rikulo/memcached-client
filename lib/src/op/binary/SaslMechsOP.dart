@@ -16,11 +16,11 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
 
   //@Override
   int handleData(List<int> line) {
-    print("SaslMechsOPData: $this, ${decodeUtf8(line)}\n");
+    print("SaslMechsOPData: $this, ${UTF8.decode(line)}\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
-      String val = decodeUtf8(line);
+      String val = UTF8.decode(line);
       _cmpl.complete(val.split(' '));
     }
 

@@ -34,7 +34,7 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
         copyList(line, extralen, key, 0, _keylen);
       if (valuelen > 0)
         copyList(line, extralen + _keylen, val, 0, valuelen);
-      _cmpl.complete(new GetResult(decodeUtf8(key), flags, _ignoreCas ? null : _cas, val));
+      _cmpl.complete(new GetResult(UTF8.decode(key), flags, _ignoreCas ? null : _cas, val));
     }
 
     return _HANDLE_COMPLETE;
@@ -46,7 +46,7 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
   //Prepare one getk command
   static const int _req_extralen = 0;
   List<int> _prepareGetKCommand(String key) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

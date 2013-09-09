@@ -35,7 +35,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
         copyList(line, extralen, key, 0, _keylen);
         if (valuelen > 0)
           copyList(line, _keylen, val, 0, valuelen);
-        _stats[decodeUtf8(key)] = valuelen > 0 ? decodeUtf8(val) : null;
+        _stats[UTF8.decode(key)] = valuelen > 0 ? UTF8.decode(val) : null;
       }
       return _HANDLE_CMD; //handle next line of command
     } else { //last packet!
@@ -53,7 +53,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
    * Prepare a store command.
    */
   List<int> _prepareStatsCommand(String key) {
-    List<int> keybytes = key == null ? new List(0) : encodeUtf8(key);
+    List<int> keybytes = key == null ? new List(0) : UTF8.encode(key);
     int keylen = keybytes.length;
     int bodylen = _req_extralen + keylen;
 

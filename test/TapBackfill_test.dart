@@ -3,7 +3,7 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
+import 'dart:convert' show UTF8;
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
@@ -18,7 +18,7 @@ void testTapBackfillOP(MemcachedClient client, TapClient tapClient) {
   .tapBackfill("node1")
   .then((_) {
     print("set key0 with 'val1'");
-    expect(client.set('key0', encodeUtf8('"val0"')), completion(isTrue));
+    expect(client.set('key0', UTF8.encode('"val0"')), completion(isTrue));
   });
 
   expect(f, completes);

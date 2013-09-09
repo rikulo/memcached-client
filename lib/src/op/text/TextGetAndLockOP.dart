@@ -59,14 +59,14 @@ class TextGetAndLockOP extends TextOP implements GetAndLockOP {
   List<int> _prepareGetAndLockCommand(String key, int exp) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(OPType.getl.name))
+    cmd..addAll(UTF8.encode(OPType.getl.name))
        ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
+       ..addAll(UTF8.encode(key))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('$exp'))
+       ..addAll(UTF8.encode('$exp'))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareGetAndLockCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareGetAndLockCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

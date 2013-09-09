@@ -43,7 +43,7 @@ class TextOPChannel extends _OPChannelImpl<int> {
   //handleCommand() and handleData() to handle command/data.
   //@Override
   void processResponse() {
-    _logger.finest("processResponse:\n${decodeUtf8(_pbuf)}");
+    _logger.finest("processResponse:\n${UTF8.decode(_pbuf)}");
     bool more = true;
     while (more) {
       int el = _size >= 0 ? _size : _HANDLE_CMD; //expected end of line

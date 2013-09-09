@@ -3,7 +3,7 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
+import 'dart:convert' show UTF8;
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 
@@ -16,20 +16,20 @@ Future<MemcachedClientImpl> prepareTextClient()
       factory:new TextConnectionFactory());
 
 void testGetAndLock(String key, MemcachedClientImpl client) {
-  expect(client.set(key, encodeUtf8('val100')), completion(isTrue));
+  expect(client.set(key, UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.getAndLock(key, 1) //lock for 1 seconds
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       return new Future.delayed(new Duration(seconds:2)); //wait 2 seconds
     })
     .then((_) {
-      return client.set(key, encodeUtf8('newVal100'));
+      return client.set(key, UTF8.encode('newVal100'));
     })
     .then((_) {
       return client.get(key);
     })
     .then((val) {
-      expect(val.data, equals(encodeUtf8('newVal100')));
+      expect(val.data, equals(UTF8.encode('newVal100')));
     });
 
   expect(f1, completes);
@@ -38,20 +38,20 @@ void testGetAndLock(String key, MemcachedClientImpl client) {
 // locktime not expired, set shall complain KEY_EXIST
 //  and get shall return the original value back
 void testGetAndLock2(String key, MemcachedClientImpl client) {
-  expect(client.set(key, encodeUtf8('val100')), completion(isTrue));
+  expect(client.set(key, UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.getAndLock(key, 3) //lock 3 seconds
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       return new Future.delayed(new Duration(seconds:2)); //wait for 2 seconds
     }).then((_) {
-      return client.set(key, encodeUtf8('newVal100'));
+      return client.set(key, UTF8.encode('newVal100'));
     });
 
   expect(f1, throwsA(equals(OPStatus.KEY_EXISTS)));
 
   Future f2 = client.get(key)
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
     });
 
   expect(f2, completes);

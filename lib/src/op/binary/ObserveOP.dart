@@ -72,7 +72,7 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
   //Prepare one observe command
   static const int _req_extralen = 4;
   List<int> _prepareObserveCommand(String key) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

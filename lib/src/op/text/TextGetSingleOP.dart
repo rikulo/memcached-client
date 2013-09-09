@@ -59,12 +59,12 @@ class TextGetSingleOP extends TextOP implements GetSingleOP {
   List<int> _prepareGetCommand(OPType type, String key) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(type.name))
+    cmd..addAll(UTF8.encode(type.name))
        ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
+       ..addAll(UTF8.encode(key))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareGetCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareGetCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

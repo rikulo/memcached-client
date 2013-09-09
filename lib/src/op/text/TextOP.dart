@@ -22,7 +22,7 @@ abstract class TextOP extends OP {
     _state = s;
   }
 
-  int handleCommand(List<int> aLine) => handleTextCommand(decodeUtf8(aLine));
+  int handleCommand(List<int> aLine) => handleTextCommand(UTF8.decode(aLine));
 
   int handleTextCommand(String aLine);
 }

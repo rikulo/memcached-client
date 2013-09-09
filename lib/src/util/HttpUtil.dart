@@ -75,7 +75,7 @@ class HttpUtil {
 
     StringBuffer result = new StringBuffer()
         ..write('Basic ')
-        ..write(CryptoUtils.bytesToBase64(encodeUtf8(sb.toString())));
+        ..write(CryptoUtils.bytesToBase64(UTF8.encode(sb.toString())));
     String st = result.toString();
     if (st.endsWith('\r\n'))
       st = st.substring(0, st.length - 2);

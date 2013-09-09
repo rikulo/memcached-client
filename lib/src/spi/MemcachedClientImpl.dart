@@ -289,7 +289,7 @@ class MemcachedClientImpl implements MemcachedClient {
 
 /** Key validation */
 void validateKey(String key, bool binary) {
-  List<int> keyBytes = encodeUtf8(key);
+  List<int> keyBytes = UTF8.encode(key);
   if (keyBytes.length > MemcachedClient.MAX_KEY_LENGTH) {
     throw new ArgumentError("Key is too long (maxlen = "
         "${MemcachedClient.MAX_KEY_LENGTH})");

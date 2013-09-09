@@ -102,10 +102,10 @@ abstract class UnlockOP extends OP implements FutureOP<bool> {}
 abstract class NoOP extends OP implements FutureOP<bool> {}
 
 /** Base operation implementation */
-final _SPACE = encodeUtf8(' ').first;
-final _CRLF = encodeUtf8('\r\n');
-final _CR = encodeUtf8('\r').first;
-final _LF = encodeUtf8('\n').first;
+final _SPACE = UTF8.encode(' ').first;
+final _CRLF = UTF8.encode('\r\n');
+final _CR = UTF8.encode('\r').first;
+final _LF = UTF8.encode('\n').first;
 
 /** Result of handle operation command */
 const int _HANDLE_COMPLETE = -3;

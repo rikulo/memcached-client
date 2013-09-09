@@ -36,10 +36,10 @@ class TextNoOP extends TextOP implements NoOP {
     List<int> cmd = new List();
 
     //Use version as noop command in Text protocol
-    cmd..addAll(encodeUtf8(OPType.version.name))
+    cmd..addAll(UTF8.encode(OPType.version.name))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareNoCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareNoCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

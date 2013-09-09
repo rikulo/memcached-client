@@ -129,8 +129,8 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
 
   //Create an Authentication Operation
   SaslAuthOP _newAuthOP() {
-    List<int> userlist = encodeUtf8(_authDescriptor.bucket);
-    List<int> passlist = encodeUtf8(_authDescriptor.password);
+    List<int> userlist = UTF8.encode(_authDescriptor.bucket);
+    List<int> passlist = UTF8.encode(_authDescriptor.password);
     List<int> bytes = new Uint8List(2+userlist.length+passlist.length);
     copyList(userlist, 0, bytes, 1, userlist.length);
     copyList(passlist, 0, bytes, 1 + userlist.length + 1, passlist.length);

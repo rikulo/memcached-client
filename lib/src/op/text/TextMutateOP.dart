@@ -41,14 +41,14 @@ class TextMutateOP extends TextOP implements MutateOP {
   List<int> _prepareMutateCommand(OPType type, String key, int by) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(type.name))
+    cmd..addAll(UTF8.encode(type.name))
        ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
+       ..addAll(UTF8.encode(key))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('$by'))
+       ..addAll(UTF8.encode('$by'))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareMutateCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareMutateCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

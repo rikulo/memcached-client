@@ -33,7 +33,7 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
    */
   static const _req_extralen = 20;
   List<int> _prepareMutateCommand(OPType type, String key, int by, int def, int exp) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

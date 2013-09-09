@@ -48,25 +48,25 @@ class TextStoreOP extends TextOP implements StoreOP {
   List<int> _prepareStoreCommand(OPType type, String key, int flags, int exp, List<int> doc, int cas) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(type.name))
+    cmd..addAll(UTF8.encode(type.name))
        ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
+       ..addAll(UTF8.encode(key))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('$flags'))
+       ..addAll(UTF8.encode('$flags'))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('${exp == null ? 0 : exp}'))
+       ..addAll(UTF8.encode('${exp == null ? 0 : exp}'))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('${doc.length}'));
+       ..addAll(UTF8.encode('${doc.length}'));
 
     if (OPType.cas == type)
       cmd..add(_SPACE)
-         ..addAll(encodeUtf8('$cas'));
+         ..addAll(UTF8.encode('$cas'));
 
     cmd..addAll(_CRLF)
        ..addAll(doc)
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareStoreCommand:[${decodeUtf8(cmd)}]");
+    _logger.finest("_prepareStoreCommand:[${UTF8.decode(cmd)}]");
     return cmd;
   }
 

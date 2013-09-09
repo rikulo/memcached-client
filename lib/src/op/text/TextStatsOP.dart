@@ -53,14 +53,14 @@ class TextStatsOP extends TextOP implements StatsOP {
   List<int> _prepareStatsCommand(String prefix) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(OPType.stats.name));
+    cmd..addAll(UTF8.encode(OPType.stats.name));
     if (prefix != null) {
       cmd..add(_SPACE)
-         ..addAll(encodeUtf8(prefix));
+         ..addAll(UTF8.encode(prefix));
     }
     cmd..addAll(_CRLF);
 
-    _logger.finest("_prepareStatsCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareStatsCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

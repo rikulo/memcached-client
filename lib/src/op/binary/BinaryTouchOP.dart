@@ -32,7 +32,7 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
    */
   static const _req_extralen = 4;
   List<int> _prepareTouchCommand(String key, int exp) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

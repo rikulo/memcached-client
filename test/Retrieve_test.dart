@@ -3,18 +3,18 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
+import 'dart:convert' show UTF8;
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 //get a key
 void testGet1(MemcachedClient client) {
-  expect(client.set('key0', encodeUtf8('"val0"')), completion(isTrue));
+  expect(client.set('key0', UTF8.encode('"val0"')), completion(isTrue));
 
   Future f1 = client.get('key0');
   f1.then((v) {
-    expect(decodeUtf8(v.data), equals('"val0"'));
+    expect(UTF8.decode(v.data), equals('"val0"'));
     expect(v.cas, isNull);
   });
   expect(f1, completes);
@@ -29,7 +29,7 @@ void testGet2(MemcachedClient client) {
 void testGetAll(MemcachedClient client) {
   int count = 2;
   for (int j = 0; j < count; ++j) {
-    expect(client.set('key$j', encodeUtf8('val$j')), completion(isTrue));
+    expect(client.set('key$j', UTF8.encode('val$j')), completion(isTrue));
   }
 
   List<String> keys = new List();
@@ -44,7 +44,7 @@ void testGetAll(MemcachedClient client) {
     int j = 0;
     grs.forEach((GetResult gr) {
       expect(gr.key, equals('key$j'));
-      expect(decodeUtf8(gr.data), equals('val$j'));
+      expect(UTF8.decode(gr.data), equals('val$j'));
       expect(gr.cas, isNull);
       ++j;
     });
@@ -55,11 +55,11 @@ void testGetAll(MemcachedClient client) {
 
 //gets a key; sould return with cas token.
 void testGets1(MemcachedClient client) {
-  expect(client.set('key0', encodeUtf8('val0')), completion(isTrue));
+  expect(client.set('key0', UTF8.encode('val0')), completion(isTrue));
 
   Future f1 = client.gets('key0');
   f1.then((v) {
-    expect(decodeUtf8(v.data), equals('val0'));
+    expect(UTF8.decode(v.data), equals('val0'));
     expect(v.cas, isNotNull);
   });
   expect(f1, completes);
@@ -74,7 +74,7 @@ void testGets2(MemcachedClient client) {
 void testGetsAll(MemcachedClient client) {
   int count = 20;
   for (int j = 0; j < count; ++j) {
-    expect(client.set('key$j', encodeUtf8('val$j')), completion(isTrue));
+    expect(client.set('key$j', UTF8.encode('val$j')), completion(isTrue));
   }
 
   List<String> keys = new List();
@@ -89,7 +89,7 @@ void testGetsAll(MemcachedClient client) {
     int j = 0;
     grs.forEach((GetResult gr) {
       expect(gr.key, equals('key$j'));
-      expect(decodeUtf8(gr.data), equals('val$j'));
+      expect(UTF8.decode(gr.data), equals('val$j'));
       expect(gr.cas, isNotNull);
       ++j;
     });

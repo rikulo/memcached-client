@@ -3,16 +3,16 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
+import 'dart:convert' show UTF8;
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 void testTouch(MemcachedClient client) {
-  expect(client.set('key100', encodeUtf8('val100')), completion(isTrue));
+  expect(client.set('key100', UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.get('key100')
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       return client.touch('key100', 1); //expire in 1 seconds
     }).then((b) {
       expect(b, isTrue);

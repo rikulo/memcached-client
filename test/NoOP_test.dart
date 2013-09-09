@@ -3,7 +3,6 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;

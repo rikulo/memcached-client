@@ -32,7 +32,7 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
    */
   static const _req_extralen = 0;
   List<int> _prepareUnlockCommand(String key, int cas) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

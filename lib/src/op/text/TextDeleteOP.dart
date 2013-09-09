@@ -41,12 +41,12 @@ class TextDeleteOP extends TextOP implements DeleteOP {
   List<int> _prepareDeleteCommand(String key) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(OPType.delete.name))
+    cmd..addAll(UTF8.encode(OPType.delete.name))
        ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
+       ..addAll(UTF8.encode(key))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareDeleteCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareDeleteCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

@@ -4,9 +4,6 @@
 library memcached_test_util;
 
 import 'dart:async';
-import 'dart:utf';
-import 'package:logging/logging.dart';
-import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 
 Future<MemcachedClient> prepareBinaryClient()

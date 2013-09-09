@@ -31,7 +31,7 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
         copyList(line, extralen, key, 0, _keylen);
       if (valuelen > 0)
         copyList(line, extralen + _keylen, val, 0, valuelen);
-      _cmpl.complete(new GetResult(decodeUtf8(key), flags, _cas, val));
+      _cmpl.complete(new GetResult(UTF8.decode(key), flags, _cas, val));
     }
 
     return _HANDLE_COMPLETE;
@@ -40,7 +40,7 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
   //Prepare one getk command
   static const int _req_extralen = 4;
   List<int> _prepareGetAndLockCommand(String key, int exp) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

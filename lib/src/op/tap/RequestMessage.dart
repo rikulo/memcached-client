@@ -143,7 +143,7 @@ class RequestMessage extends BaseMessage {
       copyList(int32ToBytes(bitflags), 0, bb, offset, 4);
       offset += 4;
     }
-    List<int> namebytes = encodeUtf8(name);
+    List<int> namebytes = UTF8.encode(name);
     copyList(namebytes, 0, bb, offset, namebytes.length);
     offset += namebytes.length;
     if (hasBackfill) {

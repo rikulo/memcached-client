@@ -49,7 +49,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
           copyList(line, extralen, key, 0, _keylen);
         if (valuelen > 0)
           copyList(line, extralen + _keylen, val, 0, valuelen);
-        _streamCtrl.add(new GetResult(decodeUtf8(key), flags, _ignoreCas ? null : _cas, val));
+        _streamCtrl.add(new GetResult(UTF8.decode(key), flags, _ignoreCas ? null : _cas, val));
       }
       return _HANDLE_CMD; //handle next line of command
     } else { //noop, last packet!
@@ -96,7 +96,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
   //Prepare one getkq command
   static const int _req_extralen = 0;
   List<int> _prepareGetKQCommand(String key) {
-    List<int> keybytes = encodeUtf8(key);
+    List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
     int bodylen = _req_extralen + keylen + valuelen;

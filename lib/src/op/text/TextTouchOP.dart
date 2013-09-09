@@ -41,14 +41,14 @@ class TextTouchOP extends TextOP implements TouchOP {
   List<int> _prepareTouchCommand(String key, int exp) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(OPType.touch.name))
+    cmd..addAll(UTF8.encode(OPType.touch.name))
        ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
+       ..addAll(UTF8.encode(key))
        ..add(_SPACE)
-       ..addAll(encodeUtf8('$exp'))
+       ..addAll(UTF8.encode('$exp'))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareTouchCommand:[${decodeUtf8(cmd)}]\n");
+    _logger.finest("_prepareTouchCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

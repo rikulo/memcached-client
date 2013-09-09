@@ -3,16 +3,16 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'dart:utf';
+import 'dart:convert' show UTF8;
 import 'package:unittest/unittest.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 void testGetAndTouch(MemcachedClient client) {
-  expect(client.set('key100', encodeUtf8('val100')), completion(isTrue));
+  expect(client.set('key100', UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.getAndTouch('key100', 1) //expire in 1 seconds
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       return new Future.delayed(new Duration(seconds:2));
     }).then((_) {
       return client.get('key100');
@@ -23,16 +23,16 @@ void testGetAndTouch(MemcachedClient client) {
 
 //Not expired, so shall get the value back
 void testGetAndTouch2(MemcachedClient client) {
-  expect(client.set('key100', encodeUtf8('val100')), completion(isTrue));
+  expect(client.set('key100', UTF8.encode('val100')), completion(isTrue));
   Future f1 = client.getAndTouch('key100', 3) //expire in 3 seconds
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
       return new Future.delayed(new Duration(seconds:2));
     }).then((_) {
       return client.get('key100');
     })
     .then((val) {
-      expect(val.data, equals(encodeUtf8('val100')));
+      expect(val.data, equals(UTF8.encode('val100')));
     });
 
   expect(f1, completes);
