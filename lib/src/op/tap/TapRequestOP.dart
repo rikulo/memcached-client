@@ -40,7 +40,7 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
     if ((response.bitflags & TapResponseFlag.TAP_ACK.flag) != 0) {
       //ack back Tap server that we have received the streamed-back data
       final TapAckOP op = new TapAckOP(response.opcode, response.opaque);
-      op.future.then((_) => print("ack back and done: $op.opcode, $op.opaque"));
+      op.future.then((_) => _logger.finest("ack back and done: $op.opcode, $op.opaque"));
       handlingNode.addOP(op);
     }
     if (response.opcode != TapOpcode.OPAQUE

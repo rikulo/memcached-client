@@ -18,7 +18,7 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
 
   //@Override
   int handleData(List<int> line) {
-    print("BinaryMutateOpData: $this, $line\n");
+    _logger.finest("BinaryMutateOpData: $this, $line\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -64,7 +64,7 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    print("_prepareMutateCommand:$cmd\n");
+    _logger.finest("_prepareMutateCommand:$cmd\n");
     return cmd;
   }
 

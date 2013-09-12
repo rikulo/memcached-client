@@ -39,7 +39,7 @@ For more information, please refer to [Pub: Dependencies]
 Using Memcached Client is straightforward. Connect to the server and
 use the client's APIs to access the database.
 
-    import "dart:utf";
+    import "dart:convert" show UTF8;
     import "dart:async";
     import "package:memcached_client/memcached_client.dart";
     
@@ -73,7 +73,7 @@ use the client's APIs to access the database.
       // Then get the value back by document id
       .then((_) => client.get(DOC_ID))
       // Check if get data equals to set one
-      .then((val) => decodeUtf8(val.data) == VALUE)
+      .then((val) => UTF8.decode(val.data) == VALUE)
       // Show message
       .then((ok) => print(ok ? "Get Succeeded" : "Get failed"))
       // Close the client

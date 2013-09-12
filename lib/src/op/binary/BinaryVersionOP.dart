@@ -17,7 +17,7 @@ class BinaryVersionOP extends BinaryOP implements VersionOP {
 
   //@Override
   int handleData(List<int> line) {
-    print("BinaryVersionOpData: $this, $line\n");
+    _logger.finest("BinaryVersionOpData: $this, $line\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -34,7 +34,7 @@ class BinaryVersionOP extends BinaryOP implements VersionOP {
     //1, 1 byte: Opcode
     cmd[1] = OPType.version.ordinal;
 
-    print("_prepareVersionCommand:$cmd\n");
+    _logger.finest("_prepareVersionCommand:$cmd\n");
     return cmd;
   }
 
