@@ -11,7 +11,6 @@ import 'dart:typed_data';
 import "dart:math" show Random;
 import "dart:convert" show UTF8;
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 import 'package:crypto/crypto.dart';
 
 part 'src/BinaryConnectionFactory.dart';
