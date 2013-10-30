@@ -61,8 +61,6 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     _logger.finest("_prepareDeleteCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryDeleteOP: $seq";
 }
 
 

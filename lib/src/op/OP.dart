@@ -73,6 +73,9 @@ abstract class OP {
   void complete() {
     state = OPState.COMPLETE;
   }
+  
+  @override
+  String toString() => "${this.runtimeType}($seq)";
 }
 
 abstract class DeleteOP extends OP implements FutureOP<bool> {}

@@ -41,8 +41,6 @@ class TextVersionOP extends TextOP implements VersionOP {
     _logger.finest("_prepareVersionCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "VersionOP: $seq";
 }
 
 

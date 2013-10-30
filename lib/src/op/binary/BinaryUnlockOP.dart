@@ -58,8 +58,6 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
     _logger.finest("_prepareUnlockCommand:$cmd\n");
     return cmd;
   }
-
-  String toString() => "BinaryUnlockOP: $seq";
 }
 
 

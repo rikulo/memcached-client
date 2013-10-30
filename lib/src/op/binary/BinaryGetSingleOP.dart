@@ -71,6 +71,4 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
     _logger.finest("_prepareGetKCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryGetSingleOP: $seq";
 }

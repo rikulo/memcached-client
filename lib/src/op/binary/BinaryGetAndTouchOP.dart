@@ -68,6 +68,4 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
     _logger.finest("_prepareGetAndTouchCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryGetAndTouchOP: $seq";
 }

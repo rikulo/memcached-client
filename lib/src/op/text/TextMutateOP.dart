@@ -5,13 +5,14 @@
 part of memcached_client;
 
 /** a Mutate(increment/decrement) Operation */
-class TextMutateOP extends TextOP implements MutateOP {
+class TextMutateOP extends TextSingleKeyOP implements MutateOP {
   final Completer<int> _cmpl; //completer to complete the future of this operation
 
   Future<int> get future => _cmpl.future;
 
   TextMutateOP(OPType type, String key, int by, int def, int exp)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareMutateCommand(type, key, by);
   }
 
@@ -51,8 +52,6 @@ class TextMutateOP extends TextOP implements MutateOP {
     _logger.finest("_prepareMutateCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "MutateOP: $seq";
 }
 
 

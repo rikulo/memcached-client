@@ -66,6 +66,4 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
     _logger.finest("_prepareTapRequestCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "TapRequestOP: $seq";
 }

@@ -37,6 +37,4 @@ class BinaryNoOP extends BinaryOP implements NoOP {
     _logger.finest("_prepareNoCommand:$cmd\n");
     return cmd;
   }
-
-  String toString() => "BinaryNoOP: $seq";
 }

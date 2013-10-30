@@ -5,7 +5,7 @@
 part of memcached_client;
 
 /** a Store Operation */
-class TextStoreOP extends TextOP implements StoreOP {
+class TextStoreOP extends TextSingleKeyOP implements StoreOP {
   final Completer _cmpl; //completer to complete the future of this operation
   final OPType _type;
 
@@ -14,7 +14,8 @@ class TextStoreOP extends TextOP implements StoreOP {
   TextStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
       int cas)
       : _type = type,
-        _cmpl = new Completer() {
+        _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareStoreCommand(type, key, flags, exp, doc, cas);
   }
 
@@ -69,8 +70,6 @@ class TextStoreOP extends TextOP implements StoreOP {
     _logger.finest("_prepareStoreCommand:[${UTF8.decode(cmd)}]");
     return cmd;
   }
-
-  String toString() => "StoreOP: $seq";
 }
 
 

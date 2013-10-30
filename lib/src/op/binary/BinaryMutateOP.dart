@@ -67,8 +67,6 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     _logger.finest("_prepareMutateCommand:$cmd\n");
     return cmd;
   }
-
-  String toString() => "BinaryMutateOP: $seq";
 }
 
 

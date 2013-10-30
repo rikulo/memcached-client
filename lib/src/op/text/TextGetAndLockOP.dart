@@ -5,13 +5,14 @@
 part of memcached_client;
 
 /** a Get Operation */
-class TextGetAndLockOP extends TextOP implements GetAndLockOP {
+class TextGetAndLockOP extends TextSingleKeyOP implements GetAndLockOP {
   final Completer<GetResult> _cmpl;
 
   Future<GetResult> get future => _cmpl.future;
 
   TextGetAndLockOP(String key, int exp)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareGetAndLockCommand(key, exp);
   }
 
@@ -69,6 +70,4 @@ class TextGetAndLockOP extends TextOP implements GetAndLockOP {
     _logger.finest("_prepareGetAndLockCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "GetAndLockOP: $seq";
 }

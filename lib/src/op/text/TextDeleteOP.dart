@@ -5,13 +5,14 @@
 part of memcached_client;
 
 /** A Delete Operation */
-class TextDeleteOP extends TextOP implements DeleteOP {
+class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
   final Completer<bool> _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 
   TextDeleteOP(String key)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareDeleteCommand(key);
   }
 
@@ -49,8 +50,6 @@ class TextDeleteOP extends TextOP implements DeleteOP {
     _logger.finest("_prepareDeleteCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "DeleteOP: $seq";
 }
 
 

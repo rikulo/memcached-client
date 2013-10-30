@@ -60,8 +60,6 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
     _logger.finest("_prepareTouchCommand:$cmd\n");
     return cmd;
   }
-
-  String toString() => "BinaryTouchOP: $seq";
 }
 
 

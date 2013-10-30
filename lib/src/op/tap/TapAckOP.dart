@@ -60,6 +60,4 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
     _logger.finest("_prepareTapAckCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "TapAckOP: $seq";
 }

@@ -79,6 +79,4 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
     _logger.finest("_prepareStatsCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryStatsOP: $seq";
 }

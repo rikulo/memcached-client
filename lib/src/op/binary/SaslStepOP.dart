@@ -13,7 +13,5 @@ class SaslStepOP extends SaslOP {
   int handleData(List<int> aLine) {
     return _HANDLE_COMPLETE;
   }
-
-  String toString() => "SaslStepOP: $seq";
 }
 

@@ -42,8 +42,6 @@ class TextNoOP extends TextOP implements NoOP {
     _logger.finest("_prepareNoCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "NoOP: $seq";
 }
 
 

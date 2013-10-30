@@ -6,11 +6,11 @@ import 'package:memcached_client/memcached_client.dart';
  * Test the hash algorithms.
  */
 void main() {
+  test('testUriHashCode', () => testUriHashCode());
   test('testMapHashCode', () => testMapHashCode());
   test('testListHashCode', () => testListHashCode());
   test('testNullHashCode', () => testNullHashCode());
   test('testStringHashCode', () => testStringHashCode());
-  test('testUriHashCode', () => testUriHashCode());
 }
 
 void testMapHashCode() {
@@ -50,8 +50,8 @@ void testStringHashCode() {
 }
 
 void testUriHashCode() {
-  var uri1 = Uri.parse("10.1.3.118:11210");
-  var uri2 = Uri.parse("10.1.3.118:11210");
+  final uri1 = Uri.parse("http://10.1.3.118:11210");
+  final uri2 = Uri.parse("http://10.1.3.118:11210");
 
   expect(uri1, equals(uri2));
 }

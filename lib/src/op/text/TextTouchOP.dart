@@ -5,13 +5,14 @@
 part of memcached_client;
 
 /** a Touch Operation */
-class TextTouchOP extends TextOP implements TouchOP {
+class TextTouchOP extends TextSingleKeyOP implements TouchOP {
   final Completer _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 
   TextTouchOP(String key, int exp)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareTouchCommand(key, exp);
   }
 
@@ -51,6 +52,4 @@ class TextTouchOP extends TextOP implements TouchOP {
     _logger.finest("_prepareTouchCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "TouchOP: $seq";
 }

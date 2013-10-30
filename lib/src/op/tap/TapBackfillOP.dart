@@ -17,6 +17,4 @@ class TapBackfillOP extends TapRequestOP {
     message.setBackfill(date);
     _cmd = _prepareTapRequestCommand(id, message);
   }
-
-  String toString() => "TapBackfillOP: $seq";
 }

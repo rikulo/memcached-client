@@ -6,11 +6,12 @@ part of memcached_client;
 
 /** a Get Operation */
 class TextGetOP extends TextOP implements GetOP {
+  final List<String> keys;
   final StreamController<GetResult> _streamCtrl;
 
   Stream<GetResult> get stream => _streamCtrl.stream;
 
-  TextGetOP(OPType type, List<String> keys)
+  TextGetOP(OPType type, this.keys)
       : _streamCtrl = new StreamController(sync:true) {
     _cmd = _prepareGetCommand(type, keys);
   }
@@ -76,5 +77,6 @@ class TextGetOP extends TextOP implements GetOP {
     return cmd;
   }
 
-  String toString() => "GetOP: $seq";
+  @override
+  String toString() => "${this.runtimeType}($seq): $keys";
 }

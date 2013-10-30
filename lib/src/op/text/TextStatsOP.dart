@@ -63,6 +63,4 @@ class TextStatsOP extends TextOP implements StatsOP {
     _logger.finest("_prepareStatsCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "StatsOP: $seq";
 }

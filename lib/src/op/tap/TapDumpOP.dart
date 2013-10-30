@@ -16,6 +16,4 @@ class TapDumpOP extends TapRequestOP {
     message.setName(id == null ? _uuid() : id);
     _cmd = _prepareTapRequestCommand(id, message);
   }
-
-  String toString() => "TapDumpOP: $seq";
 }

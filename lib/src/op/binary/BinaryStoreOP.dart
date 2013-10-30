@@ -72,8 +72,6 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
     _logger.finest("_prepareStoreCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryStoreOP: $seq";
 }
 
 

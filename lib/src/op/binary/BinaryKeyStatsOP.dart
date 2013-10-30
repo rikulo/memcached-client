@@ -89,6 +89,4 @@ class BinaryKeyStatsOP extends SingleKeyOP implements KeyStatsOP {
     _logger.finest("_prepareKeyStatsCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryKeyStatsOP: $seq";
 }

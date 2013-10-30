@@ -51,8 +51,6 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
     _logger.finest("_prepareSaslMechsCommand:$cmd\n");
     return cmd;
   }
-
-  String toString() => "SaslMechsOP: $seq";
 }
 
 

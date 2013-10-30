@@ -37,6 +37,4 @@ class BinaryVersionOP extends BinaryOP implements VersionOP {
     _logger.finest("_prepareVersionCommand:$cmd\n");
     return cmd;
   }
-
-  String toString() => "BinaryVersionOP: $seq";
 }

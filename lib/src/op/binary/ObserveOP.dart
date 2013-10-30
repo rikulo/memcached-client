@@ -98,6 +98,4 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
     _logger.finest("_prepareObserveCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "ObserveOP: $seq";
 }

@@ -68,6 +68,4 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
     _logger.finest("_prepareGetAndLockCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryGetAndLockOP: $seq";
 }

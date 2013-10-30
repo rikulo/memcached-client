@@ -5,13 +5,14 @@
 part of memcached_client;
 
 /** a Get Operation */
-class TextGetSingleOP extends TextOP implements GetSingleOP {
+class TextGetSingleOP extends TextSingleKeyOP implements GetSingleOP {
   final Completer<GetResult> _cmpl;
 
   Future<GetResult> get future => _cmpl.future;
 
   TextGetSingleOP(OPType type, String key)
-      : _cmpl = new Completer() {
+      : _cmpl = new Completer(),
+        super(key) {
     _cmd = _prepareGetCommand(type, key);
   }
 
@@ -67,6 +68,4 @@ class TextGetSingleOP extends TextOP implements GetSingleOP {
     _logger.finest("_prepareGetCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
-
-  String toString() => "GetSingleOP: $seq";
 }

@@ -34,6 +34,4 @@ class SaslAuthOP extends SaslOP {
     _logger.finest("_prepareSaslAuthCommand:$cmd");
     return cmd;
   }
-
-  String toString() => 'SaslAuthOP: $seq';
 }

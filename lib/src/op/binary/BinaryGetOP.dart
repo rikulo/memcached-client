@@ -121,6 +121,4 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
     _logger.finest("_prepareGetKQCommand:$cmd");
     return cmd;
   }
-
-  String toString() => "BinaryGetOP: $seq";
 }

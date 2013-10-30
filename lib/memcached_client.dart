@@ -89,6 +89,7 @@ part 'src/op/text/TextOP.dart';
 part 'src/op/text/TextOPChannel.dart';
 part 'src/op/text/TextOPFactory.dart';
 part 'src/op/text/TextOPStatus.dart';
+part 'src/op/text/TextSingleKeyOP.dart';
 part 'src/op/text/TextStatsOP.dart';
 part 'src/op/text/TextStoreOP.dart';
 part 'src/op/text/TextTouchOP.dart';
