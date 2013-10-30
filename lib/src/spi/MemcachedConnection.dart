@@ -105,9 +105,9 @@ class MemcachedConnection {
       final OP op = newOP();
       results[node.socketAddress] = op;
       if (op is MultiKeyOP)
-        addMultiKeyOPToNode((op as MultiKeyOP).keys, node, op);
+        addMultiKeyOPToNode(op.keys, node, op);
       else if (op is SingleKeyOP)
-        addSingleKeyOPToNode((op as SingleKeyOP).key, node, op);
+        addSingleKeyOPToNode(op.key, node, op);
       else
         addOPToNode(node, op);
     }
