@@ -95,8 +95,8 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
       _logger.finest("The client to $_saddr is being closing; no way to addOP.");
       return;
     }
-
     op.seq = _seq++;
+    _seq &= 0xffffffff;
     op.nextState();
     writeQ.add(op);
     //20130701, henrichen: Tricky, TapOP is special, seq will not match!
