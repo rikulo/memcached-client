@@ -75,7 +75,7 @@ abstract class OP {
   }
   
   @override
-  String toString() => "${this.runtimeType}($seq)";
+  String toString() => "${this.runtimeType}@$seq";
 }
 
 abstract class DeleteOP extends OP implements FutureOP<bool> {}

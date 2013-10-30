@@ -10,5 +10,5 @@ abstract class TextSingleKeyOP extends TextOP {
   TextSingleKeyOP(this.key);
   
   @override
-  String toString() => "${this.runtimeType}($seq): $key";
+  String toString() => "${this.runtimeType}@$seq:$key";
 }

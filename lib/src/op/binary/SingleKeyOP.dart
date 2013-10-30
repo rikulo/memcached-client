@@ -41,5 +41,5 @@ abstract class SingleKeyOP extends BinaryOP implements VbucketAwareOP {
   }
   
   @override
-  String toString() => "${this.runtimeType}($seq): $key";
+  String toString() => "${this.runtimeType}@$seq:$key";
 }

@@ -53,5 +53,5 @@ abstract class MultiKeyOP extends BinaryOP implements VbucketAwareOP {
   }
   
   @override
-  String toString() => "${this.runtimeType}($seq): $keys";
+  String toString() => "${this.runtimeType}@$seq:$keys";
 }

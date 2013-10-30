@@ -78,5 +78,5 @@ class TextGetOP extends TextOP implements GetOP {
   }
 
   @override
-  String toString() => "${this.runtimeType}($seq): $keys";
+  String toString() => "${this.runtimeType}@$seq:$keys";
 }
