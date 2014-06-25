@@ -18,7 +18,7 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryDeleteOpData: $this, $line");
+    //_logger.finest("BinaryDeleteOpData: $this, $line");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -58,7 +58,7 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
 
-    _logger.finest("_prepareDeleteCommand:$cmd");
+    //_logger.finest("_prepareDeleteCommand:$cmd");
     return cmd;
   }
 }

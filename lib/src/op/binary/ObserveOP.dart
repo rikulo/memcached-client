@@ -34,14 +34,14 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("ObserveOPData: $this, $line.");
+    //_logger.finest("ObserveOPData: $this, $line.");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       int keylen = bytesToInt16(line, 2);
       int keystatus = bytesToInt8(line, keylen+4);
       int retCas = bytesToInt64(line, keylen+5);
-      _logger.finest("ObserverStatus: $keystatus, retCas: $retCas");
+      //_logger.finest("ObserverStatus: $keystatus, retCas: $retCas");
       ObserveStatus status =
           _orgCas != null
           && retCas != _orgCas
@@ -61,8 +61,8 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
     final id = ids.values.first;
     if (0 != id) {
       copyList(int16ToBytes(id), 0, _cmd, 24, 2);
-      _logger.finest("vbucketID:$id");
-      _logger.finest("cmd+vbuckitID:$_cmd");
+      //_logger.finest("vbucketID:$id");
+      //_logger.finest("cmd+vbuckitID:$_cmd");
     }
   }
 
@@ -95,7 +95,7 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
     //28, keylen: key
     copyList(keybytes, 0, cmd, 28, keylen);
 
-    _logger.finest("_prepareObserveCommand:$cmd");
+    //_logger.finest("_prepareObserveCommand:$cmd");
     return cmd;
   }
 }

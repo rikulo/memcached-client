@@ -23,7 +23,7 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("TapAckOPData: $this, $line.");
+    //_logger.finest("TapAckOPData: $this, $line.");
     _cmpl.complete(true);
     return _HANDLE_COMPLETE; //complete
   }
@@ -57,7 +57,7 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
     if (keylen > 0)
       copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareTapAckCommand:$cmd");
+    //_logger.finest("_prepareTapAckCommand:$cmd");
     return cmd;
   }
 }

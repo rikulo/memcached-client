@@ -55,7 +55,7 @@ class KetamaNodeLocator implements NodeLocator {
                     | ((digest[1 + h * 4] & 0xFF) << 8)
                     | (digest[h * 4] & 0xFF);
             newNodeMap[k & 0xffffffffffffffff] = node;
-            _logger.finest("Adding node $node in position $k");
+            //_logger.finest("Adding node $node in position $k");
           }
         }
       } else {

@@ -18,7 +18,7 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryTouchOpData: $this, $line\n");
+    //_logger.finest("BinaryTouchOpData: $this, $line\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else
@@ -57,7 +57,7 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareTouchCommand:$cmd\n");
+    //_logger.finest("_prepareTouchCommand:$cmd\n");
     return cmd;
   }
 }

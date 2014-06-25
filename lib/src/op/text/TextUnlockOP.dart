@@ -18,7 +18,7 @@ class TextUnlockOP extends TextSingleKeyOP implements UnlockOP {
 
   //@Override
   int handleTextCommand(String line) {
-    _logger.finest("UnlockOpCommand: $this, [${line}]\n");
+    //_logger.finest("UnlockOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
       _cmpl.completeError(new OPStatus.wrap(status, this));
@@ -49,7 +49,7 @@ class TextUnlockOP extends TextSingleKeyOP implements UnlockOP {
        ..addAll(encodeUtf8('$cas'))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareUnlockCommand:[${decodeUtf8(cmd)}]\n");
+    //_logger.finest("_prepareUnlockCommand:[${decodeUtf8(cmd)}]\n");
     return cmd;
   }
 }

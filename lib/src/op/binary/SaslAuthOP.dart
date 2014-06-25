@@ -31,7 +31,7 @@ class SaslAuthOP extends SaslOP {
 
   List<int> _prepareSaslCommand(OPType type, String key, List<int> val) {
     var cmd = super._prepareSaslCommand(type, key, val);
-    _logger.finest("_prepareSaslAuthCommand:$cmd");
+    //_logger.finest("_prepareSaslAuthCommand:$cmd");
     return cmd;
   }
 }

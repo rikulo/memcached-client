@@ -44,7 +44,7 @@ abstract class BinaryOP extends OP {
   int _cas; //8bytes
 
   int handleCommand(List<int> aLine) {
-    _logger.finest('response header: $aLine');
+    //_logger.finest('response header: $aLine');
 
     _opCode = bytesToInt8(aLine, 1);
     _keylen = bytesToInt16(aLine, 2);

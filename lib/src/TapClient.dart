@@ -111,7 +111,7 @@ class TapClient {
   }
 
   void _combineStreams(StreamController<ResponseMessage> ctrl, Iterable<OP> ops) {
-    _logger.finest("ops.length:${ops.length}");
+    //_logger.finest("ops.length:${ops.length}");
     int done = ops.length;
     for (var op in ops) {
       op.stream.listen(

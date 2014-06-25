@@ -19,8 +19,8 @@ abstract class SingleKeyOP extends BinaryOP implements VbucketAwareOP {
     if (0 != id) {
       _vbucketID = id;
       copyList(int16ToBytes(id), 0, _cmd, 6, 2);
-      _logger.finest("vbucketID:$id");
-      _logger.finest("cmd+vbuckitID:$_cmd");
+      //_logger.finest("vbucketID:$id");
+      //_logger.finest("cmd+vbuckitID:$_cmd");
     }
   }
 

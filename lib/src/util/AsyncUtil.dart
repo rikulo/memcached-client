@@ -26,10 +26,10 @@ Future timeoutFuture(Future origin, Duration timeout, String description) {
     if (cmpl.isCompleted) return;
     timer.cancel();
     cmpl.complete(value);
-  }).catchError((e) {
+  }).catchError((e, st) {
     if (cmpl.isCompleted) return;
     timer.cancel();
-    cmpl.completeError(e);
+    cmpl.completeError(e, st);
   });
   return cmpl.future;
 }
@@ -64,16 +64,16 @@ Future listenStream(Stream stream, void onData(data),
       if (!cmpl.isCompleted) {
         try {
           onData(data);
-        } catch (err) {
+        } catch (err, st) {
           if (cancelOnError) ss.cancel();
-          cmpl.completeError(err);
+          cmpl.completeError(err, st);
         }
       }
     })
-    .catchError((err) {
+    .catchError((err, st) {
       if (!cmpl.isCompleted) {
         if (cancelOnError) ss.cancel();
-        cmpl.completeError(err);
+        cmpl.completeError(err, st);
       }
     });
   });
@@ -83,16 +83,16 @@ Future listenStream(Stream stream, void onData(data),
       if (!cmpl.isCompleted) {
         try {
           onError(errorEvent);
-        } catch (err) {
+        } catch (err, st) {
           if (cancelOnError) ss.cancel();
-          cmpl.completeError(err);
+          cmpl.completeError(err, st);
         }
       }
     })
-    .catchError((err) {
+    .catchError((err, st) {
       if (!cmpl.isCompleted) {
         if (cancelOnError) ss.cancel();
-        cmpl.completeError(err);
+        cmpl.completeError(err, st);
       }
     });
   });
@@ -111,10 +111,10 @@ Future listenStream(Stream stream, void onData(data),
     .then((value) {
       if (!cmpl.isCompleted) cmpl.complete(value);
     })
-    .catchError((err) {
+    .catchError((err, st) {
       if (!cmpl.isCompleted) {
         if (cancelOnError) ss.cancel();
-        cmpl.completeError(err);
+        cmpl.completeError(err, st);
       }
     });
   });

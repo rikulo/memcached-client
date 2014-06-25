@@ -31,9 +31,9 @@ abstract class MultiKeyOP extends BinaryOP implements VbucketAwareOP {
       final int id = getVbucketID(key);
       final List<int> src = int16ToBytes(id);
       copyList(src, 0, _cmd, offset + 6, 2);
-      _logger.finest("After setVbucketID: offset:$offset, id:$id");
+      //_logger.finest("After setVbucketID: offset:$offset, id:$id");
     }
-    _logger.finest("After setVbucketID: _cmd:$_cmd");
+    //_logger.finest("After setVbucketID: _cmd:$_cmd");
   }
 
   //@Override

@@ -17,7 +17,7 @@ class TextNoOP extends TextOP implements NoOP {
   //@Override
   static final int VERSION_PREFIX_LEN = 'VERSION '.length;
   int handleTextCommand(String line) {
-    _logger.finest("NoOpCommand: $this, [${line}]\n");
+    //_logger.finest("NoOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
       _cmpl.completeError(new OPStatus.wrap(status, this));
@@ -39,7 +39,7 @@ class TextNoOP extends TextOP implements NoOP {
     cmd..addAll(UTF8.encode(OPType.version.name))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareNoCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareNoCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }

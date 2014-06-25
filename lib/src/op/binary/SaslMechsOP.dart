@@ -16,7 +16,7 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("SaslMechsOPData: $this, ${UTF8.decode(line)}\n");
+    //_logger.finest("SaslMechsOPData: $this, ${UTF8.decode(line)}\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -48,7 +48,7 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
     //24, _req_extralen: extra
     //24+_req_extralen, keylen: key
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareSaslMechsCommand:$cmd\n");
+    //_logger.finest("_prepareSaslMechsCommand:$cmd\n");
     return cmd;
   }
 }

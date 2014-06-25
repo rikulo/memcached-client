@@ -24,7 +24,7 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
 
   @override
   int handleData(List<int> line) {
-    _logger.finest("TapRequestOPData: $this, $line.");
+    //_logger.finest("TapRequestOPData: $this, $line.");
 
     ResponseMessage response = new ResponseMessage();
     response.opcode = TapOpcode.valueOf(this._opCode);
@@ -40,7 +40,7 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
     if ((response.bitflags & TapResponseFlag.TAP_ACK.flag) != 0) {
       //ack back Tap server that we have received the streamed-back data
       final TapAckOP op = new TapAckOP(response.opcode, response.opaque);
-      op.future.then((_) => _logger.finest("ack back and done: $op.opcode, $op.opaque"));
+      //op.future.then((_) => _logger.finest("ack back and done: $op.opcode, $op.opaque"));
       handlingNode.addOP(op);
     }
     if (response.opcode != TapOpcode.OPAQUE
@@ -53,7 +53,7 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
   //Streaming socket is closed (by server).
   void socketClosed() {
     if (!_streamCtrl.isClosed) {
-      _logger.finest("Tap server socket closed; close tap stream");
+      //_logger.finest("Tap server socket closed; close tap stream");
       _streamCtrl.close();
     }
   }
@@ -63,7 +63,7 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
    */
   List<int> _prepareTapRequestCommand(String id, RequestMessage message) {
     final cmd = message.bytes;
-    _logger.finest("_prepareTapRequestCommand:$cmd");
+    //_logger.finest("_prepareTapRequestCommand:$cmd");
     return cmd;
   }
 }

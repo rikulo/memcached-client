@@ -21,7 +21,7 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryGetSingleOPData: $this, $line.");
+    //_logger.finest("BinaryGetSingleOPData: $this, $line.");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -68,7 +68,7 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareGetKCommand:$cmd");
+    //_logger.finest("_prepareGetKCommand:$cmd");
     return cmd;
   }
 }

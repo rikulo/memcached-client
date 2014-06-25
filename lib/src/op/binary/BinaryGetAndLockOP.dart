@@ -18,7 +18,7 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryGetAndLockOPData: $this, $line.");
+    //_logger.finest("BinaryGetAndLockOPData: $this, $line.");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -65,7 +65,7 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareGetAndLockCommand:$cmd");
+    //_logger.finest("_prepareGetAndLockCommand:$cmd");
     return cmd;
   }
 }

@@ -17,7 +17,7 @@ class TextVersionOP extends TextOP implements VersionOP {
   //@Override
   static final int VERSION_PREFIX_LEN = 'VERSION '.length;
   int handleTextCommand(String line) {
-    _logger.finest("VersionOpCommand: $this, [${line}]\n");
+    //_logger.finest("VersionOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
       _cmpl.completeError(new OPStatus.wrap(status, this));
@@ -38,7 +38,7 @@ class TextVersionOP extends TextOP implements VersionOP {
     cmd..addAll(UTF8.encode(OPType.version.name))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareVersionCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareVersionCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }

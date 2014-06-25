@@ -18,7 +18,7 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryUnlockOpData: $this, $line\n");
+    //_logger.finest("BinaryUnlockOpData: $this, $line\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else
@@ -55,7 +55,7 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareUnlockCommand:$cmd\n");
+    //_logger.finest("_prepareUnlockCommand:$cmd\n");
     return cmd;
   }
 }

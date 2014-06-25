@@ -24,14 +24,14 @@ class TextGetOP extends TextOP implements GetOP {
   int handleTextCommand(String line) {
     int result = _handleCommand0(line);
     if (result == _HANDLE_COMPLETE) {
-      _logger.finest("$this: Close stream");
+      //_logger.finest("$this: Close stream");
       _streamCtrl.close();
     }
     return result;
   }
 
   int _handleCommand0(String line) {
-    _logger.finest("GetOpCommand: $this, [${line}]");
+    //_logger.finest("GetOpCommand: $this, [${line}]");
     if ("END" == line) {
       return _HANDLE_COMPLETE; //complete
     } else if (line.startsWith("VALUE ")) {
@@ -56,7 +56,7 @@ class TextGetOP extends TextOP implements GetOP {
 
   //Override
   int handleData(List<int> buf) {
-    _logger.finest("GetOpCommand: $this, data:$buf");
+    //_logger.finest("GetOpCommand: $this, data:$buf");
     _streamCtrl.add(new GetResult(_key, _flags, _cas, buf));
     return _HANDLE_CMD; //handle next line of command
   }
@@ -73,7 +73,7 @@ class TextGetOP extends TextOP implements GetOP {
     }
     cmd.addAll(_CRLF);
 
-    _logger.finest("_prepareGetCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareGetCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 

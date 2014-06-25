@@ -54,11 +54,11 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
       op.future
       .then((ok) {
         if (ok) {
-          _logger.finest("authenticated!");
+          //_logger.finest("authenticated!");
           _authenticated = ok; //fail would keep authenticated == null
         }
       })
-      .catchError((err) => _logger.warning("Fail to authenticate:\n$err"));
+      .catchError((err, st) => _logger.warning("Fail to authenticate", err, st));
 
       _authenticating = true;
       prependOP(op);
@@ -74,7 +74,7 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   //Callback listen to onData of the Socket Stream; will call
   //op.handleCommand() and op.handleData() to handle command/data.
   void processResponse() {
-    _logger.finest("pbuf:$_pbuf");
+    //_logger.finest("pbuf:$_pbuf");
     while(true) {
       //handle response header
       if (_bodylen == _HANDLE_CMD) {
@@ -85,7 +85,7 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
           int opaque = _getOpaque(aLine);
           //20130628, henrichen: Tricky! TapOP is special,seq does not necessary match!
           if (_readOP is TapRequestOP && _readOP.state == OPState.READING) {
-            _logger.finest("Streaming _readOP:${_readOP}");
+            //_logger.finest("Streaming _readOP:${_readOP}");
           } else if (_writeOP is! TapOP) {
             //(multiple getkq + noop) could return same seq number
             if (_readOP == null || opaque != _readOP.seq) {
@@ -96,7 +96,7 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
             _readOP = _writeOP;
             _writeOP = null; //so TapAckOP after TapRequestOP can be sent to Tap server
             _readOP.nextState(); //so we kept the TapRequestOP.state at "READING"
-            _logger.finest("_readOP:${_readOP}, _readOP.state:${_readOP.state}");
+            //_logger.finest("_readOP:${_readOP}, _readOP.state:${_readOP.state}");
           }
           _bodylen = _readOP.handleCommand(aLine);
           _pbuf.removeRange(0, 24);
@@ -117,7 +117,7 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
       //check if complete
       if (_bodylen == _HANDLE_COMPLETE) { //complete, reset parser
         _bodylen = _HANDLE_CMD;
-        _logger.finest("_HANDLE_COMPLETE: $_readOP\n");
+        //_logger.finest("_HANDLE_COMPLETE: $_readOP\n");
         _readOP.complete();
 
         //close this channel if all processed

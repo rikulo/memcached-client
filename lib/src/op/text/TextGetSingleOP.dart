@@ -23,7 +23,7 @@ class TextGetSingleOP extends TextSingleKeyOP implements GetSingleOP {
   bool _hasValue = false;
 
   int handleTextCommand(String line) {
-    _logger.finest("GetSingleOpCommand: $this, [${line}]");
+    //_logger.finest("GetSingleOpCommand: $this, [${line}]");
     if ("END" == line) {
       if (!_hasValue)
         _cmpl.completeError(new OPStatus.wrap(OPStatus.KEY_NOT_FOUND, this));
@@ -65,7 +65,7 @@ class TextGetSingleOP extends TextSingleKeyOP implements GetSingleOP {
        ..addAll(UTF8.encode(key))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareGetCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareGetCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }

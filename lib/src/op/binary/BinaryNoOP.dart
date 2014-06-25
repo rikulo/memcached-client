@@ -17,7 +17,7 @@ class BinaryNoOP extends BinaryOP implements NoOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryNoOpData: $this, $line\n");
+    //_logger.finest("BinaryNoOpData: $this, $line\n");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -34,7 +34,7 @@ class BinaryNoOP extends BinaryOP implements NoOP {
     //1, 1 byte: Opcode
     cmd[1] = OPType.noop.ordinal;
 
-    _logger.finest("_prepareNoCommand:$cmd\n");
+    //_logger.finest("_prepareNoCommand:$cmd\n");
     return cmd;
   }
 }

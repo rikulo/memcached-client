@@ -21,7 +21,7 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
 
   //@Override
   int handleTextCommand(String line) {
-    _logger.finest("StoreOpCommand: $this, [${line}]\n");
+    //_logger.finest("StoreOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
       _cmpl.completeError(new OPStatus.wrap(status, this));
@@ -67,7 +67,7 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
        ..addAll(doc)
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareStoreCommand:[${UTF8.decode(cmd)}]");
+    //_logger.finest("_prepareStoreCommand:[${UTF8.decode(cmd)}]");
     return cmd;
   }
 }

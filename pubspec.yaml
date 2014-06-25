@@ -1,11 +1,12 @@
 name: memcached_client
-version: 0.5.1+1
+version: 0.5.2
 author: Henri Chen <henrichen@rikulo.org>
 description: A Memcached client library written in Dart language.
 homepage: https://github.com/rikulo/memcached-client
 dependencies:
   crypto: any
   logging: any
+dev_dependencies:
   unittest: any
 environment:
-  sdk: ">=0.8.7"
+  sdk: ">=1.4.0"

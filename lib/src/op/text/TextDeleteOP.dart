@@ -18,7 +18,7 @@ class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
 
   //@Override
   int handleTextCommand(String line) {
-    _logger.finest("DelOPCommand: $this, [${line}]");
+    //_logger.finest("DelOPCommand: $this, [${line}]");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
       _cmpl.completeError(new OPStatus.wrap(status, this));
@@ -47,7 +47,7 @@ class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
        ..addAll(UTF8.encode(key))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareDeleteCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareDeleteCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }

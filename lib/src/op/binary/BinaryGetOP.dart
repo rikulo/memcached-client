@@ -34,7 +34,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryGetOPData: $this, $line.");
+    //_logger.finest("BinaryGetOPData: $this, $line.");
 
     if (_opCode == OPType.getkq.ordinal) {
       if (_status != 0) {
@@ -89,7 +89,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
     //1, 1 byte: Opcode
     cmd[1] = OPType.noop.ordinal;
 
-    _logger.finest("_prepareNoopCommand:$cmd");
+    //_logger.finest("_prepareNoopCommand:$cmd");
     return cmd;
   }
 
@@ -118,7 +118,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareGetKQCommand:$cmd");
+    //_logger.finest("_prepareGetKQCommand:$cmd");
     return cmd;
   }
 }

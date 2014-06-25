@@ -22,7 +22,7 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryStoreOPData: $this, $line.");
+    //_logger.finest("BinaryStoreOPData: $this, $line.");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -69,7 +69,7 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
     //24+_req_extralen+keylen, valuelen
     if (valuelen != null && 0 != valuelen)
       copyList(doc, 0, cmd, 24 + _req_extralen + keylen, valuelen);
-    _logger.finest("_prepareStoreCommand:$cmd");
+    //_logger.finest("_prepareStoreCommand:$cmd");
     return cmd;
   }
 }

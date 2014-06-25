@@ -18,7 +18,7 @@ class TextTouchOP extends TextSingleKeyOP implements TouchOP {
 
   //@Override
   int handleTextCommand(String line) {
-    _logger.finest("TouchOpCommand: $this, [${line}]\n");
+    //_logger.finest("TouchOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
     if (status != null)
       _cmpl.completeError(new OPStatus.wrap(status, this));
@@ -49,7 +49,7 @@ class TextTouchOP extends TextSingleKeyOP implements TouchOP {
        ..addAll(UTF8.encode('$exp'))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareTouchCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareTouchCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }

@@ -267,7 +267,7 @@ class MemcachedClientImpl implements MemcachedClient {
       .forEach((saddr, op) {
         op.future
         .then((rv) => results[saddr] = rv)
-        .catchError((err) => _logger.warning("broadcastOP. saddr: $saddr, OP: $op, Error: $err"));
+        .catchError((err, st) => _logger.warning("broadcastOP. saddr: $saddr, OP: $op, Error", err, st));
 
         futures.add(op.future);
       });

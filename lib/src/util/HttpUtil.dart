@@ -31,7 +31,7 @@ class HttpUtil {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
       }
-      _logger.finest("GET $resource");
+      //_logger.finest("GET $resource");
       return hc.openUrl('GET', resource);
     });
   }
@@ -40,7 +40,7 @@ class HttpUtil {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
-        _logger.finest("POST $resource");
+        //_logger.finest("POST $resource");
       }
       return hc.openUrl('POST', resource);
     });
@@ -50,7 +50,7 @@ class HttpUtil {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
-        _logger.finest("PUT $resource");
+        //_logger.finest("PUT $resource");
       }
       return hc.openUrl('PUT', resource);
     });
@@ -60,7 +60,7 @@ class HttpUtil {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
-        _logger.finest("DELETE $resource");
+        //_logger.finest("DELETE $resource");
       }
       return hc.openUrl('DELETE', resource);
     });
@@ -154,7 +154,7 @@ class HttpUtil {
         h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
       }
       if (value != null) {
-        _logger.finest("VALUE: $value");
+        //_logger.finest("VALUE: $value");
         req.write(value);
       }
       return req.close();
@@ -165,10 +165,10 @@ class HttpUtil {
       List<int> contents = new List();
       res.listen((bytes) => contents.addAll(bytes), //read response
         onDone : () => cmpl.complete(new HttpResult(status, headers, contents)), //done read response
-        onError: (err) => cmpl.completeError(err) //fail to read response
+        onError: (err, st) => cmpl.completeError(err, st) //fail to read response
       );
     })
-    .catchError((err) => cmpl.completeError(err));
+    .catchError((err, st) => cmpl.completeError(err, st));
     return cmpl.future;
   }
 }

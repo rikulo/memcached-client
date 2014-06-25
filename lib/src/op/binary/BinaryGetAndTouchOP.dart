@@ -18,7 +18,7 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryGetAndTouchOPData: $this, $line.");
+    //_logger.finest("BinaryGetAndTouchOPData: $this, $line.");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -65,7 +65,7 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareGetAndTouchCommand:$cmd");
+    //_logger.finest("_prepareGetAndTouchCommand:$cmd");
     return cmd;
   }
 }

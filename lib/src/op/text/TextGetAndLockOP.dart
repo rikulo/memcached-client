@@ -23,7 +23,7 @@ class TextGetAndLockOP extends TextSingleKeyOP implements GetAndLockOP {
   bool _hasValue = false;
 
   int handleTextCommand(String line) {
-    _logger.finest("GetAndLockOpCommand: $this, [${line}]");
+    //_logger.finest("GetAndLockOpCommand: $this, [${line}]");
     if ("END" == line) {
       if (!_hasValue)
         _cmpl.completeError(new OPStatus.wrap(OPStatus.KEY_NOT_FOUND, this));
@@ -67,7 +67,7 @@ class TextGetAndLockOP extends TextSingleKeyOP implements GetAndLockOP {
        ..addAll(UTF8.encode('$exp'))
        ..addAll(_CRLF);
 
-    _logger.finest("_prepareGetAndLockCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareGetAndLockCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }

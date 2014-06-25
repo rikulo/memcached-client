@@ -21,7 +21,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
 
   //@Override
   int handleData(List<int> line) {
-    _logger.finest("BinaryStatsOPData: $this, $line.");
+    //_logger.finest("BinaryStatsOPData: $this, $line.");
 
     if (_keylen > 0) { //not the last packet
       if (_status != 0) {
@@ -76,7 +76,7 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
     if (keylen > 0)
       copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
-    _logger.finest("_prepareStatsCommand:$cmd");
+    //_logger.finest("_prepareStatsCommand:$cmd");
     return cmd;
   }
 }

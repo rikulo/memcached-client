@@ -19,7 +19,7 @@ class TextStatsOP extends TextOP implements StatsOP {
   //@Override
   static final int VERSION_PREFIX_LEN = 'VERSION '.length;
   int handleTextCommand(String line) {
-    _logger.finest("StatsOpCommand: $this, [${line}]");
+    //_logger.finest("StatsOpCommand: $this, [${line}]");
     if ("END" == line) {
       _cmpl.complete(_stats);
       return _HANDLE_COMPLETE; //complete
@@ -60,7 +60,7 @@ class TextStatsOP extends TextOP implements StatsOP {
     }
     cmd..addAll(_CRLF);
 
-    _logger.finest("_prepareStatsCommand:[${UTF8.decode(cmd)}]\n");
+    //_logger.finest("_prepareStatsCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }
