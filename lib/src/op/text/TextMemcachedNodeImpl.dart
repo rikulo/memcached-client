@@ -6,10 +6,16 @@ part of memcached_client;
 
 class TextMemcachedNodeImpl extends MemcachedNode {
   //TODO: would multiple opChannels in a node a better implementation?
-  final TextOPChannel _opChannel;
-  TextMemcachedNodeImpl(SocketAddress saddr)
-      : _opChannel = new TextOPChannel(saddr),
-        super(saddr);
+  @override
+  final TextOPChannel opChannel;
 
-  OPChannel get opChannel => _opChannel;
+  static Future<TextMemcachedNodeImpl> start(SocketAddress saddr)
+  => TextOPChannel.start(saddr)
+  .then((TextOPChannel channel)
+  	=> new TextMemcachedNodeImpl._(saddr, channel));
+
+  TextMemcachedNodeImpl._(SocketAddress saddr, this.opChannel)
+      : super(saddr);
+
+  String toString() => "$opChannel -> $socketAddress";
 }

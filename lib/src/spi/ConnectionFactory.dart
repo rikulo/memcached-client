@@ -17,12 +17,12 @@ abstract class ConnectionFactory {
   /**
    * Create a new MemcachedNode.
    */
-  MemcachedNode createMemcachedNode(SocketAddress saddr);
+  Future<MemcachedNode> createMemcachedNode(SocketAddress saddr);
 
   /**
    * Create a list of MemcachedNode per the provided Socket addresses.
    */
-  List<MemcachedNode> createNodes(Iterable<SocketAddress> saddrs);
+  Future<List<MemcachedNode>> createNodes(Iterable<SocketAddress> saddrs);
 
   /**
    * Create a NodeLocator instance for the given list of nodes.

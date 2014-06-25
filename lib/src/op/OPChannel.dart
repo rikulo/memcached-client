@@ -63,23 +63,26 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
 
   Logger _logger;
   int _seq = 0; //OP sequence id for matching OP response.
-  Socket _socket;
+  final Socket _socket;
   bool _closing = false; //Channel is closing
   OP _writeOP; //current OP writing into socket
-  List<int> _pbuf; //response scratch buffer
+  final List<int> _pbuf; //response scratch buffer
 
   //Base constructor
-  _OPChannelImpl(SocketAddress saddr)
-      : _saddr = saddr,
-        _pbuf = new List() {
-    _logger = initLogger("memcached_client.op", this);
-
-    Socket.connect(_saddr.host, _saddr.port)
+  static Future<_OPChannelImpl> _start(SocketAddress saddr,
+    _OPChannelImpl newInstance(Socket socket)) {
+    return Socket.connect(saddr.host, saddr.port)
     .then((Socket socket) {
-      _socket = socket;
-      _setupResponseHandler();
+      final _OPChannelImpl channel = newInstance(socket);
+      channel._setupResponseHandler();
       //_logger.finest("Socket to $_saddr connected!");
+      return channel;
     });
+  }
+
+  _OPChannelImpl._(this._saddr, this._socket)
+      : _pbuf = new List() {
+    _logger = initLogger("memcached_client.op", this);
   }
 
   /**

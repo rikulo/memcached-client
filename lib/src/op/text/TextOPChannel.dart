@@ -13,10 +13,15 @@ class TextOPChannel extends _OPChannelImpl<int> {
   final OPQueue<int, OP> _readQ;
 
   OP _readOP; //current OP to be read from socket
-  TextOPChannel(SocketAddress saddr)
+
+  static Future<TextOPChannel> start(SocketAddress saddr)
+  => _OPChannelImpl._start(saddr,
+    (Socket socket) => new TextOPChannel._(saddr, socket));
+
+  TextOPChannel._(SocketAddress saddr, Socket socket)
       : _writeQ = new OPQueueQueue(),
         _readQ = new OPQueueQueue(),
-        super(saddr) {
+        super._(saddr, socket) {
 
     _logger = initLogger("memcached_client.op.text", this);
   }

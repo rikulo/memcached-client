@@ -8,9 +8,14 @@ class BinaryMemcachedNodeImpl extends MemcachedNode {
   @override
   final BinaryOPChannel opChannel;
 
-  BinaryMemcachedNodeImpl(SocketAddress saddr, AuthDescriptor authDescriptor)
-      : opChannel = new BinaryOPChannel(saddr, authDescriptor),
-        super(saddr);
+  static Future<BinaryMemcachedNodeImpl>
+  	start(SocketAddress saddr, AuthDescriptor authDescriptor, {int authRetry})
+  => BinaryOPChannel.start(saddr, authDescriptor, authRetry: authRetry)
+  .then((BinaryOPChannel channel)
+  	=> new BinaryMemcachedNodeImpl._(saddr, channel));
+
+  BinaryMemcachedNodeImpl._(SocketAddress saddr, this.opChannel)
+      : super(saddr);
 
   String toString() => "$opChannel -> $socketAddress";
 }

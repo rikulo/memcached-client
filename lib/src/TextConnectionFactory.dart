@@ -12,8 +12,8 @@ class TextConnectionFactory extends ConnectionFactoryBase {
       : super(hashAlg);
 
   @override
-  MemcachedNode createMemcachedNode(SocketAddress saddr) =>
-      new TextMemcachedNodeImpl(saddr);
+  Future<MemcachedNode> createMemcachedNode(SocketAddress saddr) =>
+      TextMemcachedNodeImpl.start(saddr);
 
   @override
   OPFactory get opFactory => new TextOPFactory();

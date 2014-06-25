@@ -12,8 +12,8 @@ class BinaryConnectionFactory extends ConnectionFactoryBase {
       : super(hashAlg);
 
   @override
-  MemcachedNode createMemcachedNode(SocketAddress saddr) =>
-      new BinaryMemcachedNodeImpl(saddr, authDescriptor);
+  Future<MemcachedNode> createMemcachedNode(SocketAddress saddr) =>
+      BinaryMemcachedNodeImpl.start(saddr, authDescriptor);
 
   @override
   OPFactory get opFactory => new BinaryOPFactory();

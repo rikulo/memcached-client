@@ -15,13 +15,18 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   final BinaryOPFactory _factory;
 
   int _authRetry; //times of retry to authentication; null means forever.
-  BinaryOPChannel(SocketAddress saddr, AuthDescriptor authDescriptor, {int authRetry})
+
+  static Future<BinaryOPChannel> start(SocketAddress saddr, AuthDescriptor authDescriptor, {int authRetry})
+  => _OPChannelImpl._start(saddr,
+    (Socket socket) => new BinaryOPChannel._(saddr, socket, authDescriptor, authRetry));
+
+  BinaryOPChannel._(SocketAddress saddr, Socket socket, AuthDescriptor authDescriptor, int authRetry)
       : _authDescriptor = authDescriptor,
         _authRetry = authRetry,
         _writeQ = new OPQueueQueue(),
         _readQ = new OPQueueMap(),
         _factory = new BinaryOPFactory(),
-        super(saddr) {
+        super._(saddr, socket) {
 
     _logger = initLogger("memcached_client.op.binary", this);
   }
