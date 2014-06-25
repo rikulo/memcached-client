@@ -11,11 +11,15 @@ Logger initStaticLogger(String fullClassName) =>
     new Logger(fullClassName);
 
 void setupLogger({String name : '', Level level : Level.ALL}) {
-  hierarchicalLoggingEnabled = true;
+//  hierarchicalLoggingEnabled = true;
   Logger root = new Logger(name);
   root.level = level;
   root.onRecord.listen((LogRecord r) {
-    print('${r.sequenceNumber} ${r.time} ${r.loggerName} ${r.level}: ${r.message}');
+    print("${r.time}:${r.loggerName}:${r.sequenceNumber}\n"
+      "${r.level}: ${r.message}");
+    if (r.error != null)
+      print("Cause: ${r.error}");
+    if (r.stackTrace != null)
+      print("${r.stackTrace}");
   });
 }
-

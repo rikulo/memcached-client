@@ -143,6 +143,10 @@ class HttpUtil {
   static Future<HttpResult> _uriFunc(Future<HttpClientRequest> prepareFunc(),
       String usr, String pass, Map<String, String> headers, String value) {
     Completer<HttpResult> cmpl = new Completer();
+    void onError(ex, st) {
+      cmpl.completeError(ex, st);
+    }
+
     prepareFunc()
     .then((req) {
       HttpHeaders h = req.headers;
@@ -165,10 +169,10 @@ class HttpUtil {
       List<int> contents = new List();
       res.listen((bytes) => contents.addAll(bytes), //read response
         onDone : () => cmpl.complete(new HttpResult(status, headers, contents)), //done read response
-        onError: (err, st) => cmpl.completeError(err, st) //fail to read response
+        onError: onError //fail to read response
       );
     })
-    .catchError((err, st) => cmpl.completeError(err, st));
+    .catchError(onError);
     return cmpl.future;
   }
 }

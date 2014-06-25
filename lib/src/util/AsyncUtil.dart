@@ -4,10 +4,10 @@
 
 part of memcached_client;
 
-class TimeoutError extends RuntimeError {
-  TimeoutError(message)
-      : super(message);
-}
+//class TimeoutError extends RuntimeError {
+//  TimeoutError(message)
+//      : super(message);
+//}
 
 /**
  * Make a Future with timeout mechanism which will throw a [TimeoutError]
@@ -17,22 +17,22 @@ class TimeoutError extends RuntimeError {
  * + timeout - timeout duration.
  * + description - error message if timeout.
  */
-Future timeoutFuture(Future origin, Duration timeout, String description) {
-  var cmpl = new Completer();
-  var timer = new Timer(timeout, () {
-    cmpl.completeError(new TimeoutError(description));
-  });
-  origin.then((value) {
-    if (cmpl.isCompleted) return;
-    timer.cancel();
-    cmpl.complete(value);
-  }).catchError((e, st) {
-    if (cmpl.isCompleted) return;
-    timer.cancel();
-    cmpl.completeError(e, st);
-  });
-  return cmpl.future;
-}
+//Future timeoutFuture(Future origin, Duration timeout, String description) {
+//  var cmpl = new Completer();
+//  var timer = new Timer(timeout, () {
+//    cmpl.completeError(new TimeoutError(description));
+//  });
+//  origin.then((value) {
+//    if (cmpl.isCompleted) return;
+//    timer.cancel();
+//    cmpl.complete(value);
+//  }).catchError((e, st) {
+//    if (cmpl.isCompleted) return;
+//    timer.cancel();
+//    cmpl.completeError(e, st);
+//  });
+//  return cmpl.future;
+//}
 
 /**
  * Wrap a [Stream] into a [Future] so exceptions thrown in
@@ -55,69 +55,53 @@ Future timeoutFuture(Future origin, Duration timeout, String description) {
  * + [cancelOnError] - whether automatially unsubscribe from the stream if
  *                     exception thrown.
  */
-Future listenStream(Stream stream, void onData(data),
-                    void onError(err), onDone(), {bool cancelOnError: false}) {
-  var cmpl = new Completer();
-  var ss = stream.listen(null);
-  ss.onData((data) {
-    new Future.sync(() {
-      if (!cmpl.isCompleted) {
-        try {
-          onData(data);
-        } catch (err, st) {
-          if (cancelOnError) ss.cancel();
-          cmpl.completeError(err, st);
-        }
-      }
-    })
-    .catchError((err, st) {
-      if (!cmpl.isCompleted) {
-        if (cancelOnError) ss.cancel();
-        cmpl.completeError(err, st);
-      }
-    });
-  });
-
-  ss.onError((errorEvent) {
-    new Future.sync(() {
-      if (!cmpl.isCompleted) {
-        try {
-          onError(errorEvent);
-        } catch (err, st) {
-          if (cancelOnError) ss.cancel();
-          cmpl.completeError(err, st);
-        }
-      }
-    })
-    .catchError((err, st) {
-      if (!cmpl.isCompleted) {
-        if (cancelOnError) ss.cancel();
-        cmpl.completeError(err, st);
-      }
-    });
-  });
-
-  ss.onDone(() {
-    new Future.sync(() {
-      if (!cmpl.isCompleted) {
-        try {
-          return onDone();
-        } catch (err) {
-          if (cancelOnError) ss.cancel();
-          cmpl.completeError(err);
-        }
-      }
-    })
-    .then((value) {
-      if (!cmpl.isCompleted) cmpl.complete(value);
-    })
-    .catchError((err, st) {
-      if (!cmpl.isCompleted) {
-        if (cancelOnError) ss.cancel();
-        cmpl.completeError(err, st);
-      }
-    });
-  });
-
-  return cmpl.future;
-}
+//Future listenStream(Stream stream, void onData(data),
+//                    void onError(err), onDone(), {bool cancelOnError: false}) {
+//  var cmpl = new Completer();
+//  var ss = stream.listen(null);
+//  ss.onData((data) {
+//    if (!cmpl.isCompleted) {
+//      try {
+//        onData(data);
+//      } catch (err, st) {
+//        if (cancelOnError) ss.cancel();
+//        cmpl.completeError(err, st);
+//      }
+//    }
+//  });
+//
+//  ss.onError((errorEvent) {
+//    if (!cmpl.isCompleted) {
+//      try {
+//        onError(errorEvent);
+//      } catch (err, st) {
+//        if (cancelOnError) ss.cancel();
+//        cmpl.completeError(err, st);
+//      }
+//    }
+//  });
+//
+//  ss.onDone(() {
+//    new Future.sync(() {
+//      if (!cmpl.isCompleted) {
+//        try {
+//          return onDone();
+//        } catch (err, st) {
+//          if (cancelOnError) ss.cancel();
+//          cmpl.completeError(err, st);
+//        }
+//      }
+//    })
+//    .then((value) {
+//      if (!cmpl.isCompleted) cmpl.complete(value);
+//    })
+//    .catchError((err, st) {
+//      if (!cmpl.isCompleted) {
+//        if (cancelOnError) ss.cancel();
+//        cmpl.completeError(err, st);
+//      }
+//    });
+//  });
+//
+//  return cmpl.future;
+//}

@@ -265,11 +265,10 @@ class MemcachedClientImpl implements MemcachedClient {
       List<Future> futures = new List();
       _memcachedConn.broadcastOP(newOP, nodeIterator)
       .forEach((saddr, op) {
-        op.future
-        .then((rv) => results[saddr] = rv)
-        .catchError((err, st) => _logger.warning("broadcastOP. saddr: $saddr, OP: $op, Error", err, st));
-
-        futures.add(op.future);
+        futures.add(
+          op.future
+          .then((rv) => results[saddr] = rv)
+          .catchError((err, st) => _logger.warning("broadcastOP. saddr: $saddr, OP: $op, Error", err, st)));
       });
       return Future.wait(futures).then((_) => results);
     });
