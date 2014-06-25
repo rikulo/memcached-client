@@ -19,7 +19,7 @@ class BinaryGetSingleOP extends SingleKeyOP implements GetSingleOP {
     _cmd = _prepareGetKCommand(key);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryGetSingleOPData: $this, $line.");
     if (_status != 0)

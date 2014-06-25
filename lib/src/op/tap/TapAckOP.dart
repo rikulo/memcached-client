@@ -18,10 +18,10 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
   int get seq => _opaque;
 
   //-- TapAckOP --//
-  //@Override
+  @override
   Future<bool> get future => _cmpl.future;
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("TapAckOPData: $this, $line.");
     _cmpl.complete(true);

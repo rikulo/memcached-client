@@ -16,7 +16,7 @@ class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
     _cmd = _prepareDeleteCommand(key);
   }
 
-  //@Override
+  @override
   int handleTextCommand(String line) {
     //_logger.finest("DelOPCommand: $this, [${line}]");
     OPStatus status = TextOPStatus.valueOfError(line);
@@ -32,7 +32,7 @@ class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }

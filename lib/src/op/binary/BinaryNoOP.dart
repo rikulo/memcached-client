@@ -15,7 +15,7 @@ class BinaryNoOP extends BinaryOP implements NoOP {
     _cmd = _prepareNoCommand();
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryNoOpData: $this, $line\n");
     if (_status != 0)

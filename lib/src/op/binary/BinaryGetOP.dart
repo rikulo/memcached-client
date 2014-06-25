@@ -20,10 +20,10 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
   }
 
   //-- GetOP --//
-  //@Override
+  @override
   Stream<GetResult> get stream => _streamCtrl.stream;
 
-  //@Override
+  @override
   void set seq(int s) {
     //opacque field for this OP(multiple getkq + noop)
     List<int> src = int32ToBytes(s);
@@ -32,7 +32,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
     _seq= s;
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryGetOPData: $this, $line.");
 

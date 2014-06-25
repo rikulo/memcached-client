@@ -16,7 +16,7 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     _cmd = _prepareDeleteCommand(key, cas);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryDeleteOpData: $this, $line");
     if (_status != 0)

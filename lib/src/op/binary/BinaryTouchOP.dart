@@ -16,7 +16,7 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
     _cmd = _prepareTouchCommand(key, exp);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryTouchOpData: $this, $line\n");
     if (_status != 0)

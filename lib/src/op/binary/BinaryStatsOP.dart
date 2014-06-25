@@ -16,10 +16,10 @@ class BinaryStatsOP extends BinaryOP implements StatsOP {
   }
 
   //-- StatsOP --//
-  //@Override
+  @override
   Future<Map<String, String>> get future => _cmpl.future;
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryStatsOPData: $this, $line.");
 

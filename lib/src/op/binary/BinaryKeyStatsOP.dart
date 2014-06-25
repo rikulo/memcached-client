@@ -15,10 +15,10 @@ class BinaryKeyStatsOP extends SingleKeyOP implements KeyStatsOP {
         super(key);
 
   //-- KeyStatsOP --//
-  //@Override
+  @override
   Future<Map<String, String>> get future => _cmpl.future;
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryKeyStatsOPData: $this, $line.");
 
@@ -48,7 +48,7 @@ class BinaryKeyStatsOP extends SingleKeyOP implements KeyStatsOP {
   }
 
   //--VbucketAwareOP--//
-  //@Override
+  @override
   void setVbucketID(Map<String, int> ids) {
     final int id = ids.values.first;
     _vbucketID = id;

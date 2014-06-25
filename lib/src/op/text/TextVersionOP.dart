@@ -14,7 +14,7 @@ class TextVersionOP extends TextOP implements VersionOP {
     _cmd = _prepareVersionCommand();
   }
 
-  //@Override
+  @override
   static final int VERSION_PREFIX_LEN = 'VERSION '.length;
   int handleTextCommand(String line) {
     //_logger.finest("VersionOpCommand: $this, [${line}]\n");
@@ -27,7 +27,7 @@ class TextVersionOP extends TextOP implements VersionOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }

@@ -22,7 +22,7 @@ abstract class MultiKeyOP extends BinaryOP implements VbucketAwareOP {
         _notMyVbucketNodes = new HashSet();
 
   //--VbucketAwareOP--//
-  //@Override
+  @override
   void setVbucketID(Map<String, int> ids) {
     _vbucketMap = ids;
     for (int j = 0, len = this.keys.length; j < len; ++j) {
@@ -36,18 +36,18 @@ abstract class MultiKeyOP extends BinaryOP implements VbucketAwareOP {
     //_logger.finest("After setVbucketID: _cmd:$_cmd");
   }
 
-  //@Override
+  @override
   int getVbucketID(String key) => _vbucketMap[key];
 
-  //@Override
+  @override
   Iterable<MemcachedNode> get notMyVbucketNodes => _notMyVbucketNodes;
 
-  //@Override
+  @override
   void addNotMyVbucketNode(MemcachedNode node) {
     _notMyVbucketNodes.add(node);
   }
 
-  //@Override
+  @override
   void set notMyVbucketNodes(Iterable<MemcachedNode> nodes) {
     _notMyVbucketNodes.addAll(nodes);
   }

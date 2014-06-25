@@ -19,7 +19,7 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
     _cmd = _prepareStoreCommand(type, key, flags, exp, doc, cas);
   }
 
-  //@Override
+  @override
   int handleTextCommand(String line) {
     //_logger.finest("StoreOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
@@ -39,7 +39,7 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }

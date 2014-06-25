@@ -16,7 +16,7 @@ class TextUnlockOP extends TextSingleKeyOP implements UnlockOP {
     _cmd = _prepareUnlockCommand(key, cas);
   }
 
-  //@Override
+  @override
   int handleTextCommand(String line) {
     //_logger.finest("UnlockOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
@@ -32,7 +32,7 @@ class TextUnlockOP extends TextSingleKeyOP implements UnlockOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }

@@ -21,16 +21,16 @@ class TextOPChannel extends _OPChannelImpl<int> {
     _logger = initLogger("memcached_client.op.text", this);
   }
 
-  //@Override
+  @override
   OPQueue<int, OP> get writeQ => _writeQ;
 
-  //@Override
+  @override
   OPQueue<int, OP> get readQ => _readQ;
 
-  //@Override
+  @override
   bool get isAuthenticated => true;
 
-  //@Override
+  @override
   void authenticate() {
     //Should never call here
     throw new StateError("Should never call authenticate in Text protocol");
@@ -41,7 +41,7 @@ class TextOPChannel extends _OPChannelImpl<int> {
       _size = _HANDLE_CMD; //the data block size to read data block
   //Callback listen to onData of the Socket Stream; will call
   //handleCommand() and handleData() to handle command/data.
-  //@Override
+  @override
   void processResponse() {
     //_logger.finest("processResponse:\n${UTF8.decode(_pbuf)}");
     bool more = true;

@@ -16,7 +16,7 @@ class TextMutateOP extends TextSingleKeyOP implements MutateOP {
     _cmd = _prepareMutateCommand(type, key, by);
   }
 
-  //@Override
+  @override
   int handleTextCommand(String line) {
     //_logger.finest("MutateOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
@@ -32,7 +32,7 @@ class TextMutateOP extends TextSingleKeyOP implements MutateOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }

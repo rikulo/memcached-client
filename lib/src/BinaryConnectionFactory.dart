@@ -11,10 +11,10 @@ class BinaryConnectionFactory extends ConnectionFactoryBase {
   BinaryConnectionFactory([HashAlgorithm hashAlg])
       : super(hashAlg);
 
-  //@Override
+  @override
   MemcachedNode createMemcachedNode(SocketAddress saddr) =>
       new BinaryMemcachedNodeImpl(saddr, authDescriptor);
 
-  //@Override
+  @override
   OPFactory get opFactory => new BinaryOPFactory();
 }

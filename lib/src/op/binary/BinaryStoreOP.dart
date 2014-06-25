@@ -20,7 +20,7 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
     _cmd = _prepareStoreCommand(type, key, flags, exp, doc, cas);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryStoreOPData: $this, $line.");
     if (_status != 0)

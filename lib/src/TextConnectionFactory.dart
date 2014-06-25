@@ -11,10 +11,10 @@ class TextConnectionFactory extends ConnectionFactoryBase {
   TextConnectionFactory([HashAlgorithm hashAlg])
       : super(hashAlg);
 
-  //@Override
+  @override
   MemcachedNode createMemcachedNode(SocketAddress saddr) =>
       new TextMemcachedNodeImpl(saddr);
 
-  //@Override
+  @override
   OPFactory get opFactory => new TextOPFactory();
 }

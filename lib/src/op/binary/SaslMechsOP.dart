@@ -14,7 +14,7 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
     _cmd = _prepareSaslMechsCommand();
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("SaslMechsOPData: $this, ${UTF8.decode(line)}\n");
     if (_status != 0)

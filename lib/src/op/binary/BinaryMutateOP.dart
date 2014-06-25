@@ -16,7 +16,7 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     _cmd = _prepareMutateCommand(type, key, by, def, exp);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryMutateOpData: $this, $line\n");
     if (_status != 0)

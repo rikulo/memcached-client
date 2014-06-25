@@ -23,18 +23,18 @@ class KetamaNodeLocator implements NodeLocator {
     _setupKetamaNodes(nodes);
   }
 
-  //@Override
+  @override
   MemcachedNode getPrimary(String key) =>
       _getNodeForKey(_hashAlg(key), _ketamaNodes);
 
-  //@Override
+  @override
   Iterator<MemcachedNode> getSequence(String key) =>
       new _KetamaNodeIterator(key, 7, _ketamaNodes, _hashAlg);
 
-  //@Override
+  @override
   Iterable<MemcachedNode> get allNodes => _nodes;
 
-  //@Override
+  @override
   void updateLocator(List<MemcachedNode> nodes) {
     _nodes = nodes;
   }

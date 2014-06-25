@@ -16,7 +16,7 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
     _cmd = _prepareGetAndTouchCommand(key, exp);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryGetAndTouchOPData: $this, $line.");
     if (_status != 0)

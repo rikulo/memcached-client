@@ -16,7 +16,7 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
     _cmd = _prepareGetAndLockCommand(key, exp);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryGetAndLockOPData: $this, $line.");
     if (_status != 0)

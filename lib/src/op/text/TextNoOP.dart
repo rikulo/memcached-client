@@ -14,7 +14,7 @@ class TextNoOP extends TextOP implements NoOP {
     _cmd = _prepareNoCommand();
   }
 
-  //@Override
+  @override
   static final int VERSION_PREFIX_LEN = 'VERSION '.length;
   int handleTextCommand(String line) {
     //_logger.finest("NoOpCommand: $this, [${line}]\n");
@@ -27,7 +27,7 @@ class TextNoOP extends TextOP implements NoOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }

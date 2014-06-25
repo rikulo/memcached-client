@@ -16,7 +16,7 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
     _cmd = _prepareUnlockCommand(key, cas);
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryUnlockOpData: $this, $line\n");
     if (_status != 0)

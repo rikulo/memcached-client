@@ -57,7 +57,7 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
     _hashAlg = hashAlg == null ? DEFAULT_HASH : hashAlg;
   }
 
-  //@Override
+  @override
   Future<MemcachedConnection> createConnection(List<SocketAddress> saddrs) {
     return new Future.sync(() {
       List<MemcachedNode> nodes = createNodes(saddrs);
@@ -66,7 +66,7 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
     });
   }
 
-  //@Override
+  @override
   List<MemcachedNode> createNodes(Iterable<SocketAddress> saddrs) {
     List<MemcachedNode> nodes = new List();
 
@@ -76,29 +76,29 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
     return nodes;
   }
 
-  //@Override
+  @override
   Future<NodeLocator> createLocator(List<MemcachedNode> nodes) =>
       new Future.value(new ArrayModNodeLocator(nodes, hashAlgorithm));
 
-  //@Override
+  @override
   OPFactory get opFactory => new TextOPFactory();
 
-  //@Override
+  @override
   int get opTimeout => DEFAULT_OPERATION_TIMEOUT;
 
-  //@Override
+  @override
   FailureMode get failureMode => DEFAULT_FAILURE_MODE;
 
-  //@Override
+  @override
 //TODO:
 //  Transcoder get transcoder => new SerializingTranscoder();
 
-  //@Override
+  @override
   HashAlgorithm get hashAlgorithm => _hashAlg;
 
-  //@Override
+  @override
   int get maxReconnectDelay => DEFAULT_MAX_RECONNECT_DELAY;
 
-  //@Override
+  @override
   AuthDescriptor get authDescriptor => null;
 }

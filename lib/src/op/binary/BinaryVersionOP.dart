@@ -15,7 +15,7 @@ class BinaryVersionOP extends BinaryOP implements VersionOP {
     _cmd = _prepareVersionCommand();
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryVersionOpData: $this, $line\n");
     if (_status != 0)

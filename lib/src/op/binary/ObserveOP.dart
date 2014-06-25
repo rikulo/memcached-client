@@ -22,7 +22,7 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
     _cmd = _prepareObserveCommand(key);
   }
 
-  //@Override
+  @override
   int handleCommand(List<int> aLine) {
     int ret = super.handleCommand(aLine);
 
@@ -32,7 +32,7 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
     return ret;
   }
 
-  //@Override
+  @override
   int handleData(List<int> line) {
     //_logger.finest("ObserveOPData: $this, $line.");
     if (_status != 0)
@@ -56,7 +56,7 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
   }
 
   //--VbucketAwareOP--//
-  //@Override
+  @override
   void setVbucketID(Map<String, int> ids) {
     final id = ids.values.first;
     if (0 != id) {

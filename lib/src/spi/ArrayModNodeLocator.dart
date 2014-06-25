@@ -16,17 +16,17 @@ class ArrayModNodeLocator implements NodeLocator {
     _nodes = nodes;
   }
 
-  //@Override
+  @override
   MemcachedNode getPrimary(String key) => _nodes[_getServerForKey(key)];
 
-  //@Override
+  @override
   Iterator<MemcachedNode> getSequence(String key) =>
       new _ArrayModNodeIterator(_getServerForKey(key), _nodes);
 
-  //@Override
+  @override
   Iterable<MemcachedNode> get allNodes => _nodes;
 
-  //@Override
+  @override
   void updateLocator(List<MemcachedNode> nodes) {
     _nodes = nodes;
   }

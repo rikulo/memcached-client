@@ -16,7 +16,7 @@ class TextTouchOP extends TextSingleKeyOP implements TouchOP {
     _cmd = _prepareTouchCommand(key, exp);
   }
 
-  //@Override
+  @override
   int handleTextCommand(String line) {
     //_logger.finest("TouchOpCommand: $this, [${line}]\n");
     OPStatus status = TextOPStatus.valueOfError(line);
@@ -32,7 +32,7 @@ class TextTouchOP extends TextSingleKeyOP implements TouchOP {
     return _HANDLE_COMPLETE;
   }
 
-  //@Override
+  @override
   int handleData(List<int> data) {
     throw "should never call here!";
   }
