@@ -11,8 +11,8 @@ class SaslBinaryConnectionFactory extends BinaryConnectionFactory {
 
   AuthDescriptor _authDescriptor = null;
 
-  SaslBinaryConnectionFactory([HashAlgorithm hashAlg], {String bucketName, String password})
-      : super(hashAlg) {
+  SaslBinaryConnectionFactory({String bucketName, String password})
+      : super() {
       if (bucketName != null && password != null)
         _authDescriptor = new AuthDescriptor(["PLAIN"], bucketName, password);
   }
