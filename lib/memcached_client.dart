@@ -13,6 +13,7 @@ import "dart:convert" show UTF8;
 import 'package:logging/logging.dart';
 import 'package:crypto/crypto.dart';
 
+part 'src/SaslBinaryConnectionFactory.dart';
 part 'src/BinaryConnectionFactory.dart';
 part 'src/MemcachedClient.dart';
 part 'src/TapClient.dart';
