@@ -8,9 +8,8 @@ import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 //Unconditonal set key0
-void testSaslMechs0(MemcachedClient client) {
-  Future f1 = client.listSaslMechs();
-  expect(f1, completion(equals(['PLAIN'])));
+testSaslMechs0(MemcachedClient client) async {
+  expect(await client.listSaslMechs(), ['PLAIN']);
 }
 
 void main() {
