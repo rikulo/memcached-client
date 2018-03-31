@@ -6,6 +6,7 @@ part of memcached_client;
 
 class MemcachedClientImpl implements MemcachedClient {
   final ConnectionFactory _connFactory;
+
 //  final Transcoder _transcoder;
   final OPFactory _opFactory;
   final MemcachedConnection _memcachedConn;
@@ -15,21 +16,21 @@ class MemcachedClientImpl implements MemcachedClient {
   Logger _logger;
   bool _closing = false;
 
-  static Future<MemcachedClient> connect(
-      List<SocketAddress> saddrs, {ConnectionFactory factory}) {
+  static Future<MemcachedClient> connect(List<SocketAddress> saddrs,
+      {ConnectionFactory factory}) {
     return new Future.sync(() {
       if (saddrs == null || saddrs.isEmpty)
-        throw new ArgumentError("Need at least one server to connect to: $saddrs");
-      if (factory == null)
-        factory = new BinaryConnectionFactory();
-      return factory.createConnection(saddrs)
-        .then((conn) => new MemcachedClientImpl(conn, factory));
+        throw new ArgumentError(
+            "Need at least one server to connect to: $saddrs");
+      if (factory == null) factory = new BinaryConnectionFactory();
+      return factory
+          .createConnection(saddrs)
+          .then((conn) => new MemcachedClientImpl(conn, factory));
     });
   }
 
   MemcachedClientImpl(
-      MemcachedConnection memcachedConn,
-      ConnectionFactory connFactory)
+      MemcachedConnection memcachedConn, ConnectionFactory connFactory)
       : _memcachedConn = memcachedConn,
         _connFactory = connFactory,
         _opFactory = connFactory.opFactory,
@@ -45,8 +46,7 @@ class MemcachedClientImpl implements MemcachedClient {
   List<SocketAddress> get availableServers {
     List<SocketAddress> rv = new List();
     for (MemcachedNode node in locator.allNodes) {
-      if (node.isActive)
-        rv.add(node.socketAddress);
+      if (node.isActive) rv.add(node.socketAddress);
     }
     return rv;
   }
@@ -57,8 +57,7 @@ class MemcachedClientImpl implements MemcachedClient {
   List<SocketAddress> get unavailableServers {
     List<SocketAddress> rv = new List();
     for (MemcachedNode node in locator.allNodes) {
-      if (!node.isActive)
-        rv.add(node.socketAddress);
+      if (!node.isActive) rv.add(node.socketAddress);
     }
     return rv;
   }
@@ -116,14 +115,13 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   /** versions command */
-  Future<Map<SocketAddress, String>> versions() =>
-    handleBroadcastOperation(() =>
-        _opFactory.newVersionOP(), locator.allNodes.iterator);
+  Future<Map<SocketAddress, String>> versions() => handleBroadcastOperation(
+      () => _opFactory.newVersionOP(), locator.allNodes.iterator);
 
   /** stats command */
   Future<Map<SocketAddress, Map<String, String>>> stats({String prefix}) =>
-    handleBroadcastOperation(() =>
-        _opFactory.newStatsOP(prefix), locator.allNodes.iterator);
+      handleBroadcastOperation(
+          () => _opFactory.newStatsOP(prefix), locator.allNodes.iterator);
 
   /** keystats command */
   Future<Map<String, String>> keyStats(String key) {
@@ -140,8 +138,7 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   /** get command with multiple keys */
-  Stream<GetResult> getAll(List<String> keys) =>
-      _retrieveAll(OPType.get, keys);
+  Stream<GetResult> getAll(List<String> keys) => _retrieveAll(OPType.get, keys);
 
   /** gets(with cas data version token) command */
   Future<GetResult> gets(String key) {
@@ -176,17 +173,18 @@ class MemcachedClientImpl implements MemcachedClient {
   }
 
   Future<Set<String>> listSaslMechs() {
-    return handleBroadcastOperation(() =>
-        _opFactory.newSaslMechsOP(), locator.allNodes.iterator).then((map) {
+    return handleBroadcastOperation(
+            () => _opFactory.newSaslMechsOP(), locator.allNodes.iterator)
+        .then((map) {
       HashSet<String> set = new HashSet();
-      for(List<String> mechs in map.values)
-        set.addAll(mechs);
+      for (List<String> mechs in map.values) set.addAll(mechs);
       return set;
     });
   }
 
-  Future<bool> _store(OPType type, String key, int flags, int exp,
-      List<int> doc, [int cas, bool noreply]) {
+  Future<bool> _store(
+      OPType type, String key, int flags, int exp, List<int> doc,
+      [int cas, bool noreply]) {
     StoreOP op = _opFactory.newStoreOP(type, key, flags, exp, doc, cas);
     _handleOperation(key, op);
     return op.future;
@@ -205,13 +203,11 @@ class MemcachedClientImpl implements MemcachedClient {
         node = primary;
       else {
         Iterator<MemcachedNode> i = l.getSequence(key);
-        while( node == null && i.moveNext()) {
+        while (node == null && i.moveNext()) {
           MemcachedNode n = i.current;
-          if (n.isActive)
-            node = n;
+          if (n.isActive) node = n;
         }
-        if (node == null)
-          node = primary;
+        if (node == null) node = primary;
       }
       List<String> ks = chunks[node];
       if (ks == null) {
@@ -222,34 +218,32 @@ class MemcachedClientImpl implements MemcachedClient {
     }
 
     //resync results in key sequence
-    StreamController<GetResult> tgt = new StreamController(sync:true);
+    StreamController<GetResult> tgt = new StreamController(sync: true);
     int keyi = 0; //key sequence index
     String currentKey = keys[0]; //the key should be add to Stream in sequence
-    Map<String, GetResult> tmpMap = new HashMap(); //temporary map for out of sequence results
+    Map<String, GetResult> tmpMap =
+        new HashMap(); //temporary map for out of sequence results
     for (MemcachedNode node in chunks.keys) {
       final ks = chunks[node];
       GetOP op = _opFactory.newGetOP(opCode, ks);
       _memcachedConn.addMultiKeyOPToNode(ks, node, op);
       Stream<GetResult> src = op.stream;
-      src.listen(
-        (getr) {
-          if (getr.key == currentKey) { //match the current key
-            do {
-              tgt.add(getr);
-              //try next key; might have been stored in tmpMap
-              ++keyi;
-              if (keyi < keys.length) {
-                currentKey = keys[keyi];
-                getr = tmpMap.remove(currentKey);
-              } else
-                getr = null;
-            } while(getr != null && getr.key == currentKey);
-          } else //not match the current key; store it in tmpMap for later use
-            tmpMap[getr.key] = getr;
-        },
-        onError: (err) => tgt.addError(err),
-        onDone: () => tgt.close()
-      );
+      src.listen((getr) {
+        if (getr.key == currentKey) {
+          //match the current key
+          do {
+            tgt.add(getr);
+            //try next key; might have been stored in tmpMap
+            ++keyi;
+            if (keyi < keys.length) {
+              currentKey = keys[keyi];
+              getr = tmpMap.remove(currentKey);
+            } else
+              getr = null;
+          } while (getr != null && getr.key == currentKey);
+        } else //not match the current key; store it in tmpMap for later use
+          tmpMap[getr.key] = getr;
+      }, onError: (err) => tgt.addError(err), onDone: () => tgt.close());
     }
     return tgt.stream;
   }
@@ -258,17 +252,16 @@ class MemcachedClientImpl implements MemcachedClient {
     _memcachedConn.addOP(key, op);
   }
 
-  Future<Map<SocketAddress, dynamic>> handleBroadcastOperation(OP newOP(),
-      Iterator<MemcachedNode> nodeIterator) {
+  Future<Map<SocketAddress, dynamic>> handleBroadcastOperation(
+      OP newOP(), Iterator<MemcachedNode> nodeIterator) {
     return new Future.sync(() {
       Map<SocketAddress, dynamic> results = new HashMap();
       List<Future> futures = new List();
-      _memcachedConn.broadcastOP(newOP, nodeIterator)
-      .forEach((saddr, op) {
-        futures.add(
-          op.future
-          .then((rv) => results[saddr] = rv)
-          .catchError((err, st) => _logger.warning("broadcastOP. saddr: $saddr, OP: $op", err, st)));
+      _memcachedConn.broadcastOP(newOP, nodeIterator).forEach((saddr, op) {
+        if (op is FutureOP)
+          futures.add(op.future.then((rv) => results[saddr] = rv).catchError(
+              (err, st) => _logger.warning(
+                  "broadcastOP. saddr: $saddr, OP: $op", err, st)));
       });
       return Future.wait(futures).then((_) => results);
     });
@@ -294,16 +287,14 @@ void validateKey(String key, bool binary) {
         "${MemcachedClient.MAX_KEY_LENGTH})");
   }
   if (keyBytes.length == 0) {
-    throw new ArgumentError(
-        "Key must contain at least one character.");
+    throw new ArgumentError("Key must contain at least one character.");
   }
-  if(!binary) {
+  if (!binary) {
     // Validate the key
     for (int j = 0; j < key.length; ++j) {
       String b = key[j];
       if (b == ' ' || b == '\n' || b == '\r' || b == 0) {
-        throw new ArgumentError(
-            "Key contains invalid characters:  ``$key''");
+        throw new ArgumentError("Key contains invalid characters:  ``$key''");
       }
     }
   }
