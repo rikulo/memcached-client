@@ -39,20 +39,14 @@ void testUnlock(String key, MemcachedClientImpl client) {
 
 // locktime not expired, unlock it and set a new value
 //  and get shall return the new value back
-void testUnlock2(String key, MemcachedClientImpl client) {
-  expect(client.set(key, UTF8.encode('val100')), completion(isTrue));
-  Future f1 = client.getAndLock(key, 3) //lock 3 seconds
-    .then((val) {
-      expect(val.data, equals(UTF8.encode('val100')));
-      return client.unlock(key, cas: val.cas);
-    }).then((_) {
-      expect(client.set(key, UTF8.encode('newVal100')), completion(isTrue));
-      return client.get(key);
-    }).then((val) {
-      expect(val.data, equals(UTF8.encode('newVal100')));
-    });
-
-  expect(f1, completes);
+ testUnlock2(String key, MemcachedClientImpl client) async {
+  expect(await client.set(key, UTF8.encode('val100')), true);
+  var val = await client.getAndLock(key, 3); //lock 3 seconds;
+  expect(val.data, equals(UTF8.encode('val100')));
+  expect(await client.set(key, UTF8.encode('newVal100')), true);
+  await client.unlock(key, cas: val.cas);
+  val = await client.get(key);
+  expect(val.data, equals(UTF8.encode('newVal100')));
 }
 
 void main() {
