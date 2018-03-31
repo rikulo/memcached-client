@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'package:memcached_client/memcached_client.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 /**
  * Test the hash algorithms.
