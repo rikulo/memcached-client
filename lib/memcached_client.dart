@@ -93,7 +93,7 @@ part 'src/op/text/TextSingleKeyOP.dart';
 part 'src/op/text/TextStatsOP.dart';
 part 'src/op/text/TextStoreOP.dart';
 part 'src/op/text/TextTouchOP.dart';
-//part 'src/op/text/TextUnlockOP.dart';
+part 'src/op/text/TextUnlockOP.dart';
 part 'src/op/text/TextVersionOP.dart';
 
 //spi
