@@ -10,9 +10,9 @@ import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 //delete key3
-void testDelete1(MemcachedClient client) {
-  expect(client.set('key3', UTF8.encode('va13')), completion(isTrue));
-  expect(client.delete('key3'), completion(isTrue));
+testDelete1(MemcachedClient client) async {
+  expect(await client.set('key3', UTF8.encode('va13')), true);
+  expect(await client.delete('key3'), true);
 }
 
 //delete inexist key3; should throw NOT_FOUND
