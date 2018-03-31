@@ -3,20 +3,21 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 //Unconditonal set key0
-void testSaslMechs0(MemcachedClient client) {
-  Future f1 = client.listSaslMechs();
-  expect(f1, completion(equals(['PLAIN'])));
+testSaslMechs0(MemcachedClient client) async {
+  expect(await client.listSaslMechs(), ['PLAIN']);
 }
 
 void main() {
   group('SaslMechsTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestSaslMechs0', () => testSaslMechs0(client));
   });

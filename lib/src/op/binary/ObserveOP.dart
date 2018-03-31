@@ -39,17 +39,17 @@ class ObserveOP extends SingleKeyOP implements FutureOP<ObserveResult> {
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
       int keylen = bytesToInt16(line, 2);
-      int keystatus = bytesToInt8(line, keylen+4);
-      int retCas = bytesToInt64(line, keylen+5);
+      int keystatus = bytesToInt8(line, keylen + 4);
+      int retCas = bytesToInt64(line, keylen + 5);
       //_logger.finest("ObserverStatus: $keystatus, retCas: $retCas");
-      ObserveStatus status =
-          _orgCas != null
-          && retCas != _orgCas
-          && keystatus != ObserveStatus.NOT_FOUND.ordinal
-          && keystatus != ObserveStatus.LOGICALLY_DELETED.ordinal ?
-          ObserveStatus.MODIFIED :
-          ObserveStatus.valueOf(keystatus);
-      _cmpl.complete(new ObserveResult(key, status, retCas, _avgPersistTime, _avgReplicateTime));
+      ObserveStatus status = _orgCas != null &&
+              retCas != _orgCas &&
+              keystatus != ObserveStatus.NOT_FOUND.ordinal &&
+              keystatus != ObserveStatus.LOGICALLY_DELETED.ordinal
+          ? ObserveStatus.MODIFIED
+          : ObserveStatus.valueOf(keystatus);
+      _cmpl.complete(new ObserveResult(
+          key, status, retCas, _avgPersistTime, _avgReplicateTime));
     }
 
     return _HANDLE_COMPLETE;

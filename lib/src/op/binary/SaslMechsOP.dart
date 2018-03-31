@@ -5,12 +5,12 @@
 part of memcached_client;
 
 class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
-  final Completer<List<String>> _cmpl; //completer to complete the future of this operation
+  final Completer<List<String>>
+      _cmpl; //completer to complete the future of this operation
 
   Future<List<String>> get future => _cmpl.future;
 
-  SaslMechsOP()
-      : _cmpl = new Completer() {
+  SaslMechsOP() : _cmpl = new Completer() {
     _cmd = _prepareSaslMechsCommand();
   }
 
@@ -52,5 +52,3 @@ class SaslMechsOP extends BinaryOP implements FutureOP<List<String>> {
     return cmd;
   }
 }
-
-

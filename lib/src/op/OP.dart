@@ -26,8 +26,7 @@ abstract class OP {
    * Cancel this OP if not processed yet(still in write queue).
    */
   void cancel() {
-    if (state == OPState.WRITE_QUEUED)
-      state = OPState.CANCELED;
+    if (state == OPState.WRITE_QUEUED) state = OPState.CANCELED;
   }
 
   /**
@@ -63,8 +62,7 @@ abstract class OP {
       state = OPState.COMPLETE;
     else if (state == OPState.RETRY)
       state = OPState.WRITE_QUEUED;
-    else if (state == OPState.CANCELED)
-      state = OPState.COMPLETE;
+    else if (state == OPState.CANCELED) state = OPState.COMPLETE;
   }
 
   /**
@@ -73,7 +71,7 @@ abstract class OP {
   void complete() {
     state = OPState.COMPLETE;
   }
-  
+
   @override
   String toString() => "${this.runtimeType}@$seq";
 }

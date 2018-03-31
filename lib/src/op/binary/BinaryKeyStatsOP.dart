@@ -22,7 +22,8 @@ class BinaryKeyStatsOP extends SingleKeyOP implements KeyStatsOP {
   int handleData(List<int> line) {
     //_logger.finest("BinaryKeyStatsOPData: $this, $line.");
 
-    if (_keylen > 0) { //not the last packet
+    if (_keylen > 0) {
+      //not the last packet
       if (_status != 0) {
         _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       } else {
@@ -32,12 +33,12 @@ class BinaryKeyStatsOP extends SingleKeyOP implements KeyStatsOP {
         int valuelen = _bodylen - _keylen;
         List<int> val = new Uint8List(valuelen);
         copyList(line, extralen, key, 0, _keylen);
-        if (valuelen > 0)
-          copyList(line, _keylen, val, 0, valuelen);
+        if (valuelen > 0) copyList(line, _keylen, val, 0, valuelen);
         _stats[UTF8.decode(key)] = valuelen > 0 ? UTF8.decode(val) : null;
       }
       return _HANDLE_CMD; //handle next line of command
-    } else { //last packet!
+    } else {
+      //last packet!
       if (_status != 0) {
         _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       } else {
@@ -71,20 +72,17 @@ class BinaryKeyStatsOP extends SingleKeyOP implements KeyStatsOP {
     //1, 1 byte: Opcode
     cmd[1] = OPType.stats.ordinal;
     //2, 2 bytes: Key length
-    if (keylen > 0)
-      copyList(int16ToBytes(keylen), 0, cmd, 2, 2);
+    if (keylen > 0) copyList(int16ToBytes(keylen), 0, cmd, 2, 2);
     //4, 2 bytes: extra length
     //6, 2 bytes: vBucket id
-    if (_vbucketID != 0)
-      copyList(int16ToBytes(_vbucketID), 0, cmd, 6, 2);
+    if (_vbucketID != 0) copyList(int16ToBytes(_vbucketID), 0, cmd, 6, 2);
     //8, 4 bytes: total body length
     copyList(int32ToBytes(bodylen), 0, cmd, 8, 4);
     //12, 4 bytes: Opaque
     //16, 8 bytes: CAS
     //24, _req_extralen: extra
     //24+_req_extralen, keylen: key
-    if (keylen > 0)
-      copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
+    if (keylen > 0) copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
     //_logger.finest("_prepareKeyStatsCommand:$cmd");
     return cmd;

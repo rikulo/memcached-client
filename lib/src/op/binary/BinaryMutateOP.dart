@@ -6,7 +6,8 @@ part of memcached_client;
 
 /** A Mutate Operation of binary protocol */
 class BinaryMutateOP extends SingleKeyOP implements MutateOP {
-  final Completer<int> _cmpl; //completer to complete the future of this operation
+  final Completer<int>
+      _cmpl; //completer to complete the future of this operation
 
   Future<int> get future => _cmpl.future;
 
@@ -28,11 +29,11 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     return _HANDLE_COMPLETE;
   }
 
-
   /** Prepare a store command.
    */
   static const _req_extralen = 20;
-  List<int> _prepareMutateCommand(OPType type, String key, int by, int def, int exp) {
+  List<int> _prepareMutateCommand(
+      OPType type, String key, int by, int def, int exp) {
     List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = 0;
@@ -56,11 +57,10 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     //amount to add / subtract
     copyList(int64ToBytes(by), 0, cmd, 24, 8);
     //initial value if document did not exist
-    if (def != null && 0 != def)
-      copyList(int64ToBytes(def), 0, cmd, 24+8, 8);
+    if (def != null && 0 != def) copyList(int64ToBytes(def), 0, cmd, 24 + 8, 8);
     //set experiation to 0xffffffff so inexists will signal NOT_FOUND error
     if (exp != null && 0 != exp)
-      copyList(int32ToBytes(exp), 0, cmd, 24+16, 4);
+      copyList(int32ToBytes(exp), 0, cmd, 24 + 16, 4);
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
@@ -68,5 +68,3 @@ class BinaryMutateOP extends SingleKeyOP implements MutateOP {
     return cmd;
   }
 }
-
-

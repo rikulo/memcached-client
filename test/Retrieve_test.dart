@@ -4,7 +4,7 @@
 
 import 'dart:async';
 import 'dart:convert' show UTF8;
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
@@ -103,7 +103,9 @@ void main() {
 
   group('TextRetrieveTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareTextClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareTextClient();
+    });
     tearDown(() => client.close());
     test('TestGet1', () => testGet1(client));
     test('TestGet2', () => testGet2(client));
@@ -115,7 +117,9 @@ void main() {
 
   group('BinaryRetrieveTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestGet1', () => testGet1(client));
     test('TestGet2', () => testGet2(client));
@@ -124,6 +128,4 @@ void main() {
     test('TestGets2', () => testGets2(client));
     test('TestGetsAll', () => testGetsAll(client));
   });
-
 }
-

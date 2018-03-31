@@ -9,13 +9,11 @@ class TextMemcachedNodeImpl extends MemcachedNode {
   @override
   final TextOPChannel opChannel;
 
-  static Future<TextMemcachedNodeImpl> start(SocketAddress saddr)
-  => TextOPChannel.start(saddr)
-  .then((TextOPChannel channel)
-  	=> new TextMemcachedNodeImpl._(saddr, channel));
+  static Future<TextMemcachedNodeImpl> start(SocketAddress saddr) =>
+      TextOPChannel.start(saddr).then((TextOPChannel channel) =>
+          new TextMemcachedNodeImpl._(saddr, channel));
 
-  TextMemcachedNodeImpl._(SocketAddress saddr, this.opChannel)
-      : super(saddr);
+  TextMemcachedNodeImpl._(SocketAddress saddr, this.opChannel) : super(saddr);
 
   String toString() => "$opChannel -> $socketAddress";
 }

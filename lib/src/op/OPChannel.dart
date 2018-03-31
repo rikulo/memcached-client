@@ -53,8 +53,6 @@ abstract class OPChannel<K, V> {
    * Close this OP Channel
    */
   void close();
-
-
 }
 
 abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
@@ -69,10 +67,9 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
   final List<int> _pbuf; //response scratch buffer
 
   //Base constructor
-  static Future<_OPChannelImpl> _start(SocketAddress saddr,
-    _OPChannelImpl newInstance(Socket socket)) {
-    return Socket.connect(saddr.host, saddr.port)
-    .then((Socket socket) {
+  static Future<_OPChannelImpl> _start(
+      SocketAddress saddr, _OPChannelImpl newInstance(Socket socket)) {
+    return Socket.connect(saddr.host, saddr.port).then((Socket socket) {
       final _OPChannelImpl channel = newInstance(socket);
       channel._setupResponseHandler();
       //_logger.finest("Socket to $_saddr connected!");
@@ -80,8 +77,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
     });
   }
 
-  _OPChannelImpl._(this._saddr, this._socket)
-      : _pbuf = new List() {
+  _OPChannelImpl._(this._saddr, this._socket) : _pbuf = new List() {
     _logger = initLogger("memcached_client.op", this);
   }
 
@@ -103,9 +99,9 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
     op.nextState();
     writeQ.add(op);
     //20130701, henrichen: Tricky, TapOP is special, seq will not match!
-    if (op is! TapOP)
-      readQ.add(op, op.seq as dynamic);
-    if (writeQ.length == 1) { // 0 -> 1, new a Future for OP processing
+    if (op is! TapOP) readQ.add(op, op.seq as dynamic);
+    if (writeQ.length == 1) {
+      // 0 -> 1, new a Future for OP processing
       _processLoop();
     }
   }
@@ -123,7 +119,8 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
     op.nextState();
     writeQ.push(op);
     readQ.add(op, op.seq as dynamic);
-    if (writeQ.length == 1) { // 0 -> 1, new a Future for OP processing
+    if (writeQ.length == 1) {
+      // 0 -> 1, new a Future for OP processing
       _processLoop();
     }
   }
@@ -147,8 +144,7 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
   }
 
   void _processLoop() {
-    new Future.delayed(new Duration(milliseconds:_FREQ))
-    .then((_) {
+    new Future.delayed(new Duration(milliseconds: _FREQ)).then((_) {
       //_logger.finest("_processLoop for socket to $_saddr...");
       if (!isConnected) {
         //_logger.finest("Wait socket to $_saddr to be connected.");
@@ -157,32 +153,33 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
         //_logger.finest("Wait socket to $_saddr to be authenticated.");
         authenticate();
         _processLoop();
-      } else if (!isAuthenticated) { //fail to authentication
-        throw new StateError('Fail to authenticate socket to $_saddr...Stop operation');
+      } else if (!isAuthenticated) {
+        //fail to authentication
+        throw new StateError(
+            'Fail to authenticate socket to $_saddr...Stop operation');
       } else if (!_processWriteQ()) {
         //_logger.finest("Still OP in queue, continue the _processLoop for socket to $_saddr. writeQ:${writeQ}");
         _processLoop();
       } else {
         //_logger.finest("No more OP in queue, stop the _processLoop for socket to $_saddr.");
       }
-    })
-    .catchError((err, st) => _logger.warning("Error in _processLoop for socket to $_saddr", err, st));
+    }).catchError((err, st) => _logger.warning(
+        "Error in _processLoop for socket to $_saddr", err, st));
   }
 
   //Process OP in write queue; return true to indicate no OP to process
   bool _processWriteQ() {
     //fetch next OP in queue when previous OP is complete.
-    if (_writeOP == null
-        || _writeOP.state == OPState.WRITING
-        || _writeOP.state == OPState.COMPLETE) {
-        _processNextOP();
+    if (_writeOP == null ||
+        _writeOP.state == OPState.WRITING ||
+        _writeOP.state == OPState.COMPLETE) {
+      _processNextOP();
     }
     return writeQ.isEmpty; //no more to process
   }
 
   void _processNextOP() {
-    if (writeQ.isEmpty)
-      return;
+    if (writeQ.isEmpty) return;
 
     _writeOP = writeQ.pop();
     //_logger.finest("Socket to $_saddr, OPState.WRITING: $_writeOP\n");
@@ -192,26 +189,28 @@ abstract class _OPChannelImpl<K> implements OPChannel<K, OP> {
 
     //20130701, henrichen: Tricky! TapAckOP will not have any response from socket
     if (_writeOP == TapAckOP)
-      _writeOP.state = OPState.COMPLETE; //so next writeOP can be sent to TapServer
+      _writeOP.state =
+          OPState.COMPLETE; //so next writeOP can be sent to TapServer
   }
 
   void _setupResponseHandler() {
     _socket.listen(
-      (List<int> data) {
-        if (data == null || data.length <= 0) {//no data
-          //_logger.finest("Socket to $_saddr response null!");
-          return;
-        }
+        (List<int> data) {
+          if (data == null || data.length <= 0) {
+            //no data
+            //_logger.finest("Socket to $_saddr response null!");
+            return;
+          }
 
-        _pbuf.addAll(data);
-        processResponse();
-      },
-      onError: (err, st) => _logger.warning("Socket to $_saddr response", err, st),
-      onDone: () {
-        //_logger.finest("Socket to $_saddr closed!");
-        _socketClosed();
-      }
-    );
+          _pbuf.addAll(data);
+          processResponse();
+        },
+        onError: (err, st) =>
+            _logger.warning("Socket to $_saddr response", err, st),
+        onDone: () {
+          //_logger.finest("Socket to $_saddr closed!");
+          _socketClosed();
+        });
   }
 
   //callback when socket was closed
@@ -252,8 +251,7 @@ abstract class OPQueue<K, V> {
 
 class OPQueueQueue<K, V> implements OPQueue<K, V> {
   final Queue<V> _queue;
-  OPQueueQueue()
-      : _queue = new Queue();
+  OPQueueQueue() : _queue = new Queue();
   /**
    * Peek the first OP in queue; return null if empty.
    */
@@ -289,8 +287,7 @@ class OPQueueQueue<K, V> implements OPQueue<K, V> {
 
 class OPQueueMap<K, V> implements OPQueue<K, V> {
   final Map<K, V> _map;
-  OPQueueMap()
-      : _map = new HashMap();
+  OPQueueMap() : _map = new HashMap();
   /**
    * Peek the first OP in queue; return null if empty.
    */
@@ -301,7 +298,7 @@ class OPQueueMap<K, V> implements OPQueue<K, V> {
    */
   V pop([K key]) => _map.remove(key);
 
- /**
+  /**
    * Push OP at the first place of the queue.
    */
   void push(V op, [K key]) {

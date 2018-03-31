@@ -5,14 +5,14 @@
 import 'dart:async';
 import 'dart:convert' show UTF8;
 import 'package:logging/logging.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 //delete key3
-void testDelete1(MemcachedClient client) {
-  expect(client.set('key3', UTF8.encode('va13')), completion(isTrue));
-  expect(client.delete('key3'), completion(isTrue));
+testDelete1(MemcachedClient client) async {
+  expect(await client.set('key3', UTF8.encode('va13')), true);
+  expect(await client.delete('key3'), true);
 }
 
 //delete inexist key3; should throw NOT_FOUND
@@ -24,19 +24,20 @@ void main() {
   setupLogger(level: Level.ALL);
   group('TextDeleteTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareTextClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareTextClient();
+    });
     tearDown(() => client.close());
     test('TestDelete1', () => testDelete1(client));
     test('TestDelete2', () => testDelete2(client));
   });
   group('BinaryDeleteTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestDelete1', () => testDelete1(client));
     test('TestDelete2', () => testDelete2(client));
   });
 }
-
-
-

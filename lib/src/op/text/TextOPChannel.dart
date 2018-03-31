@@ -14,15 +14,13 @@ class TextOPChannel extends _OPChannelImpl<int> {
 
   OP _readOP; //current OP to be read from socket
 
-  static Future<TextOPChannel> start(SocketAddress saddr)
-  => _OPChannelImpl._start(saddr,
-    (Socket socket) => new TextOPChannel._(saddr, socket));
+  static Future<TextOPChannel> start(SocketAddress saddr) => _OPChannelImpl
+      ._start(saddr, (Socket socket) => new TextOPChannel._(saddr, socket));
 
   TextOPChannel._(SocketAddress saddr, Socket socket)
       : _writeQ = new OPQueueQueue(),
         _readQ = new OPQueueQueue(),
         super._(saddr, socket) {
-
     _logger = initLogger("memcached_client.op.text", this);
   }
 
@@ -58,9 +56,10 @@ class TextOPChannel extends _OPChannelImpl<int> {
       for (; j < end; ++j) {
         if (_pbuf[j] == _CR)
           _crj = j;
-        else if (_pbuf[j] == _LF
-            && (_crj + 1) == j
-            && (el < 0 || j == el + 1)) { //find the end of line "\r\n"
+        else if (_pbuf[j] == _LF &&
+            (_crj + 1) == j &&
+            (el < 0 || j == el + 1)) {
+          //find the end of line "\r\n"
           _crj = -2; //reset _crj
           el = j + 1; //including ending CRLF
 
@@ -73,8 +72,9 @@ class TextOPChannel extends _OPChannelImpl<int> {
             _readOP.nextState();
           }
 
-          _size = _size >= 0 ?
-              _readOP.handleData(aLine) : //handle data block
+          _size = _size >= 0
+              ? _readOP.handleData(aLine)
+              : //handle data block
               _readOP.handleCommand(aLine); //handle command line
 
           //prepare next line
@@ -84,17 +84,18 @@ class TextOPChannel extends _OPChannelImpl<int> {
             _readOP.complete();
 
             //close this channel if all processed
-            if (_readOP.state == OPState.COMPLETE)
-              _tryClose();
+            if (_readOP.state == OPState.COMPLETE) _tryClose();
           }
 
           break;
         }
       }
 
-      if ((j + 1) < end) { //still data in _pbuf not read yet!
+      if ((j + 1) < end) {
+        //still data in _pbuf not read yet!
         more = true;
-      } else { //read all in _pbuf (_pbuf.length might change)
+      } else {
+        //read all in _pbuf (_pbuf.length might change)
         more = false;
         _offset = _pbuf.length;
       }

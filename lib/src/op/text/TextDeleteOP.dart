@@ -6,7 +6,8 @@ part of memcached_client;
 
 /** A Delete Operation */
 class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
-  final Completer<bool> _cmpl; //completer to complete the future of this operation
+  final Completer<bool>
+      _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 
@@ -42,14 +43,13 @@ class TextDeleteOP extends TextSingleKeyOP implements DeleteOP {
   List<int> _prepareDeleteCommand(String key) {
     List<int> cmd = new List();
 
-    cmd..addAll(UTF8.encode(OPType.delete.name))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode(key))
-       ..addAll(_CRLF);
+    cmd
+      ..addAll(UTF8.encode(OPType.delete.name))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode(key))
+      ..addAll(_CRLF);
 
     //_logger.finest("_prepareDeleteCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }
-
-

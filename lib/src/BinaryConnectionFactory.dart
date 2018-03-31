@@ -8,8 +8,7 @@ part of memcached_client;
  * ConnectionFactory for binary protocol.
  */
 class BinaryConnectionFactory extends ConnectionFactoryBase {
-  BinaryConnectionFactory([HashAlgorithm hashAlg])
-      : super(hashAlg);
+  BinaryConnectionFactory([HashAlgorithm hashAlg]) : super(hashAlg);
 
   @override
   Future<MemcachedNode> createMemcachedNode(SocketAddress saddr) =>

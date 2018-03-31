@@ -26,7 +26,7 @@ abstract class BinaryOP extends OP {
   void set seq(int s) {
     //opacque field
     copyList(int32ToBytes(s), 0, _cmd, 12, 4);
-    _seq= s;
+    _seq = s;
   }
 
   List<int> get cmd => _cmd;

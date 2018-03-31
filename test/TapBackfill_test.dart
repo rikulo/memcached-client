@@ -4,19 +4,16 @@
 
 import 'dart:async';
 import 'dart:convert' show UTF8;
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 void testTapBackfillOP(MemcachedClient client, TapClient tapClient) {
-  tapClient.stream.listen(
-      (data) => print("responseMessage:$data"),
+  tapClient.stream.listen((data) => print("responseMessage:$data"),
 //      onError: (err) => print("err:$err"),
       onDone: () => print("done backfill"));
 
-  Future f = tapClient
-  .tapBackfill("node1")
-  .then((_) {
+  Future f = tapClient.tapBackfill("node1").then((_) {
     print("set key0 with 'val1'");
     expect(client.set('key0', UTF8.encode('"val0"')), completion(isTrue));
   });
@@ -32,7 +29,8 @@ void main() {
     setUp(() {
       return Future.wait([
         m.prepareBinaryClient().then((c) => client = c),
-        m.prepareTapClient().then((c) => tapClient = c)]);
+        m.prepareTapClient().then((c) => tapClient = c)
+      ]);
     });
     tearDown(() {
       client.close();

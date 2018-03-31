@@ -11,8 +11,8 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
 
   Future<bool> get future => _cmpl.future;
 
-  TextStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
-      int cas)
+  TextStoreOP(
+      OPType type, String key, int flags, int exp, List<int> doc, int cas)
       : _type = type,
         _cmpl = new Completer(),
         super(key) {
@@ -30,9 +30,11 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
       if (status == null)
         _cmpl.complete(true);
       else {
-        final OPStatus s0 = status != OPStatus.ITEM_NOT_STORED ? status :
-          _type == OPType.add ? OPStatus.KEY_EXISTS :
-          _type == OPType.replace ? OPStatus.KEY_NOT_FOUND : status;
+        final OPStatus s0 = status != OPStatus.ITEM_NOT_STORED
+            ? status
+            : _type == OPType.add
+                ? OPStatus.KEY_EXISTS
+                : _type == OPType.replace ? OPStatus.KEY_NOT_FOUND : status;
         _cmpl.completeError(new OPStatus.wrap(s0, this));
       }
     }
@@ -46,31 +48,29 @@ class TextStoreOP extends TextSingleKeyOP implements StoreOP {
 
   /** Prepare a store command. [type] is the store type.
    */
-  List<int> _prepareStoreCommand(OPType type, String key, int flags, int exp, List<int> doc, int cas) {
+  List<int> _prepareStoreCommand(
+      OPType type, String key, int flags, int exp, List<int> doc, int cas) {
     List<int> cmd = new List();
 
-    cmd..addAll(UTF8.encode(type.name))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode(key))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode('$flags'))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode('${exp == null ? 0 : exp}'))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode('${doc.length}'));
+    cmd
+      ..addAll(UTF8.encode(type.name))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode(key))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode('$flags'))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode('${exp == null ? 0 : exp}'))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode('${doc.length}'));
 
     if (OPType.cas == type)
-      cmd..add(_SPACE)
-         ..addAll(UTF8.encode('$cas'));
+      cmd
+        ..add(_SPACE)
+        ..addAll(UTF8.encode('$cas'));
 
-    cmd..addAll(_CRLF)
-       ..addAll(doc)
-       ..addAll(_CRLF);
+    cmd..addAll(_CRLF)..addAll(doc)..addAll(_CRLF);
 
     //_logger.finest("_prepareStoreCommand:[${UTF8.decode(cmd)}]");
     return cmd;
   }
 }
-
-
-

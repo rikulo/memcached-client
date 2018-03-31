@@ -247,7 +247,7 @@ abstract class MemcachedClient {
    * + [saddrs] - socket addresses of a cluster of servers
    * + [factory] - optional connection factory; default: [BinaryConnectionFactory].
    */
-  static Future<MemcachedClient> connect(
-      List<SocketAddress> saddrs, {ConnectionFactory factory}) =>
-      MemcachedClientImpl.connect(saddrs, factory:factory);
+  static Future<MemcachedClient> connect(List<SocketAddress> saddrs,
+          {ConnectionFactory factory}) =>
+      MemcachedClientImpl.connect(saddrs, factory: factory);
 }

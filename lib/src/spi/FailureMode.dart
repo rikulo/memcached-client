@@ -28,8 +28,5 @@ class FailureMode extends Enum {
    */
   static const FailureMode Cancel = const FailureMode(2);
 
-  const FailureMode(int ordinal)
-      : super(ordinal);
+  const FailureMode(int ordinal) : super(ordinal);
 }
-
-

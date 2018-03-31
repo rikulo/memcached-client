@@ -10,5 +10,3 @@ part of memcached_client;
 abstract class StreamOP<T> extends OP {
   Stream<T> get stream;
 }
-
-

@@ -43,8 +43,5 @@ class OPState extends Enum {
    */
   static const OPState TIMED_OUT = const OPState(300);
 
-  const OPState(int ordinal)
-      : super(ordinal);
+  const OPState(int ordinal) : super(ordinal);
 }
-
-

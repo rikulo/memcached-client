@@ -12,7 +12,7 @@ class TextGetOP extends TextOP implements GetOP {
   Stream<GetResult> get stream => _streamCtrl.stream;
 
   TextGetOP(OPType type, this.keys)
-      : _streamCtrl = new StreamController(sync:true) {
+      : _streamCtrl = new StreamController(sync: true) {
     _cmd = _prepareGetCommand(type, keys);
   }
 
@@ -43,13 +43,17 @@ class TextGetOP extends TextOP implements GetOP {
       return size;
     } else {
       OPStatus status = TextOPStatus.valueOfError(line);
-      if (status != null) { //some error occur!
+      if (status != null) {
+        //some error occur!
         _streamCtrl.addError(new OPStatus.wrap(status, this));
         return _HANDLE_COMPLETE; //complete
       }
 
       //TODO: unknown protocol, try to read thru!
-      _streamCtrl.addError(new OPStatus.wrap(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"), this));
+      _streamCtrl.addError(new OPStatus.wrap(
+          new OPStatus(OPStatus.INTERAL_ERROR.code,
+              "PROTOCOL_ERROR 'Unknown get result format:[$line]'"),
+          this));
       return _HANDLE_COMPLETE;
     }
   }
@@ -67,9 +71,10 @@ class TextGetOP extends TextOP implements GetOP {
     List<int> cmd = new List();
 
     cmd.addAll(UTF8.encode(type.name));
-    for(String key in keys) {
-      cmd..add(_SPACE)
-         ..addAll(UTF8.encode(key));
+    for (String key in keys) {
+      cmd
+        ..add(_SPACE)
+        ..addAll(UTF8.encode(key));
     }
     cmd.addAll(_CRLF);
 

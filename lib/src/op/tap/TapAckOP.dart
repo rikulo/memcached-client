@@ -43,8 +43,7 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
     //1, 1 byte: Opcode
     cmd[1] = opcode.opcode;
     //2, 2 bytes: Key length
-    if (keylen > 0)
-      copyList(int16ToBytes(keylen), 0, cmd, 2, 2);
+    if (keylen > 0) copyList(int16ToBytes(keylen), 0, cmd, 2, 2);
     //4, 2 bytes: extra length
     //6, 2 bytes: vBucket id
     //8, 4 bytes: total body length
@@ -54,8 +53,7 @@ class TapAckOP extends TapOP implements FutureOP<bool> {
     //16, 8 bytes: CAS
     //24, _req_extralen: extra
     //24+_req_extralen, keylen: key
-    if (keylen > 0)
-      copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
+    if (keylen > 0) copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
     //_logger.finest("_prepareTapAckCommand:$cmd");
     return cmd;

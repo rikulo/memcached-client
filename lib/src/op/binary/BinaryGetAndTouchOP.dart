@@ -27,10 +27,8 @@ class BinaryGetAndTouchOP extends SingleKeyOP implements GetAndTouchOP {
       List<int> key = new Uint8List(_keylen);
       int valuelen = _bodylen - _keylen - extralen;
       List<int> val = new Uint8List(valuelen);
-      if (_keylen > 0)
-        copyList(line, extralen, key, 0, _keylen);
-      if (valuelen > 0)
-        copyList(line, extralen + _keylen, val, 0, valuelen);
+      if (_keylen > 0) copyList(line, extralen, key, 0, _keylen);
+      if (valuelen > 0) copyList(line, extralen + _keylen, val, 0, valuelen);
       _cmpl.complete(new GetResult(UTF8.decode(key), flags, _cas, val));
     }
 

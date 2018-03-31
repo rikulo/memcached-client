@@ -3,15 +3,14 @@
 // Author: henrichen
 
 import 'dart:async';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:memcached_client/memcached_client.dart';
 import 'MemcachedTestUtil.dart' as m;
 
 //version should always succeed
 void testNoOP(MemcachedClientImpl client) {
-
-  Future<Map<SocketAddress, bool>> f = client.handleBroadcastOperation(() =>
-      client.opFactory.newNoOP(), client.locator.allNodes.iterator);
+  Future<Map<SocketAddress, bool>> f = client.handleBroadcastOperation(
+      () => client.opFactory.newNoOP(), client.locator.allNodes.iterator);
 
   f.then((map) {
     print("$map");
@@ -24,14 +23,18 @@ void testNoOP(MemcachedClientImpl client) {
 void main() {
   group('TextNoOPTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareTextClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareTextClient();
+    });
     tearDown(() => client.close());
     test('TestNoOP', () => testNoOP(client));
   });
 
   group('BinaryNoOPTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestNoOP', () => testNoOP(client));
   });

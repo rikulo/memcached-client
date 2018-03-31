@@ -10,23 +10,32 @@ class HttpResult {
 
 class HttpUtil {
   static Logger _logger = initStaticLogger('memcached_client.util.HttpUtil');
-  static Future<HttpResult> uriDelete(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, [Map<String, String> headers]) =>
-      _uriFunc(() => prepareHttpDelete(hc, base, resource), usr, pass, headers, null);
+  static Future<HttpResult> uriDelete(
+          HttpClient hc, Uri base, Uri resource, String usr, String pass,
+          [Map<String, String> headers]) =>
+      _uriFunc(() => prepareHttpDelete(hc, base, resource), usr, pass, headers,
+          null);
 
-  static Future<HttpResult> uriGet(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, [Map<String, String> headers]) =>
-      _uriFunc(() => prepareHttpGet(hc, base, resource), usr, pass, headers, null);
+  static Future<HttpResult> uriGet(
+          HttpClient hc, Uri base, Uri resource, String usr, String pass,
+          [Map<String, String> headers]) =>
+      _uriFunc(
+          () => prepareHttpGet(hc, base, resource), usr, pass, headers, null);
 
   static Future<HttpResult> uriPut(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, String value, [Map<String, String> headers]) =>
-      _uriFunc(() => prepareHttpPut(hc, base, resource), usr, pass, headers, value);
+          String usr, String pass, String value,
+          [Map<String, String> headers]) =>
+      _uriFunc(
+          () => prepareHttpPut(hc, base, resource), usr, pass, headers, value);
 
   static Future<HttpResult> uriPost(HttpClient hc, Uri base, Uri resource,
-      String usr, String pass, String value, [Map<String, String> headers]) =>
-      _uriFunc(() => prepareHttpPost(hc, base, resource), usr, pass, headers, value);
+          String usr, String pass, String value,
+          [Map<String, String> headers]) =>
+      _uriFunc(
+          () => prepareHttpPost(hc, base, resource), usr, pass, headers, value);
 
-  static Future<HttpClientRequest> prepareHttpGet(HttpClient hc, Uri base, Uri resource) {
+  static Future<HttpClientRequest> prepareHttpGet(
+      HttpClient hc, Uri base, Uri resource) {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
@@ -36,7 +45,8 @@ class HttpUtil {
     });
   }
 
-  static Future<HttpClientRequest> prepareHttpPost(HttpClient hc, Uri base, Uri resource) {
+  static Future<HttpClientRequest> prepareHttpPost(
+      HttpClient hc, Uri base, Uri resource) {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
@@ -46,7 +56,8 @@ class HttpUtil {
     });
   }
 
-  static Future<HttpClientRequest> prepareHttpPut(HttpClient hc, Uri base, Uri resource) {
+  static Future<HttpClientRequest> prepareHttpPut(
+      HttpClient hc, Uri base, Uri resource) {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
@@ -56,7 +67,8 @@ class HttpUtil {
     });
   }
 
-  static Future<HttpClientRequest> prepareHttpDelete(HttpClient hc, Uri base, Uri resource) {
+  static Future<HttpClientRequest> prepareHttpDelete(
+      HttpClient hc, Uri base, Uri resource) {
     return new Future.sync(() {
       if (!resource.isAbsolute && base != null) {
         resource = base.resolveUri(resource);
@@ -67,18 +79,14 @@ class HttpUtil {
   }
 
   static String buildAuthHeader(String usr, String pass) {
-    StringBuffer sb = new StringBuffer()
-        ..write(usr)
-        ..write(':');
-    if (pass != null)
-      sb.write(pass);
+    StringBuffer sb = new StringBuffer()..write(usr)..write(':');
+    if (pass != null) sb.write(pass);
 
     StringBuffer result = new StringBuffer()
-        ..write('Basic ')
-        ..write(CryptoUtils.bytesToBase64(UTF8.encode(sb.toString())));
+      ..write('Basic ')
+      ..write(BASE64URL.encode(UTF8.encode(sb.toString())));
     String st = result.toString();
-    if (st.endsWith('\r\n'))
-      st = st.substring(0, st.length - 2);
+    if (st.endsWith('\r\n')) st = st.substring(0, st.length - 2);
     return st;
   }
 
@@ -103,7 +111,8 @@ class HttpUtil {
    *
    * Note that colon-delimited IPv6 is also supported. For example: ::1:11211
    */
-  static List<SocketAddress> parseSocketAddressesFromStrings(List<String> servers) {
+  static List<SocketAddress> parseSocketAddressesFromStrings(
+      List<String> servers) {
     List<SocketAddress> addrs = new List();
 
     for (String hoststuff in servers) {
@@ -147,12 +156,10 @@ class HttpUtil {
       cmpl.completeError(ex, st);
     }
 
-    prepareFunc()
-    .then((req) {
+    prepareFunc().then((req) {
       HttpHeaders h = req.headers;
       if (headers != null) {
-        for (String key in headers.keys)
-          h.set(key, headers[key]);
+        for (String key in headers.keys) h.set(key, headers[key]);
       }
       if (usr != null) {
         h.set(HttpHeaders.AUTHORIZATION, buildAuthHeader(usr, pass));
@@ -162,17 +169,16 @@ class HttpUtil {
         req.write(value);
       }
       return req.close();
-    })
-    .then((res) {
+    }).then((res) {
       int status = res.statusCode;
       HttpHeaders headers = res.headers;
       List<int> contents = new List();
       res.listen((bytes) => contents.addAll(bytes), //read response
-        onDone : () => cmpl.complete(new HttpResult(status, headers, contents)), //done read response
-        onError: onError //fail to read response
-      );
-    })
-    .catchError(onError);
+          onDone: () => cmpl.complete(
+              new HttpResult(status, headers, contents)), //done read response
+          onError: onError //fail to read response
+          );
+    }).catchError(onError);
     return cmpl.future;
   }
 }

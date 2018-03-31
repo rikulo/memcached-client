@@ -49,8 +49,8 @@ class RequestMessage extends BaseMessage {
         hasBackfill = true;
         totalbody += 8;
       }
-      if (f == TapRequestFlag.LIST_VBUCKETS
-        || f == TapRequestFlag.TAKEOVER_VBUCKETS) {
+      if (f == TapRequestFlag.LIST_VBUCKETS ||
+          f == TapRequestFlag.TAKEOVER_VBUCKETS) {
         hasVBucketList = true;
         totalbody += 2;
       }
@@ -127,7 +127,8 @@ class RequestMessage extends BaseMessage {
 //    copyList(int8ToBytes(magic.magic), 0, bb, BaseMessage.MAGIC_OFFSET, 1);
     copyList(int8ToBytes(opcode.opcode), 0, bb, BaseMessage.OPCODE_OFFSET, 1);
     copyList(int16ToBytes(keylength), 0, bb, BaseMessage.KEYLENGTH_OFFSET, 2);
-    copyList(int8ToBytes(extralength), 0, bb, BaseMessage.EXTRALENGTH_OFFSET, 1);
+    copyList(
+        int8ToBytes(extralength), 0, bb, BaseMessage.EXTRALENGTH_OFFSET, 1);
     copyList(int8ToBytes(datatype), 0, bb, BaseMessage.DATATYPE_OFFSET, 1);
     copyList(int16ToBytes(vbucket), 0, bb, BaseMessage.VBUCKET_OFFSET, 2);
     copyList(int32ToBytes(totalbody), 0, bb, BaseMessage.TOTALBODY_OFFSET, 4);
@@ -178,7 +179,7 @@ String _uuid() {
   List<int> out = new List();
   double val = _random.nextDouble();
   int nLetter = 16;
-  for(int j = 0; j < 16; ++j) {
+  for (int j = 0; j < 16; ++j) {
     double nv = val * 26;
     int ival = nv.toInt();
     val = nv - ival;

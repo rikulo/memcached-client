@@ -13,78 +13,70 @@ final int FNV_32_PRIME = 16777619;
 Hash md5Digest = null;
 
 //key.hashCode
-final HashAlgorithm NATIVE_HASH =
-    (String key) => key.hashCode & 0xffffffff;
+final HashAlgorithm NATIVE_HASH = (String key) => key.hashCode & 0xffffffff;
 
 //(crc32(shift) >> 16) & 0x7fff;
 final HashAlgorithm CRC_HASH =
     (String key) => (_crc32(UTF8.encode(key)) >> 16) & 0x7fff;
 
-final HashAlgorithm FNV1_64_HASH =
-    (String key) {
-      int len = key.length;
-      int rv = FNV_64_INIT;
-      for(int code in key.codeUnits) {
-        rv *= FNV_64_PRIME;
-        rv ^= code;
-      }
-      return rv & 0xffffffff;
-    };
+final HashAlgorithm FNV1_64_HASH = (String key) {
+  int len = key.length;
+  int rv = FNV_64_INIT;
+  for (int code in key.codeUnits) {
+    rv *= FNV_64_PRIME;
+    rv ^= code;
+  }
+  return rv & 0xffffffff;
+};
 
-final HashAlgorithm FNV1A_64_HASH =
-    (String key) {
-      int len = key.length;
-      int rv = FNV_64_INIT;
-      for(int code in key.codeUnits) {
-        rv ^= code;
-        rv *= FNV_64_PRIME;
-      }
-      return rv & 0xffffffff;
-    };
+final HashAlgorithm FNV1A_64_HASH = (String key) {
+  int len = key.length;
+  int rv = FNV_64_INIT;
+  for (int code in key.codeUnits) {
+    rv ^= code;
+    rv *= FNV_64_PRIME;
+  }
+  return rv & 0xffffffff;
+};
 
-final HashAlgorithm FNV1_32_HASH =
-    (String key) {
-      int len = key.length;
-      int rv = FNV_32_INIT;
-      for(int code in key.codeUnits) {
-        rv *= FNV_32_PRIME;
-        rv ^= code;
-      }
-      return rv & 0xffffffff;
-    };
+final HashAlgorithm FNV1_32_HASH = (String key) {
+  int len = key.length;
+  int rv = FNV_32_INIT;
+  for (int code in key.codeUnits) {
+    rv *= FNV_32_PRIME;
+    rv ^= code;
+  }
+  return rv & 0xffffffff;
+};
 
-final HashAlgorithm FNV1A_32_HASH =
-    (String key) {
-      int len = key.length;
-      int rv = FNV_32_INIT;
-      for(int code in key.codeUnits) {
-        rv ^= code;
-        rv *= FNV_32_PRIME;
-      }
-      return rv & 0xffffffff;
-    };
+final HashAlgorithm FNV1A_32_HASH = (String key) {
+  int len = key.length;
+  int rv = FNV_32_INIT;
+  for (int code in key.codeUnits) {
+    rv ^= code;
+    rv *= FNV_32_PRIME;
+  }
+  return rv & 0xffffffff;
+};
 
-final HashAlgorithm KETAMA_HASH =
-    (String key) {
-      List<int> bkey = computeMd5(key);
-      int rv = ((bkey[3] & 0xff) << 24)
-          | ((bkey[2] & 0xff) << 16)
-          | ((bkey[1] & 0xff) << 8)
-          | (bkey[0] & 0xff);
-      return rv & 0xffffffff;
-    };
+final HashAlgorithm KETAMA_HASH = (String key) {
+  List<int> bkey = computeMd5(key);
+  int rv = ((bkey[3] & 0xff) << 24) |
+      ((bkey[2] & 0xff) << 16) |
+      ((bkey[1] & 0xff) << 8) |
+      (bkey[0] & 0xff);
+  return rv & 0xffffffff;
+};
 
 List<int> computeMd5(String key) {
-  MD5 md5 = new MD5();
-  md5.add(UTF8.encode(key));
-  return md5.close();
+  return md5.convert(UTF8.encode(key)).bytes;
 }
 
 List<int> _crc32_table;
 int _crc32(List<int> buf) {
   if (_crc32_table == null) {
     _crc32_table = new List(256);
-    for(int i = 0; i < 256; ++i) {
+    for (int i = 0; i < 256; ++i) {
       int c = i;
       for (int j = 0; j < 8; ++j) {
         c = (c & 1) != 0 ? (0xedb88320 ^ (c >> 1)) : (c >> 1);

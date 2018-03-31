@@ -14,8 +14,7 @@ part of memcached_client;
 class TapStream {
   final Iterable<TapOP> ops;
 
-  TapStream(Iterable<TapOP> ops)
-      : this.ops= ops;
+  TapStream(Iterable<TapOP> ops) : this.ops = ops;
 
   /**
    * Cancels all operations still waiting on an existing TapStream.

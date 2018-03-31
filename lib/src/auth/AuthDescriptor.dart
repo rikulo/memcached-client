@@ -32,6 +32,5 @@ class AuthDescriptor {
     }
   }
 
-  String toString() =>"bucket:$bucket";
+  String toString() => "bucket:$bucket";
 }
-

@@ -38,13 +38,17 @@ class TextGetAndLockOP extends TextSingleKeyOP implements GetAndLockOP {
       return size;
     } else {
       OPStatus status = TextOPStatus.valueOfError(line);
-      if (status != null) { //some error occur!
+      if (status != null) {
+        //some error occur!
         _cmpl.completeError(new OPStatus.wrap(status, this));
         return _HANDLE_COMPLETE; //complete
       }
 
       //TODO: unknown protocol, try to read thru!
-      _cmpl.completeError(new OPStatus.wrap(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"), this));
+      _cmpl.completeError(new OPStatus.wrap(
+          new OPStatus(OPStatus.INTERAL_ERROR.code,
+              "PROTOCOL_ERROR 'Unknown get result format:[$line]'"),
+          this));
       return _HANDLE_COMPLETE;
     }
   }
@@ -60,12 +64,13 @@ class TextGetAndLockOP extends TextSingleKeyOP implements GetAndLockOP {
   List<int> _prepareGetAndLockCommand(String key, int exp) {
     List<int> cmd = new List();
 
-    cmd..addAll(UTF8.encode(OPType.getl.name))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode(key))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode('$exp'))
-       ..addAll(_CRLF);
+    cmd
+      ..addAll(UTF8.encode(OPType.getl.name))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode(key))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode('$exp'))
+      ..addAll(_CRLF);
 
     //_logger.finest("_prepareGetAndLockCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;

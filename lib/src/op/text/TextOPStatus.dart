@@ -40,15 +40,15 @@ class TextOPStatus {
 
   bool match(String resp) => message == resp.substring(0, resp.length - 1);
 
-  static Map _statusMap =
-    { 'STORED' : TextOPStatus.STORED,
-      'NOT_STORED' : TextOPStatus.NOT_STORED,
-      'NOT_FOUND' : TextOPStatus.NOT_FOUND,
-      'EXISTS' : TextOPStatus.EXISTS,
-      'END' : TextOPStatus.END,
-      'DELETED' : TextOPStatus.DELETED,
-      'TOUCHED' : TextOPStatus.TOUCHED
-    };
+  static Map _statusMap = {
+    'STORED': TextOPStatus.STORED,
+    'NOT_STORED': TextOPStatus.NOT_STORED,
+    'NOT_FOUND': TextOPStatus.NOT_FOUND,
+    'EXISTS': TextOPStatus.EXISTS,
+    'END': TextOPStatus.END,
+    'DELETED': TextOPStatus.DELETED,
+    'TOUCHED': TextOPStatus.TOUCHED
+  };
 
   static OPStatus valueOf(String resp) {
     final TextOPStatus status = _statusMap[resp];

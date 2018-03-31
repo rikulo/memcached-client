@@ -10,8 +10,7 @@ part of memcached_client;
 abstract class MemcachedNode {
   final SocketAddress socketAddress;
 
-  MemcachedNode(SocketAddress saddr)
-      : socketAddress = saddr;
+  MemcachedNode(SocketAddress saddr) : socketAddress = saddr;
 
   /**
    * True if this node is active; i.e. it is connected and
@@ -63,4 +62,3 @@ abstract class MemcachedNode {
    */
   int get reconnectCount => 0;
 }
-

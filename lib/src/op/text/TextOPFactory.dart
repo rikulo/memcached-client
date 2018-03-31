@@ -11,19 +11,19 @@ abstract class TextOPFactory implements OPFactory {
 }
 
 class _TextOPFactoryImpl implements TextOPFactory {
-  DeleteOP newDeleteOP(String key, int cas) =>
-      cas == null || cas == 0 ? new TextDeleteOP(key) :
-          throw new UnsupportedError("Delete with CAS is not supported "
-            "for text protocol");
+  DeleteOP newDeleteOP(String key, int cas) => cas == null || cas == 0
+      ? new TextDeleteOP(key)
+      : throw new UnsupportedError("Delete with CAS is not supported "
+          "for text protocol");
 
-  GetOP newGetOP(OPType type, List<String> keys) =>
-      new TextGetOP(type, keys);
+  GetOP newGetOP(OPType type, List<String> keys) => new TextGetOP(type, keys);
 
   GetSingleOP newGetSingleOP(OPType type, String key) =>
       new TextGetSingleOP(type, key);
 
   GetAndTouchOP newGetAndTouchOP(String key, int expiration) {
-    throw new UnsupportedError("Get-and-touch does not work with text protocol");
+    throw new UnsupportedError(
+        "Get-and-touch does not work with text protocol");
   }
 
   GetAndLockOP newGetAndLockOP(String key, int exp) =>
@@ -32,18 +32,16 @@ class _TextOPFactoryImpl implements TextOPFactory {
   MutateOP newMutateOP(OPType type, String key, int by, int def, int exp) =>
       new TextMutateOP(type, key, by, def, exp);
 
-  StoreOP newStoreOP(OPType type, String key, int flags, int exp,
-                     List<int> doc, int cas) =>
-      new TextStoreOP(cas != null ? OPType.cas : type, key, flags, exp, doc, cas);
+  StoreOP newStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
+          int cas) =>
+      new TextStoreOP(
+          cas != null ? OPType.cas : type, key, flags, exp, doc, cas);
 
-  TouchOP newTouchOP(String key, int exp) =>
-      new TextTouchOP(key, exp);
+  TouchOP newTouchOP(String key, int exp) => new TextTouchOP(key, exp);
 
-  VersionOP newVersionOP() =>
-      new TextVersionOP();
+  VersionOP newVersionOP() => new TextVersionOP();
 
-  StatsOP newStatsOP(String prefix) =>
-      new TextStatsOP(prefix);
+  StatsOP newStatsOP(String prefix) => new TextStatsOP(prefix);
 
   KeyStatsOP newKeyStatsOP(String key) {
     throw new UnsupportedError("KeyStats does not work with text protocol");
@@ -55,7 +53,7 @@ class _TextOPFactoryImpl implements TextOPFactory {
   }
 
   SaslAuthOP newSaslAuthOP(String mechanism, List<int> authData,
-                           {int retry : -1}) {
+      {int retry: -1}) {
     throw new UnsupportedError("SaslAuth does not work with text protocol");
   }
 
@@ -72,7 +70,7 @@ class _TextOPFactoryImpl implements TextOPFactory {
   UnlockOP newUnlockOP(String key, int cas) {
     throw new UnsupportedError("Unlock does not work with text protocol");
   } // new TextUnlockOP(key, cas);
-    //experiment shows text protocol always return UNLOCK_ERROR
+  //experiment shows text protocol always return UNLOCK_ERROR
 
   //No operation OP
   NoOP newNoOP() => new TextNoOP();

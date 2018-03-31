@@ -12,4 +12,3 @@ class Enum {
 
   String toString() => "$ordinal";
 }
-

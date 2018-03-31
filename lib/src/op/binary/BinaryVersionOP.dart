@@ -6,12 +6,12 @@ part of memcached_client;
 
 /** A version command of binary protocol */
 class BinaryVersionOP extends BinaryOP implements VersionOP {
-  final Completer<String> _cmpl; //completer to complete the future of this operation
+  final Completer<String>
+      _cmpl; //completer to complete the future of this operation
 
   Future<String> get future => _cmpl.future;
 
-  BinaryVersionOP()
-      : _cmpl = new Completer() {
+  BinaryVersionOP() : _cmpl = new Completer() {
     _cmd = _prepareVersionCommand();
   }
 

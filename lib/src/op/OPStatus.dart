@@ -15,8 +15,10 @@ class OPStatus {
   static const VALUE_TOO_LARGE = const OPStatus(0x0003, "Value too large");
   static const INVALID_ARG = const OPStatus(0x0004, "Invalid arguments");
   static const ITEM_NOT_STORED = const OPStatus(0x0005, "Item not stored");
-  static const NOT_NUMERIC = const OPStatus(0x0006, "Incr/Decr on non-numeric value");
-  static const NOT_MY_VBUCKET = const OPStatus(0x0007, "The vbucket belongs to another server");
+  static const NOT_NUMERIC =
+      const OPStatus(0x0006, "Incr/Decr on non-numeric value");
+  static const NOT_MY_VBUCKET =
+      const OPStatus(0x0007, "The vbucket belongs to another server");
   static const AUTHEN_ERROR = const OPStatus(0x20, "Authentication error");
   static const AUTHEN_CONT = const OPStatus(0x21, "Authentication continue");
   static const UNKNOWN_COMMAND = const OPStatus(0x0081, "Unknown command");
@@ -73,6 +75,3 @@ class OPStatus {
     return _statusMap[code];
   }
 }
-
-
-

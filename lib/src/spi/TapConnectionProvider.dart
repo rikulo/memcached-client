@@ -8,7 +8,6 @@ part of memcached_client;
  * A TapConnectionProvider.
  */
 class TapConnectionProvider implements ConnectionObserver {
-
   final MemcachedConnection _memcachedConn;
 
   final OPFactory _opFactory;
@@ -29,15 +28,16 @@ class TapConnectionProvider implements ConnectionObserver {
    * + [saddrs] - socket addresses of a cluster of servers
    * + [factory] - optional connection factory; default: [BinaryConnectionFactory].
    */
-  static Future<TapConnectionProvider> connect(
-      List<SocketAddress> saddrs, [ConnectionFactory factory]) {
+  static Future<TapConnectionProvider> connect(List<SocketAddress> saddrs,
+      [ConnectionFactory factory]) {
     return new Future.sync(() {
       if (saddrs == null || saddrs.isEmpty)
-        throw new ArgumentError("Need at least one server to connect to: $saddrs");
-      if (factory == null)
-        factory = new BinaryConnectionFactory();
-      return factory.createConnection(saddrs)
-        .then((conn) => new TapConnectionProvider(conn, factory));
+        throw new ArgumentError(
+            "Need at least one server to connect to: $saddrs");
+      if (factory == null) factory = new BinaryConnectionFactory();
+      return factory
+          .createConnection(saddrs)
+          .then((conn) => new TapConnectionProvider(conn, factory));
     });
   }
 
@@ -54,7 +54,6 @@ class TapConnectionProvider implements ConnectionObserver {
       : _memcachedConn = memcachedConn,
         _opFactory = factory.opFactory,
         _authDescriptor = factory.authDescriptor {
-
     _logger = initLogger('memcached_client.spi', this);
     if (_authDescriptor != null) {
       addObserver(this);
@@ -69,7 +68,8 @@ class TapConnectionProvider implements ConnectionObserver {
     if (shuttingDown) {
       throw new StateError("Shutting down");
     }
-    return _memcachedConn.broadcastOP(newOP, _memcachedConn.locator.allNodes.iterator);
+    return _memcachedConn.broadcastOP(
+        newOP, _memcachedConn.locator.allNodes.iterator);
   }
 
   /**
@@ -122,7 +122,7 @@ class TapConnectionProvider implements ConnectionObserver {
         node = n;
       }
     }
-    assert (node != null);
+    assert(node != null);
     return node;
   }
 

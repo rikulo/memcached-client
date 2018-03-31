@@ -13,8 +13,8 @@ abstract class OPFactory {
 
   MutateOP newMutateOP(OPType type, String key, int by, int def, int exp);
 
-  StoreOP newStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
-                     int cas);
+  StoreOP newStoreOP(
+      OPType type, String key, int flags, int exp, List<int> doc, int cas);
 
   GetAndLockOP newGetAndLockOP(String key, int locktime);
 
@@ -31,7 +31,7 @@ abstract class OPFactory {
   SaslMechsOP newSaslMechsOP();
 
   SaslAuthOP newSaslAuthOP(String mechanism, List<int> authData,
-                           {int retry : -1});
+      {int retry: -1});
 
   SaslStepOP newSaslStepOP(String mechanism, List<int> challenge);
 

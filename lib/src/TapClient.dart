@@ -27,7 +27,8 @@ class TapClient {
         _ctrl = new StreamController(),
         _omap = new HashMap() {
     if (saddrs == null || saddrs.isEmpty)
-      throw new ArgumentError("Need at least one server to connect to: $saddrs");
+      throw new ArgumentError(
+          "Need at least one server to connect to: $saddrs");
     _logger = initLogger('memcached_client.spi', this);
   }
 
@@ -41,8 +42,7 @@ class TapClient {
   /// stream
   /// + [message] - the custom tap request message to initiate the tap stream
   Future<TapStream> tapRequest(String id, RequestMessage message) {
-    return _tapConn
-    .then((TapConnectionProvider tconn) {
+    return _tapConn.then((TapConnectionProvider tconn) {
       Map<SocketAddress, TapOP> map =
           tconn.broadcastOP(() => _opFactory.newTapRequest(id, message));
       Iterable<TapOP> ops = map.values;
@@ -50,8 +50,7 @@ class TapClient {
       final TapStream ts = new TapStream(ops);
       _omap[ts] = tconn;
       return ts;
-    })
-    .catchError((err) => _ctrl.addError(err));
+    }).catchError((err) => _ctrl.addError(err));
   }
 
   /// Specify a tap stream that will take a snapshot of items in memcached.
@@ -59,8 +58,7 @@ class TapClient {
   /// + [id] - the named tap id that can be used to resume a disconnected tap
   /// stream
   Future<TapStream> tapDump(String id) {
-    return _tapConn
-    .then((TapConnectionProvider tconn) {
+    return _tapConn.then((TapConnectionProvider tconn) {
       Map<SocketAddress, TapOP> map =
           tconn.broadcastOP(() => _opFactory.newTapDump(id));
       Iterable<TapOP> ops = map.values;
@@ -68,8 +66,7 @@ class TapClient {
       final TapStream ts = new TapStream(ops);
       _omap[ts] = tconn;
       return ts;
-    })
-    .catchError((err) => _ctrl.addError(err));
+    }).catchError((err) => _ctrl.addError(err));
   }
 
   /// Specify a tap stream which will return the oldest entry (millisecond from
@@ -81,43 +78,44 @@ class TapClient {
   /// + [millisecondsSinceEpoch] - the date of the oldest entry you are
   /// interested in.
   Future<TapStream> tapBackfill(String id, [int millisecondsSinceEpoch = -1]) {
-    return _tapConn
-    .then((TapConnectionProvider tconn) {
-      Map<SocketAddress, TapOP> map =
-          tconn.broadcastOP(() => _opFactory.newTapBackfill(id, millisecondsSinceEpoch));
+    return _tapConn.then((TapConnectionProvider tconn) {
+      Map<SocketAddress, TapOP> map = tconn.broadcastOP(
+          () => _opFactory.newTapBackfill(id, millisecondsSinceEpoch));
       Iterable<TapOP> ops = map.values;
       _combineStreams(_ctrl, ops);
       final TapStream ts = new TapStream(ops);
       _omap[ts] = tconn;
       return ts;
-    })
-    .catchError((err) => _ctrl.addError(err));
+    }).catchError((err) => _ctrl.addError(err));
   }
 
   /// close all tap streams currently running.
   void close() {
     if (!_closing) {
       _closing = true;
-      for (TapConnectionProvider tapConn in _omap.values)
-        tapConn.shutdown();
+      for (TapConnectionProvider tapConn in _omap.values) tapConn.shutdown();
     }
   }
 
   OPFactory get _opFactory => _connFact.opFactory;
 
   Future<TapConnectionProvider> get _tapConn {
-    return _connFact.createConnection(_saddrs)
+    return _connFact
+        .createConnection(_saddrs)
         .then((mconn) => new TapConnectionProvider(mconn, _connFact));
   }
 
-  void _combineStreams(StreamController<ResponseMessage> ctrl, Iterable<OP> ops) {
+  void _combineStreams(
+      StreamController<ResponseMessage> ctrl, Iterable<OP> ops) {
     //_logger.finest("ops.length:${ops.length}");
     int done = ops.length;
     for (var op in ops) {
-      op.stream.listen(
-        (data) => ctrl.add(data),
-        onError: (err) => ctrl.addError(err),
-        onDone: () {if (--done == 0) ctrl.close();});
+      if (op is StreamOP)
+        op.stream.listen((data) => ctrl.add(data),
+            onError: (err) => ctrl.addError(err),
+            onDone: () {
+              if (--done == 0) ctrl.close();
+            });
     }
   }
 }

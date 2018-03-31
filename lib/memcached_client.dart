@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dart:collection';
 import 'dart:typed_data';
 import "dart:math" show Random;
-import "dart:convert" show UTF8;
+import "dart:convert" show BASE64URL, UTF8;
 import 'package:logging/logging.dart';
 import 'package:crypto/crypto.dart';
 
@@ -93,7 +93,7 @@ part 'src/op/text/TextSingleKeyOP.dart';
 part 'src/op/text/TextStatsOP.dart';
 part 'src/op/text/TextStoreOP.dart';
 part 'src/op/text/TextTouchOP.dart';
-//part 'src/op/text/TextUnlockOP.dart';
+part 'src/op/text/TextUnlockOP.dart';
 part 'src/op/text/TextVersionOP.dart';
 
 //spi

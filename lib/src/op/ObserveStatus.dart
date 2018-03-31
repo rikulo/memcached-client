@@ -33,13 +33,12 @@ class ObserveStatus extends Enum {
    */
   static const ObserveStatus LOGICALLY_DELETED = const ObserveStatus(0x81);
 
-  const ObserveStatus(int ordinal)
-      : super(ordinal);
+  const ObserveStatus(int ordinal) : super(ordinal);
 
   String toString() => '${ordinal}';
 
   static ObserveStatus valueOf(int ordinal) {
-    switch(ordinal) {
+    switch (ordinal) {
       case 0x00:
         return NOT_PERSISTED;
       case 0x01:

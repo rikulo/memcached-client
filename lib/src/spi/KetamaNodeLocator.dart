@@ -35,8 +35,8 @@ class KetamaNodeLocator implements NodeLocator {
   Iterable<MemcachedNode> get allNodes => _nodes;
 
   @override
-  void updateLocator(List<MemcachedNode> nodes) {
-    _nodes = nodes;
+  void updateLocator(Iterable<MemcachedNode> nodes) {
+    _nodes = nodes.toList();
   }
 
   int get maxKey => _ketamaNodes.lastKey();
@@ -50,10 +50,10 @@ class KetamaNodeLocator implements NodeLocator {
         for (int i = 0; i < numReps / 4; i++) {
           List<int> digest = computeMd5(_kconfig.getKeyForNode(node, i));
           for (int h = 0; h < 4; h++) {
-            int k = ((digest[3 + h * 4] & 0xFF) << 24)
-                    | ((digest[2 + h * 4] & 0xFF) << 16)
-                    | ((digest[1 + h * 4] & 0xFF) << 8)
-                    | (digest[h * 4] & 0xFF);
+            int k = ((digest[3 + h * 4] & 0xFF) << 24) |
+                ((digest[2 + h * 4] & 0xFF) << 16) |
+                ((digest[1 + h * 4] & 0xFF) << 8) |
+                (digest[h * 4] & 0xFF);
             newNodeMap[k & 0xffffffffffffffff] = node;
             //_logger.finest("Adding node $node in position $k");
           }
@@ -67,14 +67,11 @@ class KetamaNodeLocator implements NodeLocator {
   }
 }
 
-MemcachedNode _getNodeForKey(int hash,
-    SplayTreeMap<int, MemcachedNode> ketamaNodes) {
-
-  if (!ketamaNodes.containsKey(hash))
-    hash = ketamaNodes.firstKeyAfter(hash);
+MemcachedNode _getNodeForKey(
+    int hash, SplayTreeMap<int, MemcachedNode> ketamaNodes) {
+  if (!ketamaNodes.containsKey(hash)) hash = ketamaNodes.firstKeyAfter(hash);
   return ketamaNodes[hash];
 }
-
 
 class _KetamaNodeIterator implements Iterator<MemcachedNode> {
   String _key;
@@ -167,4 +164,3 @@ class KetamaNodeLocatorConfig {
   String getKeyForNode(MemcachedNode node, int repetition) =>
       "${_getSocketAddressForNode(node)}-$repetition";
 }
-

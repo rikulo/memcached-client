@@ -42,12 +42,13 @@ class TextUnlockOP extends TextSingleKeyOP implements UnlockOP {
   List<int> _prepareUnlockCommand(String key, int cas) {
     List<int> cmd = new List();
 
-    cmd..addAll(encodeUtf8(OPType.unlock.name))
-       ..add(_SPACE)
-       ..addAll(encodeUtf8(key))
-       ..add(_SPACE)
-       ..addAll(encodeUtf8('$cas'))
-       ..addAll(_CRLF);
+    cmd
+      ..addAll(UTF8.encode(OPType.unlock.name))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode(key))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode('$cas'))
+      ..addAll(_CRLF);
 
     //_logger.finest("_prepareUnlockCommand:[${decodeUtf8(cmd)}]\n");
     return cmd;

@@ -6,12 +6,12 @@ part of memcached_client;
 
 /** A version command of binary protocol */
 class BinaryNoOP extends BinaryOP implements NoOP {
-  final Completer<bool> _cmpl; //completer to complete the future of this operation
+  final Completer<bool>
+      _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 
-  BinaryNoOP()
-      : _cmpl = new Completer() {
+  BinaryNoOP() : _cmpl = new Completer() {
     _cmd = _prepareNoCommand();
   }
 

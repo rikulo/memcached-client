@@ -67,8 +67,7 @@ class TapOpcode extends Enum {
 
   int get opcode => ordinal;
 
-  const TapOpcode(int opcode)
-      : super(opcode);
+  const TapOpcode(int opcode) : super(opcode);
 
   static Map<int, TapOpcode> _opMap;
 

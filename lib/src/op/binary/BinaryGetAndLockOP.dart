@@ -19,6 +19,7 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
   @override
   int handleData(List<int> line) {
     //_logger.finest("BinaryGetAndLockOPData: $this, $line.");
+    _logger.finest("BinaryGetAndLockOPData: $this, status: $_status.");
     if (_status != 0)
       _cmpl.completeError(new OPStatus.wrap(OPStatus.valueOf(_status), this));
     else {
@@ -27,10 +28,8 @@ class BinaryGetAndLockOP extends SingleKeyOP implements GetAndLockOP {
       List<int> key = new Uint8List(_keylen);
       int valuelen = _bodylen - _keylen - extralen;
       List<int> val = new Uint8List(valuelen);
-      if (_keylen > 0)
-        copyList(line, extralen, key, 0, _keylen);
-      if (valuelen > 0)
-        copyList(line, extralen + _keylen, val, 0, valuelen);
+      if (_keylen > 0) copyList(line, extralen, key, 0, _keylen);
+      if (valuelen > 0) copyList(line, extralen + _keylen, val, 0, valuelen);
       _cmpl.complete(new GetResult(UTF8.decode(key), flags, _cas, val));
     }
 

@@ -58,9 +58,8 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
   }
 
   @override
-  Future<MemcachedConnection> createConnection(List<SocketAddress> saddrs) {
-    return createNodes(saddrs)
-    .then((List<MemcachedNode> nodes) {
+  Future<MemcachedConnection> createConnection(Iterable<SocketAddress> saddrs) {
+    return createNodes(saddrs).then((List<MemcachedNode> nodes) {
       return createLocator(nodes).then((locator) =>
           new MemcachedConnection(locator, this, opFactory, failureMode));
     });
@@ -69,17 +68,17 @@ abstract class ConnectionFactoryBase implements ConnectionFactory {
   @override
   Future<List<MemcachedNode>> createNodes(Iterable<SocketAddress> saddrs) {
     List<MemcachedNode> nodes = new List();
-    return Future.forEach(saddrs,
-      (SocketAddress saddr) => createMemcachedNode(saddr)
-      .then((node) {
-        nodes.add(node);
-      })
-    )
-    .then((_) => nodes);
+    return Future
+        .forEach(
+            saddrs,
+            (SocketAddress saddr) => createMemcachedNode(saddr).then((node) {
+                  nodes.add(node);
+                }))
+        .then((_) => nodes);
   }
 
   @override
-  Future<NodeLocator> createLocator(List<MemcachedNode> nodes) =>
+  Future<NodeLocator> createLocator(Iterable<MemcachedNode> nodes) =>
       new Future.value(new ArrayModNodeLocator(nodes, hashAlgorithm));
 
   @override

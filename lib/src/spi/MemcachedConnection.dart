@@ -26,7 +26,6 @@ class MemcachedConnection {
         _failureMode = failureMode,
         nodesToShutdown = new List(),
         connObservers = new HashSet() {
-
     _logger = initLogger('memcached_client.spi', this);
   }
 
@@ -55,15 +54,13 @@ class MemcachedConnection {
       Iterator<MemcachedNode> i = locator.getSequence(key);
       while (placeIn == null && i.moveNext()) {
         MemcachedNode node = i.current;
-        if (node.isActive)
-          placeIn = node;
+        if (node.isActive) placeIn = node;
       }
       // If we didn't find an active node, queue it in the primary node
       // and wait for it to come back online.
       if (placeIn == null) {
         placeIn = primary;
-        _logger.warning(
-            "Could not redistribute "
+        _logger.warning("Could not redistribute "
             "to another node, retrying primary node for $key.");
       }
     }
@@ -85,20 +82,17 @@ class MemcachedConnection {
 
   //To be overridden by CouchbaseConnection for single-key operation
   void addSingleKeyOPToNode(String key, MemcachedNode node, OP op) {
-    if (node != null)
-      addOPToNode(node, op);
+    if (node != null) addOPToNode(node, op);
   }
 
   //To be overridden by CouchbaseConnection for multi-key operation
   void addMultiKeyOPToNode(List<String> keys, MemcachedNode node, OP op) {
-    if (node != null)
-      addOPToNode(node, op);
+    if (node != null) addOPToNode(node, op);
   }
 
-  Map<SocketAddress, OP> broadcastOP(FutureOP newOP(),
-    Iterator<MemcachedNode> nodeIterator) {
-    if (_closing )
-      throw new StateError("Shutting down the connection");
+  Map<SocketAddress, OP> broadcastOP(
+      FutureOP newOP(), Iterator<MemcachedNode> nodeIterator) {
+    if (_closing) throw new StateError("Shutting down the connection");
     Map<SocketAddress, OP> results = new HashMap();
     while (nodeIterator.moveNext()) {
       MemcachedNode node = nodeIterator.current;
@@ -138,7 +132,7 @@ class MemcachedConnection {
   }
 
   void _connected(MemcachedNode node) {
-    assert (node.isConnected);
+    assert(node.isConnected);
     int rt = node.reconnectCount;
     node.connected();
     for (ConnectionObserver observer in connObservers) {
@@ -155,8 +149,7 @@ class MemcachedConnection {
   }
 
   void _checkState() {
-    if (_closing)
-      throw new StateError("Connection is closing");
+    if (_closing) throw new StateError("Connection is closing");
   }
 
   FailureMode get failureMode => _failureMode;

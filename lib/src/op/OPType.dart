@@ -49,7 +49,8 @@ class OPType extends Enum {
   /**
    * Store a value but only if no one else has updated since last fetched.
    */
-  static const cas = const OPType(0x01, 'cas'); //== OPType.set in binary protocol
+  static const cas =
+      const OPType(0x01, 'cas'); //== OPType.set in binary protocol
 
   /**
    * Touch a document
@@ -125,9 +126,5 @@ class OPType extends Enum {
   static const noop = const OPType(0x0a, 'noop');
 
   final String name;
-  const OPType(int ordinal, this.name)
-      : super(ordinal);
+  const OPType(int ordinal, this.name) : super(ordinal);
 }
-
-
-

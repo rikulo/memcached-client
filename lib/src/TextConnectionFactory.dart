@@ -8,8 +8,7 @@ part of memcached_client;
  * ConnectionFactory for text protocol.
  */
 class TextConnectionFactory extends ConnectionFactoryBase {
-  TextConnectionFactory([HashAlgorithm hashAlg])
-      : super(hashAlg);
+  TextConnectionFactory([HashAlgorithm hashAlg]) : super(hashAlg);
 
   @override
   Future<MemcachedNode> createMemcachedNode(SocketAddress saddr) =>

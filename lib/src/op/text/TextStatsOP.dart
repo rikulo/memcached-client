@@ -5,7 +5,8 @@
 part of memcached_client;
 
 class TextStatsOP extends TextOP implements StatsOP {
-  final Completer<Map<String, String>> _cmpl; //completer to complete the future of this operation
+  final Completer<Map<String, String>>
+      _cmpl; //completer to complete the future of this operation
   final Map<String, String> _stats; //stats results
 
   Future<Map<String, String>> get future => _cmpl.future;
@@ -35,11 +36,15 @@ class TextStatsOP extends TextOP implements StatsOP {
       return _HANDLE_CMD; //next command
     } else {
       OPStatus status = TextOPStatus.valueOfError(line);
-      if (status != null) { //some error occur!
+      if (status != null) {
+        //some error occur!
         _cmpl.completeError(new OPStatus.wrap(status, this));
       } else {
         //TODO: unknown protocol, try to read thru!
-        _cmpl.completeError(new OPStatus.wrap(new OPStatus(OPStatus.INTERAL_ERROR.code, "PROTOCOL_ERROR 'Unknown get result format:[$line]'"), this));
+        _cmpl.completeError(new OPStatus.wrap(
+            new OPStatus(OPStatus.INTERAL_ERROR.code,
+                "PROTOCOL_ERROR 'Unknown get result format:[$line]'"),
+            this));
       }
       return _HANDLE_COMPLETE; //complete
     }
@@ -55,8 +60,9 @@ class TextStatsOP extends TextOP implements StatsOP {
 
     cmd..addAll(UTF8.encode(OPType.stats.name));
     if (prefix != null) {
-      cmd..add(_SPACE)
-         ..addAll(UTF8.encode(prefix));
+      cmd
+        ..add(_SPACE)
+        ..addAll(UTF8.encode(prefix));
     }
     cmd..addAll(_CRLF);
 
