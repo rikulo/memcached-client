@@ -75,9 +75,7 @@ final HashAlgorithm KETAMA_HASH =
     };
 
 List<int> computeMd5(String key) {
-  MD5 md5 = new MD5();
-  md5.add(UTF8.encode(key));
-  return md5.close();
+  return md5.convert(UTF8.encode(key)).bytes;
 }
 
 List<int> _crc32_table;
