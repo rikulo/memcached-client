@@ -27,8 +27,8 @@ class ArrayModNodeLocator implements NodeLocator {
   Iterable<MemcachedNode> get allNodes => _nodes;
 
   @override
-  void updateLocator(List<MemcachedNode> nodes) {
-    _nodes = nodes;
+  void updateLocator(Iterable<MemcachedNode> nodes) {
+    _nodes = nodes.toList();
   }
 
   int _getServerForKey(String key) {
