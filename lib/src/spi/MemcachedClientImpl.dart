@@ -17,8 +17,7 @@ class MemcachedClientImpl implements MemcachedClient {
   bool _closing = false;
 
   static Future<MemcachedClient> connect(List<SocketAddress> saddrs,
-      {ConnectionFactory factory}) {
-    return new Future.sync(() {
+      {ConnectionFactory factory}) async {
       if (saddrs == null || saddrs.isEmpty)
         throw new ArgumentError(
             "Need at least one server to connect to: $saddrs");
@@ -26,7 +25,6 @@ class MemcachedClientImpl implements MemcachedClient {
       return factory
           .createConnection(saddrs)
           .then((conn) => new MemcachedClientImpl(conn, factory));
-    });
   }
 
   MemcachedClientImpl(
