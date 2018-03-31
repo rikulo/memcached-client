@@ -49,7 +49,8 @@ int bytesToInt32HostOrder(List<int> bytes, int start) =>
     ((bytes[start + 1] & 0xff) << 8)  | (bytes[start + 0] & 0xff);
 
 Uint8List int64ToBytes(int val) {
-  if (val >= 9223372036854775808 || val < -9223372036854775808)
+  //if (val >= 9223372036854775808 || val < -9223372036854775808)
+    if (val.bitLength > 64)
     throw new ArgumentError("Integer exceeds 64 bits(-9223372036854775808 ~ 9223372036854775807)");
   final Uint8List bytes = new Uint8List(8);
   bytes[7] = val & 0xff;
