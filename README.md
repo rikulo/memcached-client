@@ -67,7 +67,7 @@ use the client's APIs to access the database.
     
     Future access(MemcachedClient client) {
       // Do a set
-      return client.set(DOC_ID, encodeUtf8(VALUE))
+      return client.set(DOC_ID, UTF8.encode(VALUE))
       // Check if set succeeded and show message
       .then((ok) => print(ok ? "Set Succeeded" : "Set failed"))
       // Then get the value back by document id
