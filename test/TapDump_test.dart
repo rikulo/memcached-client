@@ -10,11 +10,9 @@ main() {
   setupLogger();
 
   m.prepareTapClient().then((c) {
-    return c.tapDump("node1")
-    .then((_) {
-      c.stream.listen(
-          (data) => print("responseMessage:$data"),
-  //      onError: (err) => print("err:$err"),
+    return c.tapDump("node1").then((_) {
+      c.stream.listen((data) => print("responseMessage:$data"),
+          //      onError: (err) => print("err:$err"),
           onDone: () => print("Done backfill"));
     });
   });

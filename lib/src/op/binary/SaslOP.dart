@@ -44,4 +44,3 @@ abstract class SaslOP extends BinaryOP implements FutureOP<bool> {
     return cmd;
   }
 }
-

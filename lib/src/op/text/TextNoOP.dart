@@ -5,12 +5,12 @@
 part of memcached_client;
 
 class TextNoOP extends TextOP implements NoOP {
-  final Completer<bool> _cmpl; //completer to complete the future of this operation
+  final Completer<bool>
+      _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 
-  TextNoOP()
-      : _cmpl = new Completer() {
+  TextNoOP() : _cmpl = new Completer() {
     _cmd = _prepareNoCommand();
   }
 
@@ -36,13 +36,9 @@ class TextNoOP extends TextOP implements NoOP {
     List<int> cmd = new List();
 
     //Use version as noop command in Text protocol
-    cmd..addAll(UTF8.encode(OPType.version.name))
-       ..addAll(_CRLF);
+    cmd..addAll(UTF8.encode(OPType.version.name))..addAll(_CRLF);
 
     //_logger.finest("_prepareNoCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }
-
-
-

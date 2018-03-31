@@ -6,9 +6,7 @@ part of memcached_client;
 
 /** A tap ack operation sent back to Tap server */
 class TapDumpOP extends TapRequestOP {
-
-  TapDumpOP(String id)
-      : super(id, null) {
+  TapDumpOP(String id) : super(id, null) {
     RequestMessage message = new RequestMessage();
     message.setFlags(TapRequestFlag.DUMP);
     message.setFlags(TapRequestFlag.SUPPORT_ACK);

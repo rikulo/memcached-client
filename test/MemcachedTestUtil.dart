@@ -6,13 +6,13 @@ library memcached_test_util;
 import 'dart:async';
 import 'package:memcached_client/memcached_client.dart';
 
-Future<MemcachedClient> prepareBinaryClient()
-=> MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
-      factory: new BinaryConnectionFactory());
+Future<MemcachedClient> prepareBinaryClient() =>
+    MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
+        factory: new BinaryConnectionFactory());
 
-Future<MemcachedClient> prepareTextClient()
-=> MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
-      factory: new TextConnectionFactory());
+Future<MemcachedClient> prepareTextClient() =>
+    MemcachedClient.connect([new SocketAddress('127.0.0.1', 11211)],
+        factory: new TextConnectionFactory());
 
-Future<TapClient> prepareTapClient()
-=> new Future.value(new TapClient([new SocketAddress('10.1.3.128', 11210)]));
+Future<TapClient> prepareTapClient() =>
+    new Future.value(new TapClient([new SocketAddress('10.1.3.128', 11210)]));

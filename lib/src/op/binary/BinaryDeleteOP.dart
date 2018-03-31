@@ -28,7 +28,6 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     return _HANDLE_COMPLETE;
   }
 
-
   /** Prepare a delete command.
    */
   static const int _req_extralen = 0;
@@ -51,8 +50,7 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     copyList(int32ToBytes(bodylen), 0, cmd, 8, 4);
     //12, 4 bytes: Opaque
     //16, 8 bytes: CAS
-    if (cas != null && 0 != cas)
-      copyList(int64ToBytes(cas), 0, cmd, 16, 8);
+    if (cas != null && 0 != cas) copyList(int64ToBytes(cas), 0, cmd, 16, 8);
     //24, _req_extralen: extra
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
@@ -62,5 +60,3 @@ class BinaryDeleteOP extends SingleKeyOP implements DeleteOP {
     return cmd;
   }
 }
-
-

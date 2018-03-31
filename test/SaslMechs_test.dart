@@ -15,7 +15,9 @@ testSaslMechs0(MemcachedClient client) async {
 void main() {
   group('SaslMechsTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestSaslMechs0', () => testSaslMechs0(client));
   });

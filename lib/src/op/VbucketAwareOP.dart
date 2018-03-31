@@ -34,5 +34,3 @@ abstract class VbucketAwareOP {
    */
   void set notMyVbucketNodes(Iterable<MemcachedNode> nodes);
 }
-
-

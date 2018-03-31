@@ -22,15 +22,15 @@ class TapResponseFlag extends Enum {
   /**
    * This message is sent correctly in network byte order.
    */
-  static const TapResponseFlag TAP_FLAG_NETWORK_BYTE_ORDER = const TapResponseFlag(0x04);
+  static const TapResponseFlag TAP_FLAG_NETWORK_BYTE_ORDER =
+      const TapResponseFlag(0x04);
 
   /**
    * The flag value.
    */
   int get flag => ordinal;
 
-  const TapResponseFlag(int flag)
-      : super(flag);
+  const TapResponseFlag(int flag) : super(flag);
 
   static List<TapResponseFlag> getFlags(int f) {
     List<TapResponseFlag> flags = new List();

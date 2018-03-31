@@ -49,8 +49,7 @@ void testFNV164() {
   exp[""] = 0x84222325;
   exp[" "] = 0x8601b7ff;
   exp["hello world!"] = 0xb97b86bc;
-  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] =
-      0xe87c054a;
+  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] = 0xe87c054a;
   exp["wd:com.google"] = 0x071b08f8;
   exp["wd:com.google "] = 0x12f03d48;
 
@@ -65,8 +64,7 @@ void testFNV1A64() {
   exp[""] = 0x84222325;
   exp[" "] = 0x8601817f;
   exp["hello world!"] = 0xcd5a2672;
-  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] =
-      0xbec309a8;
+  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] = 0xbec309a8;
   exp["wd:com.google"] = 0x097b3f26;
   exp["wd:com.google "] = 0x1c6c1732;
 
@@ -80,8 +78,7 @@ void testFNV132() {
   exp[""] = 0x811c9dc5;
   exp[" "] = 0x050c5d3f;
   exp["hello world!"] = 0x8a01b99c;
-  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] =
-      0x9277524a;
+  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] = 0x9277524a;
   exp["wd:com.google"] = 0x455e0df8;
   exp["wd:com.google "] = 0x2b0ffd48;
 
@@ -95,8 +92,7 @@ void testFNV1A32() {
   exp[""] = 0x811c9dc5;
   exp[" "] = 0x250c8f7f;
   exp["hello world!"] = 0xb034fff2;
-  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] =
-      0xa9795ec8;
+  exp["Lorem ipsum dolor sit amet, consectetuer adipiscing elit."] = 0xa9795ec8;
   exp["wd:com.google"] = 0xaa90fcc6;
   exp["wd:com.google "] = 0x683e1e12;
 

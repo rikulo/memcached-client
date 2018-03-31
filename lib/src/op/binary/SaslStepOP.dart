@@ -14,4 +14,3 @@ class SaslStepOP extends SaslOP {
     return _HANDLE_COMPLETE;
   }
 }
-

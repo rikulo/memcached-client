@@ -44,11 +44,9 @@ bool mapEquals(final Map m1, final Map m2) {
   for (var k1 in m1.keys) {
     final v1 = m1[k1];
     if (v1 == null) {
-      if (!(m2[k1] == null && m2.containsKey(k1)))
-        return false;
+      if (!(m2[k1] == null && m2.containsKey(k1))) return false;
     } else {
-      if (v1 != m2[k1])
-        return false;
+      if (v1 != m2[k1]) return false;
     }
   }
   return true;
@@ -65,12 +63,10 @@ bool listEquals(final List l1, final List l2) {
   Iterator i1 = l1.iterator;
   Iterator i2 = l2.iterator;
 
-  while(i1.moveNext() && i2.moveNext()) {
+  while (i1.moveNext() && i2.moveNext()) {
     final o1 = i1.current;
     final o2 = i2.current;
-    if (!(o1 == null ? o2 == null : o1 == o2))
-      return false;
+    if (!(o1 == null ? o2 == null : o1 == o2)) return false;
   }
   return true;
 }
-

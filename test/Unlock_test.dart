@@ -6,40 +6,36 @@ import 'dart:async';
 import 'dart:convert' show UTF8;
 import 'package:test/test.dart';
 import 'package:memcached_client/memcached_client.dart';
+import 'package:stack_trace/stack_trace.dart';
 
-Future<MemcachedClientImpl> prepareBinaryClient()
-=> MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
-      factory: new BinaryConnectionFactory());
+Future<MemcachedClientImpl> prepareBinaryClient() =>
+    MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
+        factory: new BinaryConnectionFactory());
 
-Future<MemcachedClientImpl> prepareTextClient()
-=> MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
-      factory: new TextConnectionFactory());
+Future<MemcachedClientImpl> prepareTextClient() =>
+    MemcachedClientImpl.connect([new SocketAddress('127.0.0.1', 11211)],
+        factory: new TextConnectionFactory());
 
 // locktime not expired, does not do unlock it and set a new value
 //  and get shall throw error with KEY_EXIST.
-void testUnlock(String key, MemcachedClientImpl client) {
-  expect(client.set(key, UTF8.encode('val100')), completion(isTrue));
-  Future f1 = client.getAndLock(key, 3) //lock 3 seconds
-    .then((val) {
-      expect(val.data, equals(UTF8.encode('val100')));
-      //return client.unlock(key, val.cas);
-    }).then((_) {
-      return client.set(key, UTF8.encode('newVal100'));
-    });
+testUnlock(String key, MemcachedClientImpl client) async {
+  expect(await client.set(key, UTF8.encode('val100')), true);
 
-  expect(f1, throwsA(equals(OPStatus.KEY_EXISTS)));
+  expect(
+    () async {
+      await client.getAndLock(key, 3); //lock 3 seconds
+      await client.set(key, UTF8.encode('newVal100'));
+    },
+    throwsA(equals(OPStatus.KEY_EXISTS)),
+  );
 
-  Future f2 = client.get(key)
-    .then((val) {
-      expect(val.data, equals(UTF8.encode('val100')));
-    });
-
-  expect(f2, completes);
+  var val = await client.get(key);
+  expect(val.data, equals(UTF8.encode('val100')));
 }
 
 // locktime not expired, unlock it and set a new value
 //  and get shall return the new value back
- testUnlock2(String key, MemcachedClientImpl client) async {
+testUnlock2(String key, MemcachedClientImpl client) async {
   expect(await client.set(key, UTF8.encode('val100')), true);
   var val = await client.getAndLock(key, 3); //lock 3 seconds;
   expect(val.data, equals(UTF8.encode('val100')));
@@ -61,8 +57,13 @@ void main() {
 
   group('BinaryUnlockTest:', () {
     MemcachedClientImpl client;
-    setUp(() => prepareBinaryClient().then((c) => client = c));
+
+    setUp(() async {
+      client = await prepareBinaryClient();
+    });
+
     tearDown(() => client.close());
+
     test('TestUnlock', () => testUnlock('keyb1001', client));
     test('TestUnlock2', () => testUnlock2('keyb1002', client));
   });

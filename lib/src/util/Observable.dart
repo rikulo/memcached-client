@@ -44,7 +44,7 @@ class Observable {
 
   void notifyObservers([var arg]) {
     if (_changed) {
-      for(Observer o in _observers) {
+      for (Observer o in _observers) {
         o.update(this, arg);
       }
     }

@@ -21,8 +21,6 @@ class SocketAddress {
     if (identical(this, other)) return true;
     if (other is! SocketAddress) return false;
 
-    return this.host == other.host
-        && this.port == other.port;
+    return this.host == other.host && this.port == other.port;
   }
 }
-

@@ -12,7 +12,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
   final bool _ignoreCas;
 
   BinaryGetOP(OPType type, List<String> keys)
-      : _streamCtrl = new StreamController(sync:true),
+      : _streamCtrl = new StreamController(sync: true),
         _ignoreCas = type == OPType.get,
         super(keys, new List(keys.length + 1)) {
     _cmd = _prepareGetCommand(keys);
@@ -27,9 +27,8 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
   void set seq(int s) {
     //opacque field for this OP(multiple getkq + noop)
     List<int> src = int32ToBytes(s);
-    for(int offset in _cmdOffsets)
-      copyList(src, 0, _cmd, offset + 12, 4);
-    _seq= s;
+    for (int offset in _cmdOffsets) copyList(src, 0, _cmd, offset + 12, 4);
+    _seq = s;
   }
 
   @override
@@ -45,14 +44,14 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
         List<int> key = new Uint8List(_keylen);
         int valuelen = _bodylen - _keylen - extralen;
         List<int> val = new Uint8List(valuelen);
-        if (_keylen > 0)
-          copyList(line, extralen, key, 0, _keylen);
-        if (valuelen > 0)
-          copyList(line, extralen + _keylen, val, 0, valuelen);
-        _streamCtrl.add(new GetResult(UTF8.decode(key), flags, _ignoreCas ? null : _cas, val));
+        if (_keylen > 0) copyList(line, extralen, key, 0, _keylen);
+        if (valuelen > 0) copyList(line, extralen + _keylen, val, 0, valuelen);
+        _streamCtrl.add(new GetResult(
+            UTF8.decode(key), flags, _ignoreCas ? null : _cas, val));
       }
       return _HANDLE_CMD; //handle next line of command
-    } else { //noop, last packet!
+    } else {
+      //noop, last packet!
       if (_status != 0) {
         _errors.add(new OPStatus.wrap(OPStatus.valueOf(_status), this));
       }
@@ -72,7 +71,7 @@ class BinaryGetOP extends MultiKeyOP implements GetOP {
     List<int> multicmds = new List();
     int len = keys.length;
     int j = 0;
-    for(String key in keys) {
+    for (String key in keys) {
       _cmdOffsets[j++] = multicmds.length;
       multicmds.addAll(_prepareGetKQCommand(key));
     }

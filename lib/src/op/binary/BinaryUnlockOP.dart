@@ -27,7 +27,6 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
     return _HANDLE_COMPLETE;
   }
 
-
   /** Prepare a store command.
    */
   static const _req_extralen = 0;
@@ -59,5 +58,3 @@ class BinaryUnlockOP extends SingleKeyOP implements UnlockOP {
     return cmd;
   }
 }
-
-

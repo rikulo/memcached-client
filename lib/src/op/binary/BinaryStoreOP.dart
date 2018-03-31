@@ -6,17 +6,17 @@ part of memcached_client;
 
 /** A Store Operation of binary protocol */
 class BinaryStoreOP extends SingleKeyOP implements StoreOP {
-  final Completer<bool> _cmpl; //completer to complete the future of this operation
+  final Completer<bool>
+      _cmpl; //completer to complete the future of this operation
   final int _req_extralen;
 
   Future<bool> get future => _cmpl.future;
 
-  BinaryStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
-                int cas)
+  BinaryStoreOP(
+      OPType type, String key, int flags, int exp, List<int> doc, int cas)
       : _req_extralen = type == OPType.append || type == OPType.prepend ? 0 : 8,
         _cmpl = new Completer(),
         super(key) {
-
     _cmd = _prepareStoreCommand(type, key, flags, exp, doc, cas);
   }
 
@@ -32,12 +32,11 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
     return _HANDLE_COMPLETE;
   }
 
-
   /**
    * Prepare a store command.
    */
-  List<int> _prepareStoreCommand(OPType type, String key, int flags, int exp,
-      List<int> doc, int cas) {
+  List<int> _prepareStoreCommand(
+      OPType type, String key, int flags, int exp, List<int> doc, int cas) {
     List<int> keybytes = UTF8.encode(key);
     int keylen = keybytes.length;
     int valuelen = doc.length;
@@ -57,13 +56,11 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
     copyList(int32ToBytes(bodylen), 0, cmd, 8, 4);
     //12, 4 bytes: Opaque
     //16, 8 bytes: CAS
-    if (cas != null && 0 != cas)
-      copyList(int64ToBytes(cas), 0, cmd, 16, 8);
+    if (cas != null && 0 != cas) copyList(int64ToBytes(cas), 0, cmd, 16, 8);
     //24, _req_extralen: extra
     if (flags != null && 0 != flags)
       copyList(int32ToBytes(flags), 0, cmd, 24, 4);
-    if (exp != null && 0 != exp)
-      copyList(int32ToBytes(exp), 0, cmd, 28, 4);
+    if (exp != null && 0 != exp) copyList(int32ToBytes(exp), 0, cmd, 28, 4);
     //24+_req_extralen, keylen: key
     copyList(keybytes, 0, cmd, 24 + _req_extralen, keylen);
     //24+_req_extralen+keylen, valuelen
@@ -73,5 +70,3 @@ class BinaryStoreOP extends SingleKeyOP implements StoreOP {
     return cmd;
   }
 }
-
-

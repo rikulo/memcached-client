@@ -33,7 +33,7 @@ class ArrayModNodeLocator implements NodeLocator {
 
   int _getServerForKey(String key) {
     int rv = _hashAlg(key) % _nodes.length;
-    assert (rv >= 0);
+    assert(rv >= 0);
     return rv;
   }
 }
@@ -52,10 +52,8 @@ class _ArrayModNodeIterator implements Iterator<MemcachedNode> {
   MemcachedNode get current => _current;
 
   bool moveNext() {
-    if (_next == null)
-      return false;
-    if (++_next >= _nodes.length)
-      _next = 0;
+    if (_next == null) return false;
+    if (++_next >= _nodes.length) _next = 0;
     if (_next == _start) {
       _current = null;
       _next = null;

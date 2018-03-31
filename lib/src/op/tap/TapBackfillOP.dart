@@ -6,9 +6,7 @@ part of memcached_client;
 
 /** A tap ack operation sent back to Tap server */
 class TapBackfillOP extends TapRequestOP {
-
-  TapBackfillOP(String id, int date)
-      : super(id, null) {
+  TapBackfillOP(String id, int date) : super(id, null) {
     RequestMessage message = new RequestMessage();
     message.setFlags(TapRequestFlag.BACKFILL);
     message.setFlags(TapRequestFlag.SUPPORT_ACK);

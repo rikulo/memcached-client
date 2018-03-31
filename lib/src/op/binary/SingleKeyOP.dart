@@ -9,8 +9,7 @@ abstract class SingleKeyOP extends BinaryOP implements VbucketAwareOP {
   int _vbucketID = 0; //associated operation vbucket index
   Set<MemcachedNode> _notMyVbucketNodes;
 
-  SingleKeyOP(this.key)
-    :_notMyVbucketNodes = new HashSet();
+  SingleKeyOP(this.key) : _notMyVbucketNodes = new HashSet();
 
   //--VbucketAwareOP--//
   @override
@@ -39,7 +38,7 @@ abstract class SingleKeyOP extends BinaryOP implements VbucketAwareOP {
   void set notMyVbucketNodes(Iterable<MemcachedNode> nodes) {
     _notMyVbucketNodes.addAll(nodes);
   }
-  
+
   @override
   String toString() => "${this.runtimeType}@$seq:$key";
 }

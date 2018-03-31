@@ -16,13 +16,16 @@ class SaslAuthOP extends SaslOP {
 
   bool _authenticated;
   int handleData(List<int> aLine) {
-    if (_status == OPStatus.AUTHEN_ERROR.code) {//authentication failure
+    if (_status == OPStatus.AUTHEN_ERROR.code) {
+      //authentication failure
       _authenticated = false;
       _cmpl.complete(false);
-    } else if (_status == OPStatus.NO_ERROR.code) {//success
+    } else if (_status == OPStatus.NO_ERROR.code) {
+      //success
       _authenticated = true;
       _cmpl.complete(true);
-    } else { //unknown status
+    } else {
+      //unknown status
       _authenticated = false;
       _cmpl.completeError(new UnsupportedError("OPStatus:$_status"));
     }

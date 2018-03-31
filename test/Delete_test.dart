@@ -24,19 +24,20 @@ void main() {
   setupLogger(level: Level.ALL);
   group('TextDeleteTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareTextClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareTextClient();
+    });
     tearDown(() => client.close());
     test('TestDelete1', () => testDelete1(client));
     test('TestDelete2', () => testDelete2(client));
   });
   group('BinaryDeleteTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestDelete1', () => testDelete1(client));
     test('TestDelete2', () => testDelete2(client));
   });
 }
-
-
-

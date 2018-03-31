@@ -55,8 +55,7 @@ class TapRequestFlag extends Enum {
 
   int get flag => ordinal;
 
-  const TapRequestFlag(int flag)
-      : super(flag);
+  const TapRequestFlag(int flag) : super(flag);
 
   static List<TapRequestFlag> getFlags(int f) {
     List<TapRequestFlag> flags = new List();

@@ -6,9 +6,9 @@ part of memcached_client;
 
 abstract class TextSingleKeyOP extends TextOP {
   final String key;
-  
+
   TextSingleKeyOP(this.key);
-  
+
   @override
   String toString() => "${this.runtimeType}@$seq:$key";
 }

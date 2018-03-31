@@ -14,8 +14,8 @@ class TapAck {
   final int opaque;
   final MemcachedNode node;
 
-  TapAck(TapConnectionProvider conn, MemcachedNode node,
-      TapOpcode opcode, int opaque)
+  TapAck(TapConnectionProvider conn, MemcachedNode node, TapOpcode opcode,
+      int opaque)
       : this.connection = conn,
         this.node = node,
         this.opcode = opcode,

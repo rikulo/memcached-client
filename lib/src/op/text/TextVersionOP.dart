@@ -5,12 +5,12 @@
 part of memcached_client;
 
 class TextVersionOP extends TextOP implements VersionOP {
-  final Completer<String> _cmpl; //completer to complete the future of this operation
+  final Completer<String>
+      _cmpl; //completer to complete the future of this operation
 
   Future<String> get future => _cmpl.future;
 
-  TextVersionOP()
-      : _cmpl = new Completer() {
+  TextVersionOP() : _cmpl = new Completer() {
     _cmd = _prepareVersionCommand();
   }
 
@@ -35,13 +35,9 @@ class TextVersionOP extends TextOP implements VersionOP {
   List<int> _prepareVersionCommand() {
     List<int> cmd = new List();
 
-    cmd..addAll(UTF8.encode(OPType.version.name))
-       ..addAll(_CRLF);
+    cmd..addAll(UTF8.encode(OPType.version.name))..addAll(_CRLF);
 
     //_logger.finest("_prepareVersionCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }
-
-
-

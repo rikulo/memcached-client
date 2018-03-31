@@ -9,8 +9,7 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
   final StreamController<ResponseMessage> _streamCtrl;
 
   TapRequestOP(String id, RequestMessage message)
-      : _streamCtrl = new StreamController(sync:true) {
-
+      : _streamCtrl = new StreamController(sync: true) {
     if (message != null) {
       message.setName(id == null ? _uuid() : id);
       message.setFlags(TapRequestFlag.FIX_BYTEORDER);
@@ -43,8 +42,8 @@ class TapRequestOP extends TapOP implements StreamOP<ResponseMessage> {
       //op.future.then((_) => _logger.finest("ack back and done: $op.opcode, $op.opaque"));
       handlingNode.addOP(op);
     }
-    if (response.opcode != TapOpcode.OPAQUE
-        && response.opcode != TapOpcode.NOOP) {
+    if (response.opcode != TapOpcode.OPAQUE &&
+        response.opcode != TapOpcode.NOOP) {
       _streamCtrl.add(response);
     }
     return _HANDLE_CMD; //handle next line of command

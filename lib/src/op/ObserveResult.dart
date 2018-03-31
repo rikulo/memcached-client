@@ -37,7 +37,8 @@ class ObserveResult {
    */
   bool isPrimary = false;
 
-  ObserveResult(this.key, this.status, this.cas, this.avgPersistTime, this.avgReplicateTime);
+  ObserveResult(this.key, this.status, this.cas, this.avgPersistTime,
+      this.avgReplicateTime);
 
   String toString() =>
       'isPrimary:$isPrimary, key:$key, status:$status, cas:$cas, '

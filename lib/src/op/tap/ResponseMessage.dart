@@ -128,8 +128,8 @@ class ResponseMessage extends BaseMessage {
       key = _EMPTY_LIST;
       value = _EMPTY_LIST;
       revid = _EMPTY_LIST;
-    } else if (opcode == TapOpcode.START_CHECKPOINT
-      || opcode == TapOpcode.END_CHECKPOINT) {
+    } else if (opcode == TapOpcode.START_CHECKPOINT ||
+        opcode == TapOpcode.END_CHECKPOINT) {
       itemflags = 0;
       itemexpiry = 0;
       vbucketstate = 0;
@@ -168,7 +168,8 @@ class ResponseMessage extends BaseMessage {
 //    copyList(int8ToBytes(magic.magic), 0, bb, BaseMessage.MAGIC_OFFSET, 1);
     copyList(int8ToBytes(opcode.opcode), 0, bb, BaseMessage.OPCODE_OFFSET, 1);
     copyList(int16ToBytes(keylength), 0, bb, BaseMessage.KEYLENGTH_OFFSET, 2);
-    copyList(int8ToBytes(extralength), 0, bb, BaseMessage.EXTRALENGTH_OFFSET, 1);
+    copyList(
+        int8ToBytes(extralength), 0, bb, BaseMessage.EXTRALENGTH_OFFSET, 1);
     copyList(int8ToBytes(datatype), 0, bb, BaseMessage.DATATYPE_OFFSET, 1);
     copyList(int16ToBytes(vbucket), 0, bb, BaseMessage.VBUCKET_OFFSET, 2);
     copyList(int32ToBytes(totalbody), 0, bb, BaseMessage.TOTALBODY_OFFSET, 4);

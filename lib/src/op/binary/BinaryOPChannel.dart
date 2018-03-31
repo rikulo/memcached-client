@@ -16,18 +16,22 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
 
   int _authRetry; //times of retry to authentication; null means forever.
 
-  static Future<BinaryOPChannel> start(SocketAddress saddr, AuthDescriptor authDescriptor, {int authRetry})
-  => _OPChannelImpl._start(saddr,
-    (Socket socket) => new BinaryOPChannel._(saddr, socket, authDescriptor, authRetry));
+  static Future<BinaryOPChannel> start(
+          SocketAddress saddr, AuthDescriptor authDescriptor,
+          {int authRetry}) =>
+      _OPChannelImpl._start(
+          saddr,
+          (Socket socket) =>
+              new BinaryOPChannel._(saddr, socket, authDescriptor, authRetry));
 
-  BinaryOPChannel._(SocketAddress saddr, Socket socket, AuthDescriptor authDescriptor, int authRetry)
+  BinaryOPChannel._(SocketAddress saddr, Socket socket,
+      AuthDescriptor authDescriptor, int authRetry)
       : _authDescriptor = authDescriptor,
         _authRetry = authRetry,
         _writeQ = new OPQueueQueue(),
         _readQ = new OPQueueMap(),
         _factory = new BinaryOPFactory(),
         super._(saddr, socket) {
-
     _logger = initLogger("memcached_client.op.binary", this);
   }
 
@@ -46,7 +50,8 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   bool _authenticating = false;
 
   void authenticate() {
-    if (_authDescriptor == null) { //no need to do authentication, assume done
+    if (_authDescriptor == null) {
+      //no need to do authentication, assume done
       _authenticated = true;
       return;
     } else if (_authenticating) {
@@ -56,22 +61,21 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
     if (_authRetry == null || _authRetry-- >= 0) {
       SaslAuthOP op = _newAuthOP();
 
-      op.future
-      .then((ok) {
+      op.future.then((ok) {
         if (ok) {
           //_logger.finest("authenticated!");
           _authenticated = ok; //fail would keep authenticated == null
         }
-      })
-      .catchError((err, st) => _logger.warning("Fail to authenticate", err, st));
+      }).catchError(
+          (err, st) => _logger.warning("Fail to authenticate", err, st));
 
       _authenticating = true;
       prependOP(op);
       _processNextOP();
     } else
       throw new StateError('Fail to login "${_saddr.host}:${_saddr.port}" '
-                           'for bucket "${_authDescriptor.bucket}". '
-                           'Wrong password?');
+          'for bucket "${_authDescriptor.bucket}". '
+          'Wrong password?');
   }
 
   OP _readOP; //current OP to be read from socket
@@ -80,10 +84,11 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   //op.handleCommand() and op.handleData() to handle command/data.
   void processResponse() {
     //_logger.finest("pbuf:$_pbuf");
-    while(true) {
+    while (true) {
       //handle response header
       if (_bodylen == _HANDLE_CMD) {
-        if (_pbuf.length < 24) { //not enough header for processing
+        if (_pbuf.length < 24) {
+          //not enough header for processing
           break;
         } else {
           List<int> aLine = _pbuf.sublist(0, 24);
@@ -99,8 +104,10 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
             }
           } else {
             _readOP = _writeOP;
-            _writeOP = null; //so TapAckOP after TapRequestOP can be sent to Tap server
-            _readOP.nextState(); //so we kept the TapRequestOP.state at "READING"
+            _writeOP =
+                null; //so TapAckOP after TapRequestOP can be sent to Tap server
+            _readOP
+                .nextState(); //so we kept the TapRequestOP.state at "READING"
             //_logger.finest("_readOP:${_readOP}, _readOP.state:${_readOP.state}");
           }
           _bodylen = _readOP.handleCommand(aLine);
@@ -110,7 +117,8 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
 
       //handle data
       if (_bodylen >= 0) {
-        if (_pbuf.length < _bodylen) { //not enough data for processing
+        if (_pbuf.length < _bodylen) {
+          //not enough data for processing
           break;
         } else {
           List<int> aLine = _pbuf.sublist(0, _bodylen);
@@ -120,14 +128,14 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
       }
 
       //check if complete
-      if (_bodylen == _HANDLE_COMPLETE) { //complete, reset parser
+      if (_bodylen == _HANDLE_COMPLETE) {
+        //complete, reset parser
         _bodylen = _HANDLE_CMD;
         //_logger.finest("_HANDLE_COMPLETE: $_readOP\n");
         _readOP.complete();
 
         //close this channel if all processed
-        if (_readOP.state == OPState.COMPLETE)
-          _tryClose();
+        if (_readOP.state == OPState.COMPLETE) _tryClose();
       }
     }
   }
@@ -136,7 +144,7 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
   SaslAuthOP _newAuthOP() {
     List<int> userlist = UTF8.encode(_authDescriptor.bucket);
     List<int> passlist = UTF8.encode(_authDescriptor.password);
-    List<int> bytes = new Uint8List(2+userlist.length+passlist.length);
+    List<int> bytes = new Uint8List(2 + userlist.length + passlist.length);
     copyList(userlist, 0, bytes, 1, userlist.length);
     copyList(passlist, 0, bytes, 1 + userlist.length + 1, passlist.length);
 
@@ -150,7 +158,6 @@ class BinaryOPChannel extends _OPChannelImpl<int> {
 
   //callback when socket closed
   void _socketClosed() {
-    if (_readOP is TapRequestOP)
-      (_readOP as TapRequestOP).socketClosed();
+    if (_readOP is TapRequestOP) (_readOP as TapRequestOP).socketClosed();
   }
 }

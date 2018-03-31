@@ -13,8 +13,7 @@ abstract class BinaryOPFactory extends OPFactory {
 class _BinaryOPFactoryImpl implements BinaryOPFactory {
   DeleteOP newDeleteOP(String key, int cas) => new BinaryDeleteOP(key, cas);
 
-  GetOP newGetOP(OPType type, List<String> keys) =>
-      new BinaryGetOP(type, keys);
+  GetOP newGetOP(OPType type, List<String> keys) => new BinaryGetOP(type, keys);
 
   GetSingleOP newGetSingleOP(OPType type, String key) =>
       new BinaryGetSingleOP(type, key);
@@ -28,58 +27,47 @@ class _BinaryOPFactoryImpl implements BinaryOPFactory {
   MutateOP newMutateOP(OPType type, String key, int by, int def, int exp) =>
       new BinaryMutateOP(type, key, by, def, exp);
 
-  StoreOP newStoreOP(OPType type, String key, int flags, int exp,
-                     List<int> doc, int cas) =>
+  StoreOP newStoreOP(OPType type, String key, int flags, int exp, List<int> doc,
+          int cas) =>
       new BinaryStoreOP(type, key, flags, exp, doc, cas);
 
-  TouchOP newTouchOP(String key, int exp) =>
-      new BinaryTouchOP(key, exp);
+  TouchOP newTouchOP(String key, int exp) => new BinaryTouchOP(key, exp);
 
-  VersionOP newVersionOP() =>
-      new BinaryVersionOP();
+  VersionOP newVersionOP() => new BinaryVersionOP();
 
-  StatsOP newStatsOP(String prefix) =>
-      new BinaryStatsOP(prefix);
+  StatsOP newStatsOP(String prefix) => new BinaryStatsOP(prefix);
 
-  KeyStatsOP newKeyStatsOP(String key) =>
-      new BinaryKeyStatsOP(key);
+  KeyStatsOP newKeyStatsOP(String key) => new BinaryKeyStatsOP(key);
 
   //Sasl OPs
-  SaslMechsOP newSaslMechsOP() =>
-      new SaslMechsOP();
+  SaslMechsOP newSaslMechsOP() => new SaslMechsOP();
 
   SaslAuthOP newSaslAuthOP(String mechanism, List<int> authData,
-                           {int retry : -1}) =>
+          {int retry: -1}) =>
       new SaslAuthOP(mechanism, authData, retry);
 
   SaslStepOP newSaslStepOP(String mechanism, List<int> challenge) =>
       new SaslStepOP(mechanism, challenge);
 
   //Observe OPs
-  ObserveOP newObserveOP(String key, int cas) =>
-      new ObserveOP(key, cas);
+  ObserveOP newObserveOP(String key, int cas) => new ObserveOP(key, cas);
 
   //Unlock OP
-  UnlockOP newUnlockOP(String key, int cas) =>
-      new BinaryUnlockOP(key, cas);
+  UnlockOP newUnlockOP(String key, int cas) => new BinaryUnlockOP(key, cas);
 
   //No OP
-  NoOP newNoOP() =>
-      new BinaryNoOP();
+  NoOP newNoOP() => new BinaryNoOP();
 
   //TapBackfill
-  TapOP newTapBackfill(String id, int date) =>
-      new TapBackfillOP(id, date);
+  TapOP newTapBackfill(String id, int date) => new TapBackfillOP(id, date);
 
   //Generic Tap request
   TapOP newTapRequest(String id, RequestMessage message) =>
       new TapRequestOP(id, message);
 
   //TapAck
-  TapOP newTapAck(TapOpcode opcode, int opaque) =>
-      new TapAckOP(opcode, opaque);
+  TapOP newTapAck(TapOpcode opcode, int opaque) => new TapAckOP(opcode, opaque);
 
   //TapDump
-  TapOP newTapDump(String id) =>
-      new TapDumpOP(id);
+  TapOP newTapDump(String id) => new TapDumpOP(id);
 }

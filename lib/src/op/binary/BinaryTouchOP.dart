@@ -6,7 +6,8 @@ part of memcached_client;
 
 /** A Touch Operation of binary protocol */
 class BinaryTouchOP extends SingleKeyOP implements TouchOP {
-  final Completer<bool> _cmpl; //completer to complete the future of this operation
+  final Completer<bool>
+      _cmpl; //completer to complete the future of this operation
 
   Future<bool> get future => _cmpl.future;
 
@@ -26,7 +27,6 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
 
     return _HANDLE_COMPLETE;
   }
-
 
   /** Prepare a store command.
    */
@@ -61,5 +61,3 @@ class BinaryTouchOP extends SingleKeyOP implements TouchOP {
     return cmd;
   }
 }
-
-

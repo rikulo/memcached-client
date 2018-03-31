@@ -27,7 +27,9 @@ void main() {
   setupLogger();
   group('TextStatsTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareTextClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareTextClient();
+    });
     tearDown(() => client.close());
     test('TestStats', () => testStats(client));
 //    test('TestStats2', () => testStats2(client));
@@ -36,7 +38,9 @@ void main() {
 
   group('BinaryStatsTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestStats', () => testStats(client));
 //    test('TestStats2', () => testStats2(client));

@@ -6,7 +6,8 @@ part of memcached_client;
 
 /** a Mutate(increment/decrement) Operation */
 class TextMutateOP extends TextSingleKeyOP implements MutateOP {
-  final Completer<int> _cmpl; //completer to complete the future of this operation
+  final Completer<int>
+      _cmpl; //completer to complete the future of this operation
 
   Future<int> get future => _cmpl.future;
 
@@ -42,16 +43,15 @@ class TextMutateOP extends TextSingleKeyOP implements MutateOP {
   List<int> _prepareMutateCommand(OPType type, String key, int by) {
     List<int> cmd = new List();
 
-    cmd..addAll(UTF8.encode(type.name))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode(key))
-       ..add(_SPACE)
-       ..addAll(UTF8.encode('$by'))
-       ..addAll(_CRLF);
+    cmd
+      ..addAll(UTF8.encode(type.name))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode(key))
+      ..add(_SPACE)
+      ..addAll(UTF8.encode('$by'))
+      ..addAll(_CRLF);
 
     //_logger.finest("_prepareMutateCommand:[${UTF8.decode(cmd)}]\n");
     return cmd;
   }
 }
-
-

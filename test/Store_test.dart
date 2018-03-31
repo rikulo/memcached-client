@@ -39,7 +39,8 @@ void testCas(MemcachedClient client) {
   f1.then((v) {
     expect(UTF8.decode(v.data), equals('中文'));
     expect(v.cas, isNotNull);
-    expect(client.set('key0', UTF8.encode('val0'), cas:v.cas), completion(isTrue));
+    expect(client.set('key0', UTF8.encode('val0'), cas: v.cas),
+        completion(isTrue));
   });
   expect(f1, completes);
 }
@@ -47,7 +48,8 @@ void testCas(MemcachedClient client) {
 //key0 exist, cannot be added
 void testAdd1(MemcachedClient client) {
   expect(client.set('key0', UTF8.encode('val0')), completion(isTrue));
-  expect(client.add('key0', UTF8.encode('val0')), throwsA(equals(OPStatus.KEY_EXISTS)));
+  expect(client.add('key0', UTF8.encode('val0')),
+      throwsA(equals(OPStatus.KEY_EXISTS)));
 }
 
 //key1 not exist, can be added
@@ -76,7 +78,8 @@ void testReplace1(MemcachedClient client) {
 
 //key1 not exist, cannot replace
 void testReplace2(MemcachedClient client) {
-  expect(client.replace('key1', UTF8.encode('val0')), throwsA(equals(OPStatus.KEY_NOT_FOUND)));
+  expect(client.replace('key1', UTF8.encode('val0')),
+      throwsA(equals(OPStatus.KEY_NOT_FOUND)));
 }
 
 //key0 exist, can be prepend (val0 -> pre0val0)
@@ -89,7 +92,8 @@ void testPrepend1(MemcachedClient client) {
 
 //key1 not exist, cannot prepend
 void testPrepend2(MemcachedClient client) {
-  expect(client.prepend('key1', UTF8.encode('pre0')), throwsA(equals(OPStatus.ITEM_NOT_STORED)));
+  expect(client.prepend('key1', UTF8.encode('pre0')),
+      throwsA(equals(OPStatus.ITEM_NOT_STORED)));
 }
 
 //key0 exist, can be append (pre0val0 -> pre0val0app0)
@@ -102,14 +106,17 @@ void testAppend1(MemcachedClient client) {
 
 //key1 not exist, cannot append
 void testAppend2(MemcachedClient client) {
-  expect(client.append('key1', UTF8.encode('pre0')), throwsA(equals(OPStatus.ITEM_NOT_STORED)));
+  expect(client.append('key1', UTF8.encode('pre0')),
+      throwsA(equals(OPStatus.ITEM_NOT_STORED)));
 }
 
 void main() {
   setupLogger();
   group('TextStoreTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareTextClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareTextClient();
+    });
     tearDown(() => client.close());
     test('TestSet1', () => testSet1(client));
     test('TestSet2', () => testSet2(client));
@@ -127,7 +134,9 @@ void main() {
 
   group('BinaryStoreTest:', () {
     MemcachedClient client;
-    setUp(() => m.prepareBinaryClient().then((c) => client = c));
+    setUp(() async {
+      client = await m.prepareBinaryClient();
+    });
     tearDown(() => client.close());
     test('TestSet1', () => testSet1(client));
     test('TestSet2', () => testSet2(client));
